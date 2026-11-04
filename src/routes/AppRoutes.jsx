@@ -9,6 +9,7 @@ import RoleManagement from "../pages/roleManagement/RoleManagement";
 import UsersManagement from "../pages/roleManagement/UsersManagement";
 import { navigationItems } from "../config/navigation";
 import {selectHasPermission,selectIsAdmin,selectPermissionLoading} from "../features/permissions/permissionSlice";
+import Login from "../pages/Login/Login";
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
     const isAdmin = useSelector(selectIsAdmin);
@@ -37,6 +38,7 @@ const customPages = {
     "/finance/dashboard": Dashboard,
     "/user-management/roles": RoleManagement,
     "/user-management/users": UsersManagement,
+    "/login" : Login,
 };
 
 function AppRoutes() {

@@ -1,10 +1,19 @@
 
-import { Menu, Bell, ChevronRight, Home } from "lucide-react";
+import { useState } from "react";
+import {
+  Menu,
+  Bell,
+  ChevronRight,
+  Home,
+  LogOut,
+} from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { navigationItems } from "../../config/navigation";
+import "./Header.css"
 
-function Header({ onMenuClick }) {
+function Header({ onMenuClick, onLogout, user }) {
   const location = useLocation();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   let breadcrumbs = [];
 
@@ -27,8 +36,11 @@ function Header({ onMenuClick }) {
   const currentDate = new Date().toLocaleDateString("en-IN", {
     day: "2-digit",
     month: "short",
-    year: "numeric"
+    year: "numeric",
   });
+
+  const userName = user?.full_name || user?.email || "User";
+  const avatarLetter = userName.charAt(0).toUpperCase();
 
   return (
     <header className="app-header">
@@ -47,7 +59,6 @@ function Header({ onMenuClick }) {
           {breadcrumbs.map((crumb, index) => (
             <div className="breadcrumb-item" key={crumb}>
               <ChevronRight size={14} />
-
               <span
                 className={
                   index === breadcrumbs.length - 1
@@ -72,7 +83,38 @@ function Header({ onMenuClick }) {
           <Bell size={19} />
         </button>
 
-        <div className="header-avatar">S</div>
+        <div className="profile-menu-container">
+          <button
+            className="header-avatar"
+            onClick={() => setShowProfileMenu((prev) => !prev)}
+            aria-label="Open profile menu"
+            aria-expanded={showProfileMenu}
+          >
+            {avatarLetter}
+          </button>
+
+          {showProfileMenu && (
+            <div className="profile-dropdown">
+              <div className="profile-dropdown-info">
+                <strong>{userName}</strong>
+                <small>{user?.email}</small>
+              </div>
+
+              <div className="profile-dropdown-divider" />
+
+              <button
+                className="profile-logout-button"
+                onClick={async () => {
+                  setShowProfileMenu(false);
+                  await onLogout();
+                }}
+              >
+                <LogOut size={17} />
+                <span>Logout</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

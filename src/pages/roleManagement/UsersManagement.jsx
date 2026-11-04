@@ -7,12 +7,13 @@ import AssignRoleModal from "./AssignRoleModal";
 import { fetchMyPermissions } from "../../features/permissions/permissionSlice";
 import { supabase } from "../../lib/supabase";
 
-function UsersManagement({ roles = [] }) {
+function UsersManagement() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const dispatch = useDispatch();
+  const [roles, setRoles] = useState([]);
 
 
   const loadUsers = async () => {
@@ -31,6 +32,7 @@ function UsersManagement({ roles = [] }) {
 
   useEffect(() => {
     loadUsers();
+    loadRoles();
   }, []);
 
   const handleSaveRoles = async (userId, selectedRoleIds) => {
@@ -65,6 +67,19 @@ if (data.user?.id === userId) {
 }
   };
 
+  const loadRoles = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const data = await roleService.getRoles();
+      setRoles(data);
+    } catch (err) {
+      setError(err.message || "Unable to load roles.");
+    } finally {
+      setLoading(false);
+    }
+  };
   
 
   return (
