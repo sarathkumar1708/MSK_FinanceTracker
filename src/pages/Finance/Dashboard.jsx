@@ -51,6 +51,8 @@ function Dashboard() {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
+  const userName = user?.user_metadata?.name || user?.email || user?.full_name || "User";
+
 
   const {
     items = [],
@@ -144,7 +146,7 @@ function Dashboard() {
           <h1>Dashboard</h1>
 
           <p>
-            Welcome back{user?.email ? `, ${user.email}` : ""}.
+            Welcome back{`, ${userName}`}.
             Here's your financial overview.
           </p>
         </div>
