@@ -1,12 +1,10 @@
+
 import { useEffect, useMemo, useState } from "react";
 import Modal from "../common/Modal";
 import Button from "../common/Button";
 import SelectDropdown from "../common/SelectDropdown";
-import {
-  createId,
-  readCategories,
-  saveCategories
-} from "../../utils/transactionStorage";
+import { categoryService } from "../../services/categoryService";
+const getToday = () => new Date().toISOString().split("T")[0];
 
 const emptyForm = {
   categoryId: "",
@@ -14,7 +12,7 @@ const emptyForm = {
   amount: "",
   title: "",
   notes: "",
-  date: new Date().toISOString().split("T")[0]
+  date: getToday()
 };
 
 function isValidAmount(value) {
@@ -22,32 +20,23 @@ function isValidAmount(value) {
   return /^\d*\.?\d{0,2}$/.test(value);
 }
 
-function buildFormFromTransaction(transaction, categories) {
-  if (!transaction) return emptyForm;
-
-  const matchedCategory =
-    categories.find(
-      (item) =>
-        item.name.toLowerCase() === String(transaction.category || "").toLowerCase()
-    ) || null;
-
-  const matchedSubcategory =
-    matchedCategory?.subcategories.find(
-      (item) =>
-        item.name.toLowerCase() ===
-        String(transaction.subcategory || "").toLowerCase()
-    ) || null;
+function buildFormFromTransaction(transaction) {
+  if (!transaction) {
+    return { ...emptyForm };
+  }
 
   return {
-    categoryId: matchedCategory?.id || "",
-    subcategoryId: matchedSubcategory?.id || "",
+    categoryId:
+      transaction.categoryId || transaction.category_id || "",
+    subcategoryId:
+      transaction.subcategoryId || transaction.subcategory_id || "",
     amount:
       transaction.amount === undefined || transaction.amount === null
         ? ""
         : String(transaction.amount),
-    title: transaction.title || "",
+    title: transaction.title || transaction.description || "",
     notes: transaction.notes || "",
-    date: transaction.date || new Date().toISOString().split("T")[0]
+    date: transaction.date || transaction.transaction_date || getToday()
   };
 }
 
@@ -58,19 +47,21 @@ function TransactionFormModal({
   onClose,
   onSave
 }) {
-  const [categoriesByType, setCategoriesByType] = useState(() =>
-    readCategories()
-  );
-  const [form, setForm] = useState(emptyForm);
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState({ ...emptyForm });
+
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newSubcategoryName, setNewSubcategoryName] = useState("");
+
   const [showCategoryCreate, setShowCategoryCreate] = useState(false);
   const [showSubcategoryCreate, setShowSubcategoryCreate] = useState(false);
+
+  const [loadingCategories, setLoadingCategories] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   const isEditing = Boolean(initialTransaction);
   const isExpense = type === "expense";
-  const categories = categoriesByType[type] || [];
 
   const selectedCategory = useMemo(
     () => categories.find((item) => item.id === form.categoryId) || null,
@@ -79,37 +70,63 @@ function TransactionFormModal({
 
   const subcategories = selectedCategory?.subcategories || [];
 
+  // Load categories from Supabase whenever the modal opens.
   useEffect(() => {
     if (!open) return;
 
-    const nextCategories = readCategories();
-    setCategoriesByType(nextCategories);
-    setForm(
-      buildFormFromTransaction(
-        initialTransaction,
-        nextCategories[type] || []
-      )
-    );
+    let active = true;
+
+    const loadCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        setError("");
+
+        const data = await categoryService.getByType(type);
+
+        if (!active) return;
+
+        setCategories(data || []);
+        setForm(buildFormFromTransaction(initialTransaction));
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+
+        if (active) {
+          setError(err.message || "Unable to load categories.");
+        }
+      } finally {
+        if (active) {
+          setLoadingCategories(false);
+        }
+      }
+    };
+
+    loadCategories();
+
     setNewCategoryName("");
     setNewSubcategoryName("");
     setShowCategoryCreate(false);
     setShowSubcategoryCreate(false);
-    setError("");
-  }, [open, type, initialTransaction]);
 
-  const updateCategories = (next) => {
-    setCategoriesByType(next);
-    saveCategories(next);
-  };
+    return () => {
+      active = false;
+    };
+  }, [open, type, initialTransaction]);
 
   const handleAmountChange = (event) => {
     const { value } = event.target;
+
     if (!isValidAmount(value)) return;
-    setForm((prev) => ({ ...prev, amount: value }));
+
+    setForm((prev) => ({
+      ...prev,
+      amount: value
+    }));
   };
 
-  const handleCreateCategory = () => {
+  // Create a category in Supabase.
+  const handleCreateCategory = async () => {
     const name = newCategoryName.trim();
+
     if (!name) {
       setError("Enter a category name.");
       return;
@@ -118,40 +135,45 @@ function TransactionFormModal({
     const exists = categories.some(
       (item) => item.name.toLowerCase() === name.toLowerCase()
     );
+
     if (exists) {
       setError("That category already exists.");
       return;
     }
 
-    const category = {
-      id: createId("cat"),
-      name,
-      subcategories: []
-    };
+    try {
+      setSaving(true);
+      setError("");
 
-    const next = {
-      ...categoriesByType,
-      [type]: [...categories, category]
-    };
+      const category = await categoryService.create(name, type);
 
-    updateCategories(next);
-    setForm((prev) => ({
-      ...prev,
-      categoryId: category.id,
-      subcategoryId: ""
-    }));
-    setNewCategoryName("");
-    setShowCategoryCreate(false);
-    setError("");
+      setCategories((prev) => [...prev, category]);
+
+      setForm((prev) => ({
+        ...prev,
+        categoryId: category.id,
+        subcategoryId: ""
+      }));
+
+      setNewCategoryName("");
+      setShowCategoryCreate(false);
+    } catch (err) {
+      console.error("Failed to create category:", err);
+      setError(err.message || "Unable to create category.");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleCreateSubcategory = () => {
+  // Create a subcategory in Supabase.
+  const handleCreateSubcategory = async () => {
     if (!selectedCategory) {
       setError("Select a category first.");
       return;
     }
 
     const name = newSubcategoryName.trim();
+
     if (!name) {
       setError("Enter a subcategory name.");
       return;
@@ -160,36 +182,51 @@ function TransactionFormModal({
     const exists = subcategories.some(
       (item) => item.name.toLowerCase() === name.toLowerCase()
     );
+
     if (exists) {
       setError("That subcategory already exists.");
       return;
     }
 
-    const subcategory = {
-      id: createId("sub"),
-      name
-    };
+    try {
+      setSaving(true);
+      setError("");
 
-    const next = {
-      ...categoriesByType,
-      [type]: categories.map((category) =>
-        category.id === selectedCategory.id
-          ? {
-            ...category,
-            subcategories: [...category.subcategories, subcategory]
-          }
-          : category
-      )
-    };
+      const subcategory = await categoryService.createSubcategory(
+        name,
+        selectedCategory.id
+      );
 
-    updateCategories(next);
-    setForm((prev) => ({ ...prev, subcategoryId: subcategory.id }));
-    setNewSubcategoryName("");
-    setShowSubcategoryCreate(false);
-    setError("");
+      setCategories((prev) =>
+        prev.map((category) =>
+          category.id === selectedCategory.id
+            ? {
+                ...category,
+                subcategories: [
+                  ...(category.subcategories || []),
+                  subcategory
+                ]
+              }
+            : category
+        )
+      );
+
+      setForm((prev) => ({
+        ...prev,
+        subcategoryId: subcategory.id
+      }));
+
+      setNewSubcategoryName("");
+      setShowSubcategoryCreate(false);
+    } catch (err) {
+      console.error("Failed to create subcategory:", err);
+      setError(err.message || "Unable to create subcategory.");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!form.categoryId) {
@@ -197,7 +234,7 @@ function TransactionFormModal({
       return;
     }
 
-    if (!form.subcategoryId) {
+    if (subcategories.length > 0 && !form.subcategoryId) {
       setError("Select a subcategory.");
       return;
     }
@@ -217,17 +254,26 @@ function TransactionFormModal({
       return;
     }
 
-    onSave?.({
-      type,
-      category: selectedCategory.name,
-      subcategory:
-        subcategories.find((item) => item.id === form.subcategoryId)?.name ||
-        "",
-      amount: Number(form.amount),
-      title: form.title.trim(),
-      notes: form.notes.trim(),
-      date: form.date
-    });
+    try {
+      setSaving(true);
+      setError("");
+
+      await onSave?.({
+        id: initialTransaction?.id,
+        type,
+        categoryId: form.categoryId,
+        subcategoryId: form.subcategoryId,
+        amount: Number(form.amount),
+        title: form.title.trim(),
+        notes: form.notes.trim(),
+        date: form.date
+      });
+    } catch (err) {
+      console.error("Failed to save transaction:", err);
+      setError(err.message || "Unable to save transaction.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -247,11 +293,16 @@ function TransactionFormModal({
       <form className="transaction-form" onSubmit={handleSubmit}>
         <div className="form-field">
           <label htmlFor="category">Category</label>
+
           <div className="field-with-action">
             <SelectDropdown
               id="category"
               value={form.categoryId}
-              placeholder="Select category"
+              placeholder={
+                loadingCategories
+                  ? "Loading categories..."
+                  : "Select category"
+              }
               visibleCount={6}
               options={categories.map((category) => ({
                 value: category.id,
@@ -265,9 +316,11 @@ function TransactionFormModal({
                 }))
               }
             />
+
             <Button
               type="button"
               variant="secondary"
+              disabled={saving || loadingCategories}
               onClick={() => {
                 setShowCategoryCreate((prev) => !prev);
                 setShowSubcategoryCreate(false);
@@ -284,9 +337,17 @@ function TransactionFormModal({
                 type="text"
                 placeholder="New category name"
                 value={newCategoryName}
-                onChange={(event) => setNewCategoryName(event.target.value)}
+                onChange={(event) =>
+                  setNewCategoryName(event.target.value)
+                }
               />
-              <Button type="button" variant="secondary" onClick={handleCreateCategory}>
+
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={saving}
+                onClick={handleCreateCategory}
+              >
                 Add
               </Button>
             </div>
@@ -295,6 +356,7 @@ function TransactionFormModal({
 
         <div className="form-field">
           <label htmlFor="subcategory">SubCategory</label>
+
           <div className="field-with-action">
             <SelectDropdown
               id="subcategory"
@@ -313,10 +375,11 @@ function TransactionFormModal({
                 }))
               }
             />
+
             <Button
               type="button"
               variant="secondary"
-              disabled={!form.categoryId}
+              disabled={!form.categoryId || saving}
               onClick={() => {
                 setShowSubcategoryCreate((prev) => !prev);
                 setShowCategoryCreate(false);
@@ -333,11 +396,15 @@ function TransactionFormModal({
                 type="text"
                 placeholder="New subcategory name"
                 value={newSubcategoryName}
-                onChange={(event) => setNewSubcategoryName(event.target.value)}
+                onChange={(event) =>
+                  setNewSubcategoryName(event.target.value)
+                }
               />
+
               <Button
                 type="button"
                 variant="secondary"
+                disabled={saving}
                 onClick={handleCreateSubcategory}
               >
                 Add
@@ -353,7 +420,7 @@ function TransactionFormModal({
             id="transactionDate"
             type="date"
             value={form.date}
-            max={new Date().toISOString().split("T")[0]}
+            max={getToday()}
             onChange={(event) =>
               setForm((prev) => ({
                 ...prev,
@@ -365,6 +432,7 @@ function TransactionFormModal({
 
         <div className="form-field">
           <label htmlFor="amount">Amount</label>
+
           <input
             id="amount"
             type="text"
@@ -377,26 +445,34 @@ function TransactionFormModal({
 
         <div className="form-field">
           <label htmlFor="title">Transaction Title</label>
+
           <input
             id="title"
             type="text"
             placeholder="Enter title"
             value={form.title}
             onChange={(event) =>
-              setForm((prev) => ({ ...prev, title: event.target.value }))
+              setForm((prev) => ({
+                ...prev,
+                title: event.target.value
+              }))
             }
           />
         </div>
 
         <div className="form-field">
           <label htmlFor="notes">Notes</label>
+
           <textarea
             id="notes"
             rows={3}
             placeholder="Optional notes"
             value={form.notes}
             onChange={(event) =>
-              setForm((prev) => ({ ...prev, notes: event.target.value }))
+              setForm((prev) => ({
+                ...prev,
+                notes: event.target.value
+              }))
             }
           />
         </div>
@@ -404,11 +480,24 @@ function TransactionFormModal({
         {error && <p className="form-error">{error}</p>}
 
         <div className="modal-actions">
-          <Button type="button" variant="secondary" onClick={onClose}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onClose}
+          >
             Cancel
           </Button>
-          <Button type="submit" variant={isExpense ? "danger" : "success"}>
-            {isEditing ? "Update" : "Save"}
+
+          <Button
+            type="submit"
+            variant={isExpense ? "danger" : "success"}
+            disabled={saving || loadingCategories}
+          >
+            {saving
+              ? "Saving..."
+              : isEditing
+                ? "Update"
+                : "Save"}
           </Button>
         </div>
       </form>

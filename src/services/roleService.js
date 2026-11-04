@@ -137,30 +137,30 @@ export const roleService = {
             };
         }
 
-        // TEMPORARY DEBUG CODE
-        const { data, error } = await supabase
-            .from("roles")
-            .select("id, name")
-            .eq("id", "4debd985-e05d-4b97-90e6-b44e419a6188");
+        // // TEMPORARY DEBUG CODE
+        // const { data, error } = await supabase
+        //     .from("roles")
+        //     .select("id, name")
+        //     .eq("id", "4debd985-e05d-4b97-90e6-b44e419a6188");
 
-        console.log("Direct role query:", data);
-        console.log("Direct role query error:", error);
+        // console.log("Direct role query:", data);
+        // console.log("Direct role query error:", error);
 
-        // Continue with your existing profile query
-        const { data: profile, error: profileError } = await supabase
-            .from("profiles")
-            .select("is_admin")
-            .eq("id", user.id)
-            .single();
-
-
-
-        // // 2. Check whether the user is an admin
+        // // Continue with your existing profile query
         // const { data: profile, error: profileError } = await supabase
         //     .from("profiles")
         //     .select("is_admin")
         //     .eq("id", user.id)
         //     .single();
+
+
+
+        // // 2. Check whether the user is an admin
+        const { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select("is_admin")
+            .eq("id", user.id)
+            .single();
 
         if (profileError) throw profileError;
 

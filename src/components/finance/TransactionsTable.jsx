@@ -28,13 +28,18 @@ function toDateKey(value) {
   return `${year}-${month}-${day}`;
 }
 
-function formatDisplayDate(value) {
-  const key = toDateKey(value);
-  if (!key) return value || "—";
+const formatDisplayDate = (date) => {
+  if (!date) return "";
 
-  const [year, month, day] = key.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString();
-}
+  const [year, month, day] = date.split("-");
+
+  const monthNames = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  return `${day} ${monthNames[Number(month) - 1]} ${year}`;
+};
 
 function TransactionsTable({
   title = "Your Daily Transactions",
