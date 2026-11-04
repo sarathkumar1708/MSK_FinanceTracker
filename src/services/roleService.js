@@ -121,6 +121,7 @@ export const roleService = {
 
     // Get the current user's effective component permissions
     async getMyPermissions() {
+        // 1. Get the currently authenticated user
         const { data: authData, error: authError } =
             await supabase.auth.getUser();
 
@@ -129,18 +130,42 @@ export const roleService = {
         const user = authData.user;
 
         if (!user) {
-            return { userId: null, isAdmin: false, componentKeys: [] };
+            return {
+                userId: null,
+                isAdmin: false,
+                componentKeys: [],
+            };
         }
 
+        // TEMPORARY DEBUG CODE
+        const { data, error } = await supabase
+            .from("roles")
+            .select("id, name")
+            .eq("id", "4debd985-e05d-4b97-90e6-b44e419a6188");
+
+        console.log("Direct role query:", data);
+        console.log("Direct role query error:", error);
+
+        // Continue with your existing profile query
         const { data: profile, error: profileError } = await supabase
             .from("profiles")
             .select("is_admin")
             .eq("id", user.id)
             .single();
 
+
+
+        // // 2. Check whether the user is an admin
+        // const { data: profile, error: profileError } = await supabase
+        //     .from("profiles")
+        //     .select("is_admin")
+        //     .eq("id", user.id)
+        //     .single();
+
         if (profileError) throw profileError;
 
-        if (profile?.is_admin) {
+        // 3. Admin gets access to all components
+        if (profile?.is_admin === true) {
             return {
                 userId: user.id,
                 isAdmin: true,
@@ -148,32 +173,48 @@ export const roleService = {
             };
         }
 
+        // 4. Fetch all roles assigned to this user
         const { data: assignments, error: assignmentError } =
             await supabase
                 .from("user_roles")
                 .select(`
-          role_id,
-          roles (
-            role_components (
-              component_key
-            )
-          )
-        `)
+              role_id,
+              roles (
+                id,
+                name,
+                role_components (
+                  component_key
+                )
+              )
+            `)
                 .eq("user_id", user.id);
 
         if (assignmentError) throw assignmentError;
 
-        // Combine permissions from all assigned roles
+        // Debug: Check assigned roles
+        console.log("========== USER ROLE DEBUG ==========");
+        console.log("Logged-in User ID:", user.id);
+        console.log("Role Assignments:", assignments);
+
+        // 5. Collect permissions from every assigned role
         const componentKeys = [
             ...new Set(
-                (assignments || []).flatMap((assignment) =>
-                    (assignment.roles?.role_components || []).map(
-                        (item) => item.component_key
-                    )
-                )
+                (assignments || []).flatMap((assignment) => {
+                    const roles = Array.isArray(assignment.roles)
+                        ? assignment.roles
+                        : [assignment.roles].filter(Boolean);
+
+                    return roles.flatMap((role) =>
+                        (role.role_components || []).map(
+                            (item) => item.component_key
+                        )
+                    );
+                })
             ),
         ];
 
+
+        // 6. Return unique permissions
         return {
             userId: user.id,
             isAdmin: false,

@@ -4,8 +4,8 @@ import { supabase } from "../lib/supabase";
 export const authService = {
   async signInWithGoogle() {
     const redirectUrl = import.meta.env.PROD
-      ? "https://msk-finance-tracker.vercel.app//finance/daily-spending"
-      : "http://localhost:5173//finance/daily-spending";
+      ? "https://msk-finance-tracker.vercel.app/finance/dashboard"
+      : "http://localhost:5173/finance/dashboard";
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",

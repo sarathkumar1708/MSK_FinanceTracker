@@ -46,35 +46,38 @@ function Sidebar({ isOpen, closeSidebar }) {
     finance: true,
   });
 
+
   const visibleItems = useMemo(() => {
     if (permissionLoading) return [];
-
+  
+    if (isAdmin) return navigationItems;
+  
+    const permissions = Array.isArray(permissionKeys)
+      ? permissionKeys
+      : [];
+  
+    const hasPermission = (key) =>
+      permissions.includes("*") || permissions.includes(key);
+  
     return navigationItems.reduce((result, item) => {
-      if (item.adminOnly && !isAdmin) return result;
-
+      if (item.adminOnly) return result;
+  
       if (item.children) {
-        const children = item.children.filter((child) => {
-          if (child.adminOnly && !isAdmin) return false;
-
-          return (
-            isAdmin ||
-            permissionKeys.includes(child.componentKey)
-          );
-        });
-
-        if (children.length > 0) {
-          result.push({ ...item, children });
+        const allowedChildren = item.children.filter(
+          (child) => !child.adminOnly && hasPermission(child.componentKey)
+        );
+  
+        if (allowedChildren.length > 0) {
+          result.push({ ...item, children: allowedChildren });
         }
-      } else if (
-        isAdmin ||
-        permissionKeys.includes(item.componentKey)
-      ) {
+      } else if (hasPermission(item.componentKey)) {
         result.push(item);
       }
-
+  
       return result;
     }, []);
   }, [isAdmin, permissionKeys, permissionLoading]);
+  
 
   useEffect(() => {
     const activeParent = visibleItems.find((item) =>

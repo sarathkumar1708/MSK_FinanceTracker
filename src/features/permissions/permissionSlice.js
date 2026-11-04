@@ -38,14 +38,15 @@ const permissionSlice = createSlice({
             })
             .addCase(fetchMyPermissions.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userId = action.payload.userId;
-                state.isAdmin = action.payload.isAdmin;
-                state.componentKeys = action.payload.componentKeys;
+                state.userId = action.payload?.userId ?? null;
+                state.isAdmin = action.payload?.isAdmin ?? false;
+                state.componentKeys = action.payload?.componentKeys ?? [];
             })
             .addCase(fetchMyPermissions.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Unable to load permissions";
-            });
+            })
+
     },
 });
 
@@ -60,8 +61,11 @@ export const selectPermissionLoading = (state) =>
 export const selectHasPermission = (componentKey) => (state) => {
     const { isAdmin, componentKeys } = state.permissions;
 
-    return isAdmin || componentKeys.includes("*") ||
-        componentKeys.includes(componentKey);
+    return (
+        isAdmin ||
+        componentKeys.includes("*") ||
+        componentKeys.includes(componentKey)
+    );
 };
 
 export default permissionSlice.reducer;
