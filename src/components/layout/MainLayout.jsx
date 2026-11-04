@@ -42,6 +42,7 @@ function MainLayout() {
       <Sidebar
         isOpen={isSidebarOpen}
         closeSidebar={closeSidebar}
+        user={currentUser}
       />
 
       <div className="main-section">

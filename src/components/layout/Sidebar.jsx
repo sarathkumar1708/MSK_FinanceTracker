@@ -35,7 +35,7 @@ const iconMap = {
   Bookmark,
 };
 
-function Sidebar({ isOpen, closeSidebar }) {
+function Sidebar({ isOpen, closeSidebar, user }) {
   const location = useLocation();
 
   const isAdmin = useSelector(selectIsAdmin);
@@ -45,6 +45,9 @@ function Sidebar({ isOpen, closeSidebar }) {
   const [expandedMenus, setExpandedMenus] = useState({
     finance: true,
   });
+
+  const userName = user?.user_metadata?.name || user?.email || user?.full_name || "User";
+  const avatarLetter = userName.charAt(0).toUpperCase();
 
 
   const visibleItems = useMemo(() => {
@@ -220,10 +223,10 @@ function Sidebar({ isOpen, closeSidebar }) {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-avatar">S</div>
+          <div className="user-avatar">{avatarLetter}</div>
 
           <div className="user-info">
-            <strong>My Workspace</strong>
+            <strong>{userName}</strong>
             <span>{isAdmin ? "Administrator" : "Personal Account"}</span>
           </div>
         </div>
