@@ -31,7 +31,11 @@ function RoleManagement() {
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [editingRole, setEditingRole] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [deletingRoleId, setDeletingRoleId] = useState(null);
 
   const loadRoles = async () => {
     setLoading(true);
@@ -51,9 +55,65 @@ function RoleManagement() {
     loadRoles();
   }, []);
 
-  const handleCreateRole = async (roleData) => {
-    await roleService.createRole(roleData);
-    await loadRoles();
+  // Create or update role
+  const handleSaveRole = async (roleData) => {
+    try {
+      setSaving(true);
+      setError("");
+
+      if (editingRole) {
+        await roleService.updateRole(editingRole.id, roleData);
+      } else {
+        await roleService.createRole(roleData);
+      }
+
+      await loadRoles();
+
+      setIsCreateOpen(false);
+      setEditingRole(null);
+    } catch (err) {
+      console.error("Failed to save role:", err);
+      setError(err.message || "Unable to save role.");
+      throw err;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Open edit modal
+  const handleEdit = (role) => {
+    setEditingRole(role);
+    setIsCreateOpen(true);
+  };
+
+  // Delete role
+  const handleDelete = async (role) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete the "${role.name}" role?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setDeletingRoleId(role.id);
+      setError("");
+
+      await roleService.deleteRole(role.id);
+
+      setRoles((current) =>
+        current.filter((item) => item.id !== role.id)
+      );
+    } catch (err) {
+      console.error("Failed to delete role:", err);
+      setError(err.message || "Unable to delete role.");
+    } finally {
+      setDeletingRoleId(null);
+    }
+  };
+
+  const closeModal = () => {
+    setIsCreateOpen(false);
+    setEditingRole(null);
   };
 
   return (
@@ -67,7 +127,10 @@ function RoleManagement() {
         <button
           type="button"
           className="primary-btn"
-          onClick={() => setIsCreateOpen(true)}
+          onClick={() => {
+            setEditingRole(null);
+            setIsCreateOpen(true);
+          }}
         >
           + Create Role
         </button>
@@ -84,15 +147,20 @@ function RoleManagement() {
             type="button"
             className="secondary-btn"
             onClick={loadRoles}
+            disabled={loading}
           >
             Refresh
           </button>
         </div>
 
+        {error && (
+          <p className="role-error" role="alert">
+            {error}
+          </p>
+        )}
+
         {loading ? (
           <p>Loading roles...</p>
-        ) : error ? (
-          <p className="role-error">{error}</p>
         ) : roles.length === 0 ? (
           <p>No roles created yet. Click Create Role to get started.</p>
         ) : (
@@ -104,21 +172,52 @@ function RoleManagement() {
                   <th>Description</th>
                   <th>Page Permissions</th>
                   <th>Created</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
 
               <tbody>
                 {roles.map((role) => (
                   <tr key={role.id}>
-                    <td><strong>{role.name}</strong></td>
+                    <td>
+                      <strong>{role.name}</strong>
+                    </td>
+
                     <td>{role.description || "—"}</td>
+
                     <td>
                       <span className="role-tag">
-                        {role.componentKeys.length} pages
+                        {(role.componentKeys || []).length} pages
                       </span>
                     </td>
+
                     <td>
-                      {new Date(role.created_at).toLocaleDateString()}
+                      {role.created_at
+                        ? new Date(role.created_at).toLocaleDateString()
+                        : "—"}
+                    </td>
+
+                    <td>
+                      <div className="role-actions">
+                        <button
+                          type="button"
+                          className="edit-btn"
+                          onClick={() => handleEdit(role)}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          className="delete-btn"
+                          disabled={deletingRoleId === role.id}
+                          onClick={() => handleDelete(role)}
+                        >
+                          {deletingRoleId === role.id
+                            ? "Deleting..."
+                            : "Delete"}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -130,9 +229,12 @@ function RoleManagement() {
 
       <CreateRoleModal
         isOpen={isCreateOpen}
-        onClose={() => setIsCreateOpen(false)}
-        onCreate={handleCreateRole}
+        onClose={closeModal}
+        onCreate={handleSaveRole}
         availableComponents={availableComponents}
+        initialRole={editingRole}
+        isEditing={Boolean(editingRole)}
+        saving={saving}
       />
     </div>
   );

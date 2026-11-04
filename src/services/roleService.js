@@ -119,6 +119,74 @@ export const roleService = {
         if (error) throw error;
     },
 
+
+    async updateRole(roleId, roleData) {
+        const { name, description, componentKeys = [] } = roleData;
+
+        const { error: roleError } = await supabase
+            .from("roles")
+            .update({
+                name: name.trim(),
+                description: description?.trim() || ""
+            })
+            .eq("id", roleId);
+
+        if (roleError) throw roleError;
+
+        // Replace existing role permissions.
+        const { error: deleteError } = await supabase
+            .from("role_components")
+            .delete()
+            .eq("role_id", roleId);
+
+        if (deleteError) throw deleteError;
+
+        if (componentKeys.length > 0) {
+            const permissions = componentKeys.map((componentKey) => ({
+                role_id: roleId,
+                component_key: componentKey
+            }));
+
+            const { error: insertError } = await supabase
+                .from("role_components")
+                .insert(permissions);
+
+            if (insertError) throw insertError;
+        }
+    },
+
+    async deleteRole(roleId) {
+        // Prevent deleting a role that is assigned to users.
+        const { data: assignments, error: assignmentError } = await supabase
+            .from("user_roles")
+            .select("role_id")
+            .eq("role_id", roleId)
+            .limit(1);
+
+        if (assignmentError) throw assignmentError;
+
+        if (assignments?.length > 0) {
+            throw new Error(
+                "This role is assigned to users. Reassign those users before deleting it."
+            );
+        }
+
+        // Delete role permissions first.
+        const { error: permissionError } = await supabase
+            .from("role_components")
+            .delete()
+            .eq("role_id", roleId);
+
+        if (permissionError) throw permissionError;
+
+        const { error } = await supabase
+            .from("roles")
+            .delete()
+            .eq("id", roleId);
+
+        if (error) throw error;
+    },
+
     // Get the current user's effective component permissions
     async getMyPermissions() {
         // 1. Get the currently authenticated user
@@ -190,11 +258,6 @@ export const roleService = {
                 .eq("user_id", user.id);
 
         if (assignmentError) throw assignmentError;
-
-        // Debug: Check assigned roles
-        console.log("========== USER ROLE DEBUG ==========");
-        console.log("Logged-in User ID:", user.id);
-        console.log("Role Assignments:", assignments);
 
         // 5. Collect permissions from every assigned role
         const componentKeys = [

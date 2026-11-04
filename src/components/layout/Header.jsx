@@ -39,7 +39,7 @@ function Header({ onMenuClick, onLogout, user }) {
     year: "numeric",
   });
 
-  const userName = user?.full_name || user?.email || "User";
+  const userName = user?.user_metadata?.name || user?.email || user?.full_name || "User";
   const avatarLetter = userName.charAt(0).toUpperCase();
 
   return (
