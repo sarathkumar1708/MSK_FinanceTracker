@@ -1,0 +1,776 @@
+{
+  "expense": [
+    {
+      "id": "food",
+      "name": "Food",
+      "subcategories": [
+        {
+          "id": "groceries",
+          "name": "Groceries"
+        },
+        {
+          "id": "dining",
+          "name": "Dining Out"
+        },
+        {
+          "id": "vegetables",
+          "name": "Vegetables & Fruits"
+        },
+        {
+          "id": "snacks",
+          "name": "Snacks"
+        },
+        {
+          "id": "beverages",
+          "name": "Beverages"
+        },
+        {
+          "id": "food_delivery",
+          "name": "Food Delivery"
+        },
+        {
+          "id": "bakery",
+          "name": "Bakery"
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "subcategories": [
+        {
+          "id": "fuel",
+          "name": "Fuel"
+        },
+        {
+          "id": "public",
+          "name": "Public Transit"
+        },
+        {
+          "id": "taxi",
+          "name": "Taxi / Cab"
+        },
+        {
+          "id": "auto",
+          "name": "Auto Rickshaw"
+        },
+        {
+          "id": "parking",
+          "name": "Parking"
+        },
+        {
+          "id": "vehicle_maintenance",
+          "name": "Vehicle Maintenance"
+        },
+        {
+          "id": "vehicle_insurance",
+          "name": "Vehicle Insurance"
+        },
+        {
+          "id": "tolls",
+          "name": "Tolls"
+        }
+      ]
+    },
+    {
+      "id": "housing",
+      "name": "Housing",
+      "subcategories": [
+        {
+          "id": "rent",
+          "name": "House Rent"
+        },
+        {
+          "id": "mortgage",
+          "name": "Home Loan EMI"
+        },
+        {
+          "id": "maintenance",
+          "name": "House Maintenance"
+        },
+        {
+          "id": "repairs",
+          "name": "Home Repairs"
+        },
+        {
+          "id": "property_tax",
+          "name": "Property Tax"
+        },
+        {
+          "id": "security",
+          "name": "Security"
+        }
+      ]
+    },
+    {
+      "id": "utilities",
+      "name": "Utilities",
+      "subcategories": [
+        {
+          "id": "electricity",
+          "name": "Electricity"
+        },
+        {
+          "id": "water",
+          "name": "Water Bill"
+        },
+        {
+          "id": "gas",
+          "name": "Gas / LPG"
+        },
+        {
+          "id": "internet",
+          "name": "Internet"
+        },
+        {
+          "id": "mobile",
+          "name": "Mobile Recharge"
+        },
+        {
+          "id": "cable",
+          "name": "Cable / DTH"
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "name": "Health & Medical",
+      "subcategories": [
+        {
+          "id": "doctor",
+          "name": "Doctor Consultation"
+        },
+        {
+          "id": "medicines",
+          "name": "Medicines"
+        },
+        {
+          "id": "hospital",
+          "name": "Hospital"
+        },
+        {
+          "id": "dental",
+          "name": "Dental Care"
+        },
+        {
+          "id": "eye_care",
+          "name": "Eye Care"
+        },
+        {
+          "id": "health_checkup",
+          "name": "Health Checkup"
+        },
+        {
+          "id": "health_insurance",
+          "name": "Health Insurance"
+        }
+      ]
+    },
+    {
+      "id": "shopping",
+      "name": "Shopping",
+      "subcategories": [
+        {
+          "id": "clothing",
+          "name": "Clothing"
+        },
+        {
+          "id": "footwear",
+          "name": "Footwear"
+        },
+        {
+          "id": "electronics",
+          "name": "Electronics"
+        },
+        {
+          "id": "accessories",
+          "name": "Accessories"
+        },
+        {
+          "id": "personal_items",
+          "name": "Personal Items"
+        },
+        {
+          "id": "online_shopping",
+          "name": "Online Shopping"
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "name": "Education",
+      "subcategories": [
+        {
+          "id": "school_fees",
+          "name": "School Fees"
+        },
+        {
+          "id": "college_fees",
+          "name": "College Fees"
+        },
+        {
+          "id": "tuition",
+          "name": "Tuition / Coaching"
+        },
+        {
+          "id": "books",
+          "name": "Books & Stationery"
+        },
+        {
+          "id": "online_courses",
+          "name": "Online Courses"
+        },
+        {
+          "id": "exam_fees",
+          "name": "Exam Fees"
+        }
+      ]
+    },
+    {
+      "id": "entertainment",
+      "name": "Entertainment",
+      "subcategories": [
+        {
+          "id": "movies",
+          "name": "Movies"
+        },
+        {
+          "id": "ott",
+          "name": "OTT Subscriptions"
+        },
+        {
+          "id": "music",
+          "name": "Music Subscriptions"
+        },
+        {
+          "id": "gaming",
+          "name": "Gaming"
+        },
+        {
+          "id": "events",
+          "name": "Events & Concerts"
+        },
+        {
+          "id": "hobbies",
+          "name": "Hobbies"
+        }
+      ]
+    },
+    {
+      "id": "family",
+      "name": "Family & Kids",
+      "subcategories": [
+        {
+          "id": "childcare",
+          "name": "Childcare"
+        },
+        {
+          "id": "kids_clothing",
+          "name": "Kids Clothing"
+        },
+        {
+          "id": "toys",
+          "name": "Toys"
+        },
+        {
+          "id": "baby_care",
+          "name": "Baby Care"
+        },
+        {
+          "id": "family_support",
+          "name": "Family Support"
+        },
+        {
+          "id": "elderly_care",
+          "name": "Elderly Care"
+        }
+      ]
+    },
+    {
+      "id": "personal_care",
+      "name": "Personal Care",
+      "subcategories": [
+        {
+          "id": "salon",
+          "name": "Salon & Haircut"
+        },
+        {
+          "id": "skincare",
+          "name": "Skincare"
+        },
+        {
+          "id": "cosmetics",
+          "name": "Cosmetics"
+        },
+        {
+          "id": "gym",
+          "name": "Gym & Fitness"
+        },
+        {
+          "id": "spa",
+          "name": "Spa & Wellness"
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "name": "Travel",
+      "subcategories": [
+        {
+          "id": "flights",
+          "name": "Flights"
+        },
+        {
+          "id": "train",
+          "name": "Train Tickets"
+        },
+        {
+          "id": "bus_tickets",
+          "name": "Bus Tickets"
+        },
+        {
+          "id": "hotel",
+          "name": "Hotel / Accommodation"
+        },
+        {
+          "id": "sightseeing",
+          "name": "Sightseeing"
+        },
+        {
+          "id": "travel_food",
+          "name": "Travel Food"
+        }
+      ]
+    },
+    {
+      "id": "financial",
+      "name": "Financial",
+      "subcategories": [
+        {
+          "id": "loan_emi",
+          "name": "Loan EMI"
+        },
+        {
+          "id": "credit_card",
+          "name": "Credit Card Payment"
+        },
+        {
+          "id": "bank_charges",
+          "name": "Bank Charges"
+        },
+        {
+          "id": "interest",
+          "name": "Interest Payment"
+        },
+        {
+          "id": "tax",
+          "name": "Taxes"
+        },
+        {
+          "id": "investment",
+          "name": "Investments"
+        }
+      ]
+    },
+    {
+      "id": "insurance",
+      "name": "Insurance",
+      "subcategories": [
+        {
+          "id": "life_insurance",
+          "name": "Life Insurance"
+        },
+        {
+          "id": "vehicle_insurance",
+          "name": "Vehicle Insurance"
+        },
+        {
+          "id": "home_insurance",
+          "name": "Home Insurance"
+        },
+        {
+          "id": "other_insurance",
+          "name": "Other Insurance"
+        }
+      ]
+    },
+    {
+      "id": "pets",
+      "name": "Pets",
+      "subcategories": [
+        {
+          "id": "pet_food",
+          "name": "Pet Food"
+        },
+        {
+          "id": "vet",
+          "name": "Veterinary"
+        },
+        {
+          "id": "pet_grooming",
+          "name": "Pet Grooming"
+        },
+        {
+          "id": "pet_accessories",
+          "name": "Pet Accessories"
+        }
+      ]
+    },
+    {
+      "id": "gifts",
+      "name": "Gifts & Donations",
+      "subcategories": [
+        {
+          "id": "gifts",
+          "name": "Gifts"
+        },
+        {
+          "id": "donations",
+          "name": "Donations"
+        },
+        {
+          "id": "charity",
+          "name": "Charity"
+        },
+        {
+          "id": "special_occasions",
+          "name": "Special Occasions"
+        }
+      ]
+    },
+    {
+      "id": "professional",
+      "name": "Professional Expenses",
+      "subcategories": [
+        {
+          "id": "office",
+          "name": "Office Expenses"
+        },
+        {
+          "id": "software",
+          "name": "Software & Tools"
+        },
+        {
+          "id": "work_travel",
+          "name": "Work Travel"
+        },
+        {
+          "id": "certifications",
+          "name": "Certifications"
+        },
+        {
+          "id": "professional_fees",
+          "name": "Professional Fees"
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Others",
+      "subcategories": [
+        {
+          "id": "miscellaneous",
+          "name": "Miscellaneous"
+        },
+        {
+          "id": "unplanned",
+          "name": "Unplanned Expenses"
+        },
+        {
+          "id": "uncategorized",
+          "name": "Uncategorized"
+        }
+      ]
+    }
+  ],
+  "income": [
+    {
+      "id": "salary",
+      "name": "Salary",
+      "subcategories": [
+        {
+          "id": "monthly",
+          "name": "Monthly Pay"
+        },
+        {
+          "id": "bonus",
+          "name": "Bonus"
+        },
+        {
+          "id": "incentive",
+          "name": "Incentives"
+        },
+        {
+          "id": "overtime",
+          "name": "Overtime Pay"
+        },
+        {
+          "id": "commission",
+          "name": "Commission"
+        },
+        {
+          "id": "arrears",
+          "name": "Salary Arrears"
+        }
+      ]
+    },
+    {
+      "id": "freelance",
+      "name": "Freelance",
+      "subcategories": [
+        {
+          "id": "project",
+          "name": "Project"
+        },
+        {
+          "id": "retainer",
+          "name": "Retainer"
+        },
+        {
+          "id": "hourly",
+          "name": "Hourly Work"
+        },
+        {
+          "id": "consulting",
+          "name": "Consulting"
+        },
+        {
+          "id": "design",
+          "name": "Design Services"
+        },
+        {
+          "id": "development",
+          "name": "Development Services"
+        }
+      ]
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "subcategories": [
+        {
+          "id": "sales",
+          "name": "Product Sales"
+        },
+        {
+          "id": "services",
+          "name": "Service Income"
+        },
+        {
+          "id": "online_sales",
+          "name": "Online Sales"
+        },
+        {
+          "id": "commission",
+          "name": "Business Commission"
+        },
+        {
+          "id": "partnership",
+          "name": "Partnership Income"
+        }
+      ]
+    },
+    {
+      "id": "investment",
+      "name": "Investment Returns",
+      "subcategories": [
+        {
+          "id": "dividends",
+          "name": "Dividends"
+        },
+        {
+          "id": "stocks",
+          "name": "Stock Profits"
+        },
+        {
+          "id": "mutual_funds",
+          "name": "Mutual Fund Returns"
+        },
+        {
+          "id": "bonds",
+          "name": "Bond Interest"
+        },
+        {
+          "id": "capital_gains",
+          "name": "Capital Gains"
+        }
+      ]
+    },
+    {
+      "id": "interest",
+      "name": "Interest Income",
+      "subcategories": [
+        {
+          "id": "savings",
+          "name": "Savings Account Interest"
+        },
+        {
+          "id": "fixed_deposit",
+          "name": "Fixed Deposit Interest"
+        },
+        {
+          "id": "recurring_deposit",
+          "name": "Recurring Deposit Interest"
+        },
+        {
+          "id": "loan_interest",
+          "name": "Loan Interest Received"
+        }
+      ]
+    },
+    {
+      "id": "rental",
+      "name": "Rental Income",
+      "subcategories": [
+        {
+          "id": "house_rent",
+          "name": "House Rent"
+        },
+        {
+          "id": "commercial_rent",
+          "name": "Commercial Property Rent"
+        },
+        {
+          "id": "land_rent",
+          "name": "Land Rent"
+        },
+        {
+          "id": "vehicle_rent",
+          "name": "Vehicle Rent"
+        }
+      ]
+    },
+    {
+      "id": "real_estate",
+      "name": "Real Estate",
+      "subcategories": [
+        {
+          "id": "property_sale",
+          "name": "Property Sale"
+        },
+        {
+          "id": "land_sale",
+          "name": "Land Sale"
+        },
+        {
+          "id": "property_profit",
+          "name": "Property Profit"
+        }
+      ]
+    },
+    {
+      "id": "side_income",
+      "name": "Side Income",
+      "subcategories": [
+        {
+          "id": "part_time",
+          "name": "Part-time Work"
+        },
+        {
+          "id": "tutoring",
+          "name": "Tutoring"
+        },
+        {
+          "id": "content_creation",
+          "name": "Content Creation"
+        },
+        {
+          "id": "affiliate",
+          "name": "Affiliate Income"
+        },
+        {
+          "id": "royalties",
+          "name": "Royalties"
+        }
+      ]
+    },
+    {
+      "id": "government",
+      "name": "Government Benefits",
+      "subcategories": [
+        {
+          "id": "pension",
+          "name": "Pension"
+        },
+        {
+          "id": "subsidy",
+          "name": "Subsidies"
+        },
+        {
+          "id": "scholarship",
+          "name": "Scholarship"
+        },
+        {
+          "id": "government_scheme",
+          "name": "Government Scheme Benefits"
+        }
+      ]
+    },
+    {
+      "id": "gifts",
+      "name": "Gifts & Rewards",
+      "subcategories": [
+        {
+          "id": "cash_gift",
+          "name": "Cash Gifts"
+        },
+        {
+          "id": "festival_gift",
+          "name": "Festival Gifts"
+        },
+        {
+          "id": "rewards",
+          "name": "Cashback & Rewards"
+        },
+        {
+          "id": "prize",
+          "name": "Prize Money"
+        }
+      ]
+    },
+    {
+      "id": "refunds",
+      "name": "Refunds",
+      "subcategories": [
+        {
+          "id": "shopping_refund",
+          "name": "Shopping Refund"
+        },
+        {
+          "id": "travel_refund",
+          "name": "Travel Refund"
+        },
+        {
+          "id": "bill_refund",
+          "name": "Bill Refund"
+        },
+        {
+          "id": "tax_refund",
+          "name": "Tax Refund"
+        },
+        {
+          "id": "insurance_claim",
+          "name": "Insurance Claim"
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Other Income",
+      "subcategories": [
+        {
+          "id": "one_time",
+          "name": "One-time Income"
+        },
+        {
+          "id": "unexpected",
+          "name": "Unexpected Income"
+        },
+        {
+          "id": "miscellaneous",
+          "name": "Miscellaneous"
+        }
+      ]
+    }
+  ]
+}
