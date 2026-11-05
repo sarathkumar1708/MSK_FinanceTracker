@@ -1,10 +1,18 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Suspense } from "react";
+
 import PageHeader from "../../components/common/PageHeader";
 import Button from "../../components/common/Button";
 import { transactionService } from "../../services/transactionService";
-import { TransactionsTable, TransactionFormModal } from "../../utils/lazyComponents";
+
+import {
+  TransactionsTable,
+  TransactionFormModal,
+} from "../../utils/lazyComponents";
+
+import "./DailySpendingPage.css";
+import { MONTHS } from "../../data/data";
 
 function formatTotal(amount) {
   return Number(amount || 0).toLocaleString(undefined, {
@@ -13,43 +21,55 @@ function formatTotal(amount) {
   });
 }
 
+function getLocalDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function getCurrentMonth() {
+  return getLocalDateKey().slice(0, 7);
+}
+
+function getMonthRange(selectedMonth) {
+  const [year, month] = selectedMonth.split("-").map(Number);
+
+  const startDate = `${selectedMonth}-01`;
+
+  const nextMonth = new Date(year, month, 1);
+
+  const endDate = `${nextMonth.getFullYear()}-${String(
+    nextMonth.getMonth() + 1
+  ).padStart(2, "0")}-01`;
+
+  return { startDate, endDate };
+}
+
 function DailySpendingPage() {
   const [transactions, setTransactions] = useState([]);
+
+  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
+
   const [modalType, setModalType] = useState(null);
   const [editingTransaction, setEditingTransaction] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-    console.count("DailySpendingPage Render");
-  
-    useEffect(() => {
-      console.log("DailySpendingPage MOUNTED");
-  
-      return () => {
-        console.log("DailySpendingPage UNMOUNTED");
-      };
-    }, []);
-  
- 
-    useEffect(() => {
-      const handleVisibilityChange = () => {
-        console.log("Tab visibility:", document.visibilityState);
-      };
-    
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-    
-      return () => {
-        document.removeEventListener(
-          "visibilitychange",
-          handleVisibilityChange
-        );
-      };
-    }, []);
-  
+  // Year and month selection
+  const currentYear = new Date().getFullYear();
 
+  const [selectedYear, selectedMonthNumber] = selectedMonth.split("-");
 
-  // Fetch transactions whenever the page loads
+  const years = Array.from(
+    { length: currentYear - 2000 + 3 },
+    (_, index) => currentYear + 2 - index
+  );
+
+  // Fetch transactions whenever the selected month changes.
   useEffect(() => {
     let active = true;
 
@@ -58,7 +78,12 @@ function DailySpendingPage() {
         setLoading(true);
         setError("");
 
-        const data = await transactionService.getAll();
+        const { startDate, endDate } = getMonthRange(selectedMonth);
+
+        const data = await transactionService.getAll({
+          startDate,
+          endDate,
+        });
 
         if (active) {
           setTransactions(data);
@@ -68,6 +93,7 @@ function DailySpendingPage() {
 
         if (active) {
           setError(err.message || "Unable to load transactions.");
+          setTransactions([]);
         }
       } finally {
         if (active) {
@@ -81,8 +107,9 @@ function DailySpendingPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [selectedMonth]);
 
+  // Calculate totals for the selected month.
   const { totalIncome, totalExpense, totalBalance } = useMemo(() => {
     const totals = transactions.reduce(
       (result, transaction) => {
@@ -90,13 +117,16 @@ function DailySpendingPage() {
 
         if (transaction.type === "income") {
           result.totalIncome += amount;
-        } else {
+        } else if (transaction.type === "expense") {
           result.totalExpense += amount;
         }
 
         return result;
       },
-      { totalIncome: 0, totalExpense: 0 }
+      {
+        totalIncome: 0,
+        totalExpense: 0,
+      }
     );
 
     return {
@@ -142,24 +172,25 @@ function DailySpendingPage() {
     }
   }, []);
 
-  // Create or update transaction in Supabase
-
+  // Create or update a transaction.
   const handleSave = async (entry) => {
     try {
       setSaving(true);
       setError("");
 
       if (editingTransaction) {
-        await transactionService.update(
-          editingTransaction.id,
-          entry
-        );
+        await transactionService.update(editingTransaction.id, entry);
       } else {
         await transactionService.create(entry);
       }
 
-      // Always retrieve the latest transactions from Supabase.
-      const updatedTransactions = await transactionService.getAll();
+      // Refresh the currently selected month's transactions.
+      const { startDate, endDate } = getMonthRange(selectedMonth);
+
+      const updatedTransactions = await transactionService.getAll({
+        startDate,
+        endDate,
+      });
 
       setTransactions(updatedTransactions);
 
@@ -172,6 +203,20 @@ function DailySpendingPage() {
     }
   };
 
+  // Current month defaults to today.
+  // Previous months default to the first day of that month.
+  const defaultTransactionDate =
+    selectedMonth === getCurrentMonth()
+      ? getLocalDateKey()
+      : `${selectedMonth}-01`;
+
+  // Keep the initial value stable while the modal is open.
+  const newTransactionInitial = useMemo(
+    () => ({
+      date: defaultTransactionDate,
+    }),
+    [defaultTransactionDate]
+  );
 
   return (
     <div className="page-container">
@@ -182,6 +227,62 @@ function DailySpendingPage() {
       />
 
       <div className="content-card daily-spending-card">
+
+        {/* Year and Month Selection */}
+        <div className="spending-month-selector">
+
+          <div>
+            <label htmlFor="spending-year">Year</label>
+
+            <select
+              id="spending-year"
+              value={selectedYear}
+              onChange={(event) => {
+                setSelectedMonth(
+                  `${event.target.value}-${selectedMonthNumber}`
+                );
+              }}
+            >
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="spending-month">Month</label>
+
+            <select
+              id="spending-month"
+              value={selectedMonthNumber}
+              onChange={(event) => {
+                setSelectedMonth(
+                  `${selectedYear}-${event.target.value}`
+                );
+              }}
+            >
+              {MONTHS.map((month) => (
+                <option key={month.value} value={month.value}>
+                  {month.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            type="button"
+            className="current-month-button"
+            onClick={() => setSelectedMonth(getCurrentMonth())}
+            disabled={selectedMonth === getCurrentMonth()}
+          >
+            Current Month
+          </button>
+
+        </div>
+
+        {/* Action Buttons and Totals */}
         <div className="action-bar">
           <div className="action-buttons">
             <Button
@@ -223,27 +324,34 @@ function DailySpendingPage() {
           </div>
         )}
 
-        <Suspense fallback={<p>Loading component...</p>}>
-          {loading ? (
-            <p>Loading transactions...</p>
-          ) : (
+        {/* Transactions Table */}
+        {loading ? (
+          <p>Loading transactions...</p>
+        ) : (
+          <Suspense fallback={<p>Loading table...</p>}>
             <TransactionsTable
               title="Your Daily Transactions"
               transactions={transactions}
               onEdit={handleEdit}
               onDelete={handleDelete}
             />
-          )}
+          </Suspense>
+        )}
 
+        {/* Transaction Modal */}
+        <Suspense fallback={null}>
           <TransactionFormModal
             open={Boolean(modalType)}
             type={modalType || "expense"}
-            initialTransaction={editingTransaction}
+            initialTransaction={
+              editingTransaction || newTransactionInitial
+            }
             onClose={closeModal}
             onSave={handleSave}
             loading={saving}
           />
         </Suspense>
+
       </div>
     </div>
   );
