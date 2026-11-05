@@ -2,6 +2,8 @@
 import { useMemo, useState, memo, useEffect } from "react";
 import { Filter, Pencil, Trash2, Search } from "lucide-react";
 import DateRangePicker from "../common/DateRangePicker";
+import InfoModal from "../Modal/InfoModal";
+import NotesCell from "../Modal/NotesCell";
 import "./TransactionsTable.css";
 
 function formatAmount(amount, type) {
@@ -59,6 +61,7 @@ function TransactionsTable({
   const [toDate, setToDate] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedNote, setSelectedNote] = useState(null);
   const ITEMS_PER_PAGE = 10;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -251,7 +254,12 @@ function TransactionsTable({
                   <td>{transaction.category || "—"}</td>
                   <td>{transaction.subcategory || "—"}</td>
                   <td>{transaction.title || "—"}</td>
-                  <td>{transaction.notes || "—"}</td>
+                  <td className="notes-cell">
+                    <NotesCell
+                      notes={transaction.notes}
+                      onView={setSelectedNote}
+                    />
+                  </td>
 
                   <td className={`text-right amount-${transaction.type}`}>
                     {formatAmount(transaction.amount, transaction.type)}
@@ -338,6 +346,27 @@ function TransactionsTable({
           </div>
         </div>
       )}
+
+      <InfoModal
+        isOpen={selectedNote !== null}
+        onClose={() => setSelectedNote(null)}
+        title="Transaction Notes"
+        maxWidth="500px"
+        footer={
+          <button
+            type="button"
+            className="popup-close-button"
+            onClick={() => setSelectedNote(null)}
+          >
+            Close
+          </button>
+        }
+      >
+        <div className="notes-modal-content">
+          {selectedNote}
+        </div>
+      </InfoModal>
+
     </section>
   );
 }
