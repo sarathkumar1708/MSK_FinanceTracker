@@ -2,17 +2,17 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Suspense } from "react";
 
-import PageHeader from "../../components/common/PageHeader";
-import Button from "../../components/common/Button";
-import { transactionService } from "../../services/transactionService";
+import PageHeader from "../../../components/common/PageHeader";
+import Button from "../../../components/common/Button";
+import { transactionService } from "../../../services/transactionService";
 
 import {
   TransactionsTable,
   TransactionFormModal,
-} from "../../utils/lazyComponents";
+} from "../../../utils/lazyComponents";
 
 import "./DailySpendingPage.css";
-import { MONTHS } from "../../data/data";
+import { MONTHS } from "../../../data/data";
 
 function formatTotal(amount) {
   return Number(amount || 0).toLocaleString(undefined, {
