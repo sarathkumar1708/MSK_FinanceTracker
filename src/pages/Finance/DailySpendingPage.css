@@ -1,0 +1,62 @@
+
+.spending-month-selector {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .spending-month-selector > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .spending-month-selector label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+  }
+  
+  .spending-month-selector select {
+    min-width: 140px;
+    padding: 10px 12px;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    background: #fff;
+    color: #1e293b;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .current-month-button {
+    padding: 10px 14px;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    background: #fff;
+    color: #2563eb;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .current-month-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 600px) {
+    .spending-month-selector {
+      justify-content: flex-start;
+    }
+  
+    .spending-month-selector > div {
+      flex: 1;
+    }
+  
+    .spending-month-selector select {
+      width: 100%;
+    }
+  }
+  

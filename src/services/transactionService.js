@@ -71,14 +71,22 @@ export const transactionService = {
         return user;
     },
 
-    // Retrieve all transactions belonging to the current user.
-    async getAll() {
+    async getAll({ startDate, endDate } = {}) {
         const user = await this.getCurrentUser();
 
-        const { data, error } = await supabase
+        let query = supabase
             .from("transactions")
             .select(transactionSelect)
-            .eq("user_id", user.id)
+            .eq("user_id", user.id);
+
+        // Apply month filter when dates are provided
+        if (startDate && endDate) {
+            query = query
+                .gte("transaction_date", startDate)
+                .lt("transaction_date", endDate);
+        }
+
+        const { data, error } = await query
             .order("transaction_date", { ascending: false })
             .order("created_at", { ascending: false });
 
