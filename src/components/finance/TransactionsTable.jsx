@@ -1,5 +1,5 @@
 
-import { useMemo, useState, memo } from "react";
+import { useMemo, useState, memo, useEffect } from "react";
 import { Filter, Pencil, Trash2, Search } from "lucide-react";
 import DateRangePicker from "../common/DateRangePicker";
 import "./TransactionsTable.css";
@@ -59,6 +59,10 @@ function TransactionsTable({
   const [toDate, setToDate] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const ITEMS_PER_PAGE = 10;
+
+  const [currentPage, setCurrentPage] = useState(1);
+
 
   const filteredTransactions = useMemo(() => {
     const search = searchTerm.trim().toLowerCase();
@@ -104,6 +108,38 @@ function TransactionsTable({
 
   const hasActiveFilters = Boolean(
     searchTerm.trim() || fromDate || toDate || typeFilter
+  );
+
+  // Calculate pagination
+  const totalPages = Math.ceil(
+    filteredTransactions.length / ITEMS_PER_PAGE
+  );
+
+  // Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, fromDate, toDate, typeFilter]);
+
+  // Keep current page valid when transactions are deleted
+  useEffect(() => {
+    setCurrentPage((current) =>
+      Math.min(current, Math.max(totalPages, 1))
+    );
+  }, [totalPages]);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const paginatedTransactions = filteredTransactions.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
+  const startRecord =
+    filteredTransactions.length === 0 ? 0 : startIndex + 1;
+
+  const endRecord = Math.min(
+    startIndex + ITEMS_PER_PAGE,
+    filteredTransactions.length
   );
 
   return (
@@ -200,7 +236,7 @@ function TransactionsTable({
                 </td>
               </tr>
             ) : (
-              filteredTransactions.map((transaction) => (
+              paginatedTransactions.map((transaction) => (
                 <tr key={transaction.id}>
                   <td>{formatDisplayDate(transaction.date)}</td>
 
@@ -250,6 +286,58 @@ function TransactionsTable({
           </tbody>
         </table>
       </div>
+      {totalPages > 1 && (
+        <div className="pagination-container">
+
+          <div className="pagination-info">
+            Showing <strong>{startRecord}</strong> to{" "}
+            <strong>{endRecord}</strong> of{" "}
+            <strong>{filteredTransactions.length}</strong> transactions
+          </div>
+
+          <div className="pagination-controls">
+
+            <button
+              type="button"
+              className="pagination-button"
+              disabled={currentPage === 1}
+              onClick={() =>
+                setCurrentPage((page) => Math.max(page - 1, 1))
+              }
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+              (page) => (
+                <button
+                  key={page}
+                  type="button"
+                  className={`pagination-button ${currentPage === page ? "active" : ""
+                    }`}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </button>
+              )
+            )}
+
+            <button
+              type="button"
+              className="pagination-button"
+              disabled={currentPage === totalPages}
+              onClick={() =>
+                setCurrentPage((page) =>
+                  Math.min(page + 1, totalPages)
+                )
+              }
+            >
+              Next
+            </button>
+
+          </div>
+        </div>
+      )}
     </section>
   );
 }
