@@ -1,0 +1,43 @@
+.notes-cell {
+    width: 280px;
+    max-width: 280px;
+  }
+  
+  .notes-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    min-width: 0;
+    vertical-align: middle;
+  }
+  
+  .notes-text {
+    display: block;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 230px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .notes-info-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+  }
+  
+  .notes-info-button:hover {
+    background: #eff6ff;
+    color: #2563eb;
+  }
