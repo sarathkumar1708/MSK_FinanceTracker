@@ -1,0 +1,155 @@
+
+/* ==============================
+   TRANSACTION TABLE FILTERS
+================================ */
+
+.transactions-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .transactions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  
+  .transactions-title {
+    flex-shrink: 0;
+  }
+  
+  .transactions-filters {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-left: auto;
+  }
+  
+  .filter-card {
+    min-width: 145px;
+  }
+  
+  .transactions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  
+  .transactions-filters {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: nowrap;
+    margin-left: auto;
+    width: auto;
+  }
+  
+  .filter-card-search {
+    min-width: 220px;
+    width: 240px;
+    flex: 0 0 240px;
+  }
+  
+  .filter-card-range {
+    min-width: 250px;
+    flex: 0 0 250px;
+  }
+  
+  .filter-card-type {
+    min-width: 125px;
+    flex: 0 0 125px;
+  }
+  
+  .filter-card-search input {
+    width: 100%;
+    min-width: 0;
+  }
+  
+  .filter-card-range {
+    min-width: 250px;
+  }
+  
+  .filter-card-type {
+    min-width: 125px;
+  }
+  
+  .filter-card input,
+  .filter-card select {
+    width: 100%;
+    min-width: 0;
+  }
+  
+  .filter-clear-button {
+    align-self: center;
+    white-space: nowrap;
+  }
+  
+  /* ==============================
+     RESPONSIVE FILTERS
+  ================================ */
+  
+  @media (max-width: 1100px) {
+    .transactions-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .transactions-filters {
+      width: 100%;
+      margin-left: 0;
+      justify-content: flex-start;
+    }
+  
+    .filter-card-search {
+      flex: 1 1 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .transactions-filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+  
+    .filter-card-search {
+      grid-column: 1 / -1;
+    }
+  
+    .filter-card-range {
+      min-width: 0;
+    }
+  
+    .filter-card-type {
+      min-width: 0;
+    }
+  
+    .filter-clear-button {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 420px) {
+    .transactions-filters {
+      grid-template-columns: 1fr;
+    }
+  
+    .filter-card-search {
+      grid-column: auto;
+    }
+  
+    .filter-clear-button {
+      grid-column: auto;
+    }
+  }
+  

@@ -1,10 +1,10 @@
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { Suspense } from "react";
 import PageHeader from "../../components/common/PageHeader";
 import Button from "../../components/common/Button";
-import TransactionsTable from "../../components/finance/TransactionsTable";
-import TransactionFormModal from "../../components/finance/TransactionFormModal";
 import { transactionService } from "../../services/transactionService";
+import { TransactionsTable, TransactionFormModal } from "../../utils/lazyComponents";
 
 function formatTotal(amount) {
   return Number(amount || 0).toLocaleString(undefined, {
@@ -20,6 +20,34 @@ function DailySpendingPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+    console.count("DailySpendingPage Render");
+  
+    useEffect(() => {
+      console.log("DailySpendingPage MOUNTED");
+  
+      return () => {
+        console.log("DailySpendingPage UNMOUNTED");
+      };
+    }, []);
+  
+ 
+    useEffect(() => {
+      const handleVisibilityChange = () => {
+        console.log("Tab visibility:", document.visibilityState);
+      };
+    
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+    
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    }, []);
+  
+
 
   // Fetch transactions whenever the page loads
   useEffect(() => {
@@ -84,23 +112,22 @@ function DailySpendingPage() {
         ? "negative"
         : "neutral";
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalType(null);
     setEditingTransaction(null);
-  };
+  }, []);
 
-  const openCreateModal = (type) => {
+  const openCreateModal = useCallback((type) => {
     setEditingTransaction(null);
     setModalType(type);
-  };
+  }, []);
 
-  const handleEdit = (transaction) => {
+  const handleEdit = useCallback((transaction) => {
     setEditingTransaction(transaction);
     setModalType(transaction.type || "expense");
-  };
+  }, []);
 
-  // Delete transaction from Supabase
-  const handleDelete = async (transaction) => {
+  const handleDelete = useCallback(async (transaction) => {
     try {
       setError("");
 
@@ -113,7 +140,7 @@ function DailySpendingPage() {
       console.error("Delete transaction failed:", err);
       setError(err.message || "Unable to delete transaction.");
     }
-  };
+  }, []);
 
   // Create or update transaction in Supabase
 
@@ -121,7 +148,7 @@ function DailySpendingPage() {
     try {
       setSaving(true);
       setError("");
-  
+
       if (editingTransaction) {
         await transactionService.update(
           editingTransaction.id,
@@ -130,12 +157,12 @@ function DailySpendingPage() {
       } else {
         await transactionService.create(entry);
       }
-  
+
       // Always retrieve the latest transactions from Supabase.
       const updatedTransactions = await transactionService.getAll();
-  
+
       setTransactions(updatedTransactions);
-  
+
       closeModal();
     } catch (err) {
       console.error("Save transaction failed:", err);
@@ -144,7 +171,7 @@ function DailySpendingPage() {
       setSaving(false);
     }
   };
-  
+
 
   return (
     <div className="page-container">
@@ -196,26 +223,28 @@ function DailySpendingPage() {
           </div>
         )}
 
-        {loading ? (
-          <p>Loading transactions...</p>
-        ) : (
-          <TransactionsTable
-            title="Your Daily Transactions"
-            transactions={transactions}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        )}
-      </div>
+        <Suspense fallback={<p>Loading component...</p>}>
+          {loading ? (
+            <p>Loading transactions...</p>
+          ) : (
+            <TransactionsTable
+              title="Your Daily Transactions"
+              transactions={transactions}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          )}
 
-      <TransactionFormModal
-        open={Boolean(modalType)}
-        type={modalType || "expense"}
-        initialTransaction={editingTransaction}
-        onClose={closeModal}
-        onSave={handleSave}
-        loading={saving}
-      />
+          <TransactionFormModal
+            open={Boolean(modalType)}
+            type={modalType || "expense"}
+            initialTransaction={editingTransaction}
+            onClose={closeModal}
+            onSave={handleSave}
+            loading={saving}
+          />
+        </Suspense>
+      </div>
     </div>
   );
 }

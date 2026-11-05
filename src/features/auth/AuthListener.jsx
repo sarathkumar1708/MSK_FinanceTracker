@@ -1,62 +1,46 @@
-
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import { supabase } from "../../lib/supabase";
 
+import { setSession } from "./authSlice";
 import {
-  setSession,
-  setAuthError,
-} from "./authSlice";
-
-import { fetchMyPermissions, clearPermissions } from "../permissions/permissionSlice";
+  fetchMyPermissions,
+  clearPermissions,
+} from "../permissions/permissionSlice";
 
 export default function AuthListener({ children }) {
   const dispatch = useDispatch();
+  const lastUserId = useRef(null);
 
   useEffect(() => {
-    let mounted = true;
-
-    // Restore existing session
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!mounted) return;
-
-      if (error) {
-        dispatch(setAuthError(error.message));
-        dispatch(clearPermissions());
-        return;
-      }
-
-      const session = data.session;
-
-      dispatch(setSession(session));
-
-      if (session?.user?.id) {
-        dispatch(fetchMyPermissions());
-      } else {
-        dispatch(clearPermissions());
-      }
-    });
-
-    // Listen for login/logout events
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!mounted) return;
+      const userId = session?.user?.id ?? null;
 
+      // Temporary debugging
+      console.log("Supabase Auth Event:", event, {
+        userId,
+        hasSession: Boolean(session),
+      });
+
+      // Update the current session
       dispatch(setSession(session));
 
-      if (session?.user?.id) {
-        // Load permissions after login
-        dispatch(fetchMyPermissions());
+      if (userId) {
+        // Fetch permissions only when the authenticated user changes.
+        if (lastUserId.current !== userId) {
+          lastUserId.current = userId;
+          dispatch(fetchMyPermissions());
+        }
       } else {
-        // Clear permissions after logout
+        lastUserId.current = null;
         dispatch(clearPermissions());
       }
     });
 
     return () => {
-      mounted = false;
       subscription.unsubscribe();
     };
   }, [dispatch]);

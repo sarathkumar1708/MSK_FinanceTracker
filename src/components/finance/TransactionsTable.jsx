@@ -1,75 +1,110 @@
-import { useMemo, useState } from "react";
-import { Filter, Pencil, Trash2 } from "lucide-react";
+
+import { useMemo, useState, memo } from "react";
+import { Filter, Pencil, Trash2, Search } from "lucide-react";
 import DateRangePicker from "../common/DateRangePicker";
+import "./TransactionsTable.css";
 
 function formatAmount(amount, type) {
   const value = Number(amount) || 0;
+
   const formatted = value.toLocaleString(undefined, {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   });
 
   return type === "income" ? `+${formatted}` : `-${formatted}`;
 }
 
+// Convert a date into YYYY-MM-DD without timezone shifting.
 function toDateKey(value) {
   if (!value) return "";
 
-  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return value;
   }
 
   const parsed = new Date(value);
+
   if (Number.isNaN(parsed.getTime())) return "";
 
   const year = parsed.getFullYear();
   const month = String(parsed.getMonth() + 1).padStart(2, "0");
   const day = String(parsed.getDate()).padStart(2, "0");
+
   return `${year}-${month}-${day}`;
 }
 
-const formatDisplayDate = (date) => {
-  if (!date) return "";
+function formatDisplayDate(date) {
+  const dateKey = toDateKey(date);
 
-  const [year, month, day] = date.split("-");
+  if (!dateKey) return "—";
+
+  const [year, month, day] = dateKey.split("-");
 
   const monthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
   ];
 
   return `${day} ${monthNames[Number(month) - 1]} ${year}`;
-};
+}
 
 function TransactionsTable({
   title = "Your Daily Transactions",
   transactions = [],
   onEdit,
-  onDelete
+  onDelete,
 }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredTransactions = useMemo(() => {
+    const search = searchTerm.trim().toLowerCase();
+
     return transactions.filter((transaction) => {
-      const matchesType = !typeFilter || transaction.type === typeFilter;
+      // Search filter
+      const matchesSearch =
+        !search ||
+        [
+          transaction.title,
+          transaction.category,
+          transaction.subcategory,
+          transaction.notes,
+          transaction.amount,
+          formatAmount(transaction.amount, transaction.type),
+        ].some((value) =>
+          String(value ?? "").toLowerCase().includes(search)
+        );
+
+      // Type filter
+      const matchesType =
+        !typeFilter || transaction.type === typeFilter;
+
+      // Date filter
       const dateKey = toDateKey(transaction.date);
 
-      const matchesFrom = !fromDate || (dateKey && dateKey >= fromDate);
-      const matchesTo = !toDate || (dateKey && dateKey <= toDate);
+      const matchesFrom =
+        !fromDate || (dateKey && dateKey >= fromDate);
 
-      return matchesType && matchesFrom && matchesTo;
+      const matchesTo =
+        !toDate || (dateKey && dateKey <= toDate);
+
+      return matchesSearch && matchesType && matchesFrom && matchesTo;
     });
-  }, [transactions, fromDate, toDate, typeFilter]);
+  }, [transactions, searchTerm, fromDate, toDate, typeFilter]);
 
   const clearFilters = () => {
+    setSearchTerm("");
     setFromDate("");
     setToDate("");
     setTypeFilter("");
   };
 
-  const hasActiveFilters = Boolean(fromDate || toDate || typeFilter);
+  const hasActiveFilters = Boolean(
+    searchTerm.trim() || fromDate || toDate || typeFilter
+  );
 
   return (
     <section className="transactions-section">
@@ -77,10 +112,29 @@ function TransactionsTable({
         <h2 className="transactions-title">{title}</h2>
 
         <div className="transactions-filters">
+
+          {/* Search */}
+          <div className="filter-card filter-card-search">
+            <div className="filter-card-label">
+              <Search size={15} />
+              <span>Search</span>
+            </div>
+
+            <input
+              type="search"
+              placeholder="Search transactions..."
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              aria-label="Search transactions"
+            />
+          </div>
+
+          {/* Date Range */}
           <div className="filter-card filter-card-range">
             <div className="filter-card-label">
               <span>Date range</span>
             </div>
+
             <DateRangePicker
               fromDate={fromDate}
               toDate={toDate}
@@ -91,11 +145,13 @@ function TransactionsTable({
             />
           </div>
 
-          <div className="filter-card">
+          {/* Type Filter */}
+          <div className="filter-card filter-card-type">
             <div className="filter-card-label">
               <Filter size={15} />
               <span>Type</span>
             </div>
+
             <select
               value={typeFilter}
               onChange={(event) => setTypeFilter(event.target.value)}
@@ -106,6 +162,7 @@ function TransactionsTable({
             </select>
           </div>
 
+          {/* Clear Filters */}
           {hasActiveFilters && (
             <button
               type="button"
@@ -132,6 +189,7 @@ function TransactionsTable({
               <th className="text-center">Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {filteredTransactions.length === 0 ? (
               <tr>
@@ -145,33 +203,40 @@ function TransactionsTable({
               filteredTransactions.map((transaction) => (
                 <tr key={transaction.id}>
                   <td>{formatDisplayDate(transaction.date)}</td>
+
                   <td>
-                    <span className={`type-badge type-${transaction.type}`}>
+                    <span
+                      className={`type-badge type-${transaction.type}`}
+                    >
                       {transaction.type === "income" ? "Income" : "Expense"}
                     </span>
                   </td>
-                  <td>{transaction.category}</td>
-                  <td>{transaction.subcategory}</td>
-                  <td>{transaction.title}</td>
+
+                  <td>{transaction.category || "—"}</td>
+                  <td>{transaction.subcategory || "—"}</td>
+                  <td>{transaction.title || "—"}</td>
                   <td>{transaction.notes || "—"}</td>
+
                   <td className={`text-right amount-${transaction.type}`}>
                     {formatAmount(transaction.amount, transaction.type)}
                   </td>
+
                   <td>
                     <div className="table-actions">
                       <button
                         type="button"
                         className="icon-action-button edit"
-                        aria-label={`Edit ${transaction.title}`}
+                        aria-label={`Edit ${transaction.title || "transaction"}`}
                         title="Edit"
                         onClick={() => onEdit?.(transaction)}
                       >
                         <Pencil size={16} />
                       </button>
+
                       <button
                         type="button"
                         className="icon-action-button delete"
-                        aria-label={`Delete ${transaction.title}`}
+                        aria-label={`Delete ${transaction.title || "transaction"}`}
                         title="Delete"
                         onClick={() => onDelete?.(transaction)}
                       >
@@ -189,4 +254,4 @@ function TransactionsTable({
   );
 }
 
-export default TransactionsTable;
+export default memo(TransactionsTable);
