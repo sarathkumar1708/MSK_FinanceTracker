@@ -1,15 +1,17 @@
 
-import {Navigate,Route,Routes,} from "react-router-dom";
+import { Navigate, Route, Routes, } from "react-router-dom";
 import { useSelector } from "react-redux";
 import MainLayout from "../components/layout/MainLayout";
 import TrackerPage from "../pages/TrackerPage";
-import DailySpendingPage from "../pages/Finance/DailySpendingPage";
-import Dashboard from "../pages/Finance/Dashboard";
+import DailySpendingPage from "../pages/Finance/DailySpending/DailySpendingPage";
+import Dashboard from "../pages/Finance/Dashboard/Dashboard";
 import RoleManagement from "../pages/roleManagement/RoleManagement";
 import UsersManagement from "../pages/roleManagement/UsersManagement";
 import { navigationItems } from "../config/navigation";
-import {selectHasPermission,selectIsAdmin,selectPermissionLoading} from "../features/permissions/permissionSlice";
+import { selectHasPermission, selectIsAdmin, selectPermissionLoading } from "../features/permissions/permissionSlice";
 import Login from "../pages/Login/Login";
+import MonthlySpendingPage from "../pages/Finance/MonthlySpending/MonthlySpendingPage";
+import YearlySpendingPage from "../pages/Finance/YearlySpending/YearlySpendingPage";
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
     const isAdmin = useSelector(selectIsAdmin);
@@ -34,11 +36,13 @@ function ProtectedPage({ componentKey, adminOnly, children }) {
 }
 
 const customPages = {
-    "/finance/daily-spending": DailySpendingPage,
+    "/login": Login,
     "/finance/dashboard": Dashboard,
+    "/finance/daily-spending": DailySpendingPage,
+    "/finance/monthly-spending": MonthlySpendingPage,
+    "/finance/yearly-spending": YearlySpendingPage,
     "/user-management/roles": RoleManagement,
     "/user-management/users": UsersManagement,
-    "/login" : Login,
 };
 
 function AppRoutes() {
