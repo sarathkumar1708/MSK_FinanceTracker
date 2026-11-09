@@ -8,6 +8,8 @@ import {
     fetchDebtData,
     saveMonthlySnapshot,
     createPayment,
+    updatePayment,
+    deletePayment
 } from "../../../debtSlice";
 
 export default function MonthlyDebtUpdateContainer() {
@@ -32,6 +34,8 @@ export default function MonthlyDebtUpdateContainer() {
         await dispatch(createPayment(paymentData)).unwrap();
     };
 
+
+
     return (
         <MonthlyDebtUpdate
             debts={debts}
@@ -40,6 +44,12 @@ export default function MonthlyDebtUpdateContainer() {
             onSave={handleSave}
             onPayment={handlePayment}
             paymentSaving={loading}
+            onUpdatePayment={(payload) =>
+                dispatch(updatePayment(payload)).unwrap()
+            }
+            onDeletePayment={(id) =>
+                dispatch(deletePayment(id)).unwrap()
+            }
         />
     );
 }

@@ -201,6 +201,14 @@
     background: #1d4ed8;
 }
 
+.debt-tenure-preview {
+    display: block;
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .debt-modal-overlay {

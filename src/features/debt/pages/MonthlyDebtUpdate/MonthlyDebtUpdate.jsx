@@ -1,4 +1,6 @@
+
 import { useMemo, useState } from "react";
+
 import {
     ArrowLeft,
     House,
@@ -16,12 +18,16 @@ import {
     Pencil,
     X,
     Save,
+    Trash2,
+    ChevronDown,
+    ChevronUp,
 } from "lucide-react";
 
 import {
     DebtPageHeader,
     DebtSection,
     formatCurrency,
+    formatTenure,
 } from "../../components/DebtShared/DebtShared";
 
 import DebtCategoryCard from "../../components/DebtCategoryCard/DebtCategoryCard";
@@ -73,12 +79,26 @@ const getPreviousMonthClosing = (snapshots, month) => {
     return previousSnapshots[0]?.closing_outstanding ?? "";
 };
 
+const initialPaymentEditData = {
+    paid_date: "",
+    payment_type: "EMI",
+    amount: "",
+    principal_amount: "",
+    interest_amount: "",
+    balance_after_payment: "",
+    payment_mode: "",
+    transaction_reference: "",
+    notes: "",
+};
+
 export default function MonthlyDebtUpdate({
     debts = [],
     monthlySnapshots = [],
     payments = [],
     onSave,
     onPayment,
+    onUpdatePayment,
+    onDeletePayment,
     paymentSaving = false,
 }) {
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -87,6 +107,7 @@ export default function MonthlyDebtUpdate({
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
     const [editingMonth, setEditingMonth] = useState(null);
+
     const [formData, setFormData] = useState({
         month: getMonthValue(new Date()),
         opening_outstanding: "",
@@ -97,10 +118,21 @@ export default function MonthlyDebtUpdate({
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState("");
 
+    // Recorded payment states
+    const [expandedPaymentMonths, setExpandedPaymentMonths] = useState({});
+    const [editingPaymentId, setEditingPaymentId] = useState(null);
+    const [paymentEditData, setPaymentEditData] = useState({
+        ...initialPaymentEditData,
+    });
+    const [paymentEditError, setPaymentEditError] = useState("");
+    const [paymentEditSaving, setPaymentEditSaving] = useState(false);
+
     const categoryData = useMemo(() => {
         return DEBT_CATEGORIES.map((category) => {
             const categoryDebts = debts.filter(
-                (debt) => debt.debt_type === category.value
+                (debt) =>
+                    debt.debt_type === category.value &&
+                    debt.status !== "closed"
             );
 
             return {
@@ -136,12 +168,16 @@ export default function MonthlyDebtUpdate({
     }, [debtSnapshots, selectedYear]);
 
     const getMonthPayments = (month) => {
-        return payments.filter((payment) => {
-            return (
-                payment.debt_id === selectedDebt?.id &&
-                payment.paid_date?.slice(0, 7) === month.slice(0, 7)
+        return payments
+            .filter((payment) => {
+                return (
+                    payment.debt_id === selectedDebt?.id &&
+                    payment.paid_date?.slice(0, 7) === month.slice(0, 7)
+                );
+            })
+            .sort((a, b) =>
+                (b.paid_date || "").localeCompare(a.paid_date || "")
             );
-        });
     };
 
     const getPaymentTotal = (monthPayments) => {
@@ -158,35 +194,51 @@ export default function MonthlyDebtUpdate({
                     payment.balance_after_payment !== null &&
                     payment.balance_after_payment !== undefined
             )
-            .sort((a, b) => b.paid_date.localeCompare(a.paid_date))[0];
+            .sort((a, b) =>
+                (b.paid_date || "").localeCompare(a.paid_date || "")
+            )[0];
 
         return latestPayment?.balance_after_payment;
     };
 
+    // =====================================
+    // CATEGORY / DEBT NAVIGATION
+    // =====================================
+
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
         setSelectedDebt(null);
+        setEditingPaymentId(null);
     };
 
     const handleBackToCategories = () => {
         setSelectedCategory(null);
         setSelectedDebt(null);
         setEditingMonth(null);
+        setEditingPaymentId(null);
     };
 
     const handleBackToDebts = () => {
         setSelectedDebt(null);
         setEditingMonth(null);
+        setEditingPaymentId(null);
     };
 
     const handleDebtClick = (debt) => {
         setSelectedDebt(debt);
         setSelectedYear(String(getCurrentYear()));
         setEditingMonth(null);
+        setEditingPaymentId(null);
+        setPaymentEditError("");
     };
+
+    // =====================================
+    // MONTHLY SNAPSHOT HANDLERS
+    // =====================================
 
     const handleAddMonth = () => {
         const month = getMonthValue(new Date());
+
         const previousClosing = getPreviousMonthClosing(
             debtSnapshots,
             month
@@ -198,11 +250,8 @@ export default function MonthlyDebtUpdate({
         setFormData({
             month,
             opening_outstanding:
-                previousClosing !== ""
-                    ? String(previousClosing)
-                    : "",
-            interest_rate:
-                selectedDebt?.interest_rate ?? "",
+                previousClosing !== "" ? String(previousClosing) : "",
+            interest_rate: selectedDebt?.interest_rate ?? "",
             closing_outstanding: "",
         });
     };
@@ -238,7 +287,9 @@ export default function MonthlyDebtUpdate({
         setFormError("");
 
         if (typeof onSave !== "function") {
-            setFormError("Save handler is not connected. Please check the container.");
+            setFormError(
+                "Save handler is not connected. Please check the container."
+            );
             return;
         }
 
@@ -251,7 +302,9 @@ export default function MonthlyDebtUpdate({
             formData.opening_outstanding === "" ||
             formData.closing_outstanding === ""
         ) {
-            setFormError("Please enter opening and closing outstanding amounts.");
+            setFormError(
+                "Please enter opening and closing outstanding amounts."
+            );
             return;
         }
 
@@ -269,7 +322,9 @@ export default function MonthlyDebtUpdate({
             opening < 0 ||
             closing < 0
         ) {
-            setFormError("Outstanding amounts must be valid non-negative numbers.");
+            setFormError(
+                "Outstanding amounts must be valid non-negative numbers."
+            );
             return;
         }
 
@@ -292,8 +347,6 @@ export default function MonthlyDebtUpdate({
         try {
             setSaving(true);
 
-            console.log("Saving monthly snapshot:", payload);
-
             await onSave(payload);
 
             setEditingMonth(null);
@@ -309,7 +362,10 @@ export default function MonthlyDebtUpdate({
         }
     };
 
-    // Payment Handler
+    // =====================================
+    // RECORD NEW PAYMENT
+    // =====================================
+
     const handleRecordPayment = () => {
         setIsPaymentModalOpen(true);
     };
@@ -321,7 +377,7 @@ export default function MonthlyDebtUpdate({
     };
 
     const handlePaymentSubmit = async (paymentData) => {
-        if (!onPayment) {
+        if (typeof onPayment !== "function") {
             throw new Error("Payment handler is not connected.");
         }
 
@@ -337,12 +393,186 @@ export default function MonthlyDebtUpdate({
         setIsPaymentModalOpen(false);
     };
 
+    // =====================================
+    // RECORDED PAYMENT EXPANSION
+    // =====================================
+
+    const toggleMonthPayments = (month) => {
+        setExpandedPaymentMonths((previous) => ({
+            ...previous,
+            [month]: !previous[month],
+        }));
+    };
+
+    // =====================================
+    // EDIT RECORDED PAYMENT
+    // =====================================
+
+    const handleStartEditPayment = (payment) => {
+        setEditingPaymentId(payment.id);
+        setPaymentEditError("");
+
+        setPaymentEditData({
+            paid_date: payment.paid_date || "",
+            payment_type: payment.payment_type || "EMI",
+            amount: payment.amount ?? "",
+            principal_amount: payment.principal_amount ?? "",
+            interest_amount: payment.interest_amount ?? "",
+            balance_after_payment: payment.balance_after_payment ?? "",
+            payment_mode: payment.payment_mode || "",
+            transaction_reference: payment.transaction_reference || "",
+            notes: payment.notes || "",
+        });
+    };
+
+    const handlePaymentEditChange = (event) => {
+        const { name, value } = event.target;
+
+        setPaymentEditData((previous) => ({
+            ...previous,
+            [name]: value,
+        }));
+    };
+
+    const handleCancelPaymentEdit = () => {
+        setEditingPaymentId(null);
+        setPaymentEditError("");
+        setPaymentEditData({ ...initialPaymentEditData });
+    };
+
+    const handleSavePaymentEdit = async (paymentId) => {
+        setPaymentEditError("");
+
+        if (typeof onUpdatePayment !== "function") {
+            setPaymentEditError(
+                "Payment update handler is not connected. Please check the container."
+            );
+            return;
+        }
+
+        if (!paymentEditData.paid_date) {
+            setPaymentEditError("Please select a payment date.");
+            return;
+        }
+
+        const amount = Number(paymentEditData.amount);
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+            setPaymentEditError("Please enter a valid payment amount.");
+            return;
+        }
+
+        const optionalAmounts = [
+            "principal_amount",
+            "interest_amount",
+            "balance_after_payment",
+        ];
+
+        for (const field of optionalAmounts) {
+            const value = paymentEditData[field];
+
+            if (
+                value !== "" &&
+                (!Number.isFinite(Number(value)) || Number(value) < 0)
+            ) {
+                setPaymentEditError(
+                    "Principal, interest and balance must be valid non-negative amounts."
+                );
+                return;
+            }
+        }
+
+        const payload = {
+            paid_date: paymentEditData.paid_date,
+            payment_type: paymentEditData.payment_type,
+            amount,
+            principal_amount:
+                paymentEditData.principal_amount === ""
+                    ? null
+                    : Number(paymentEditData.principal_amount),
+            interest_amount:
+                paymentEditData.interest_amount === ""
+                    ? null
+                    : Number(paymentEditData.interest_amount),
+            balance_after_payment:
+                paymentEditData.balance_after_payment === ""
+                    ? null
+                    : Number(paymentEditData.balance_after_payment),
+            payment_mode: paymentEditData.payment_mode.trim() || null,
+            transaction_reference:
+                paymentEditData.transaction_reference.trim() || null,
+            notes: paymentEditData.notes.trim() || null,
+        };
+
+        try {
+            setPaymentEditSaving(true);
+
+            await onUpdatePayment({
+                id: paymentId,
+                updates: payload,
+            });
+
+            setEditingPaymentId(null);
+            setPaymentEditData({ ...initialPaymentEditData });
+            setPaymentEditError("");
+        } catch (error) {
+            console.error("Payment update failed:", error);
+
+            setPaymentEditError(
+                error?.message || "Unable to update payment."
+            );
+        } finally {
+            setPaymentEditSaving(false);
+        }
+    };
+
+    // =====================================
+    // DELETE RECORDED PAYMENT
+    // =====================================
+
+    const handleDeleteRecordedPayment = async (payment) => {
+        if (typeof onDeletePayment !== "function") {
+            setPaymentEditError(
+                "Payment delete handler is not connected. Please check the container."
+            );
+            return;
+        }
+
+        const confirmed = window.confirm(
+            `Are you sure you want to delete this payment of ${formatCurrency(
+                payment.amount
+            )}?`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            await onDeletePayment(payment.id);
+
+            if (editingPaymentId === payment.id) {
+                handleCancelPaymentEdit();
+            }
+
+            setPaymentEditError("");
+        } catch (error) {
+            console.error("Payment delete failed:", error);
+
+            setPaymentEditError(
+                error?.message || "Unable to delete payment."
+            );
+        }
+    };
+
     return (
         <div className="debt-page">
             <DebtPageHeader
                 title="Monthly Debt Update"
                 description="Manage monthly outstanding balances and payment records for your debts."
             />
+
+            {/* =====================================
+                DEBT CATEGORIES
+            ===================================== */}
 
             {!selectedCategory && (
                 <DebtSection title="Debt Categories">
@@ -360,6 +590,10 @@ export default function MonthlyDebtUpdate({
                 </DebtSection>
             )}
 
+            {/* =====================================
+                DEBTS UNDER CATEGORY
+            ===================================== */}
+
             {selectedCategory && !selectedDebt && (
                 <DebtSection title={selectedCategory.label}>
                     <button
@@ -373,7 +607,7 @@ export default function MonthlyDebtUpdate({
 
                     {selectedCategory.debts.length === 0 ? (
                         <div className="debt-category-empty">
-                            No debts available in this category.
+                            No active debts available in this category.
                         </div>
                     ) : (
                         <div className="debt-category-debt-list">
@@ -387,7 +621,8 @@ export default function MonthlyDebtUpdate({
                                     <div>
                                         <strong>{debt.name}</strong>
                                         <span>
-                                            {debt.lender || "No lender specified"}
+                                            {debt.lender ||
+                                                "No lender specified"}
                                         </span>
                                     </div>
 
@@ -401,6 +636,10 @@ export default function MonthlyDebtUpdate({
                     )}
                 </DebtSection>
             )}
+
+            {/* =====================================
+                SELECTED DEBT DETAILS
+            ===================================== */}
 
             {selectedDebt && (
                 <>
@@ -435,7 +674,9 @@ export default function MonthlyDebtUpdate({
                             <div className="monthly-debt-info-card">
                                 <span>Original Amount</span>
                                 <strong>
-                                    {formatCurrency(selectedDebt.original_amount)}
+                                    {formatCurrency(
+                                        selectedDebt.original_amount
+                                    )}
                                 </strong>
                             </div>
 
@@ -443,18 +684,48 @@ export default function MonthlyDebtUpdate({
                                 <span>Interest Rate</span>
                                 <strong>
                                     {selectedDebt.interest_rate ?? "—"}
-                                    {selectedDebt.interest_rate != null ? "%" : ""}
+                                    {selectedDebt.interest_rate != null
+                                        ? "%"
+                                        : ""}
+                                </strong>
+                            </div>
+
+                            <div className="monthly-debt-info-card">
+                                <span>Total Tenure</span>
+                                <strong>
+                                    {selectedDebt.tenure_months != null
+                                        ? `${selectedDebt.tenure_months} months (${formatTenure(
+                                            selectedDebt.tenure_months
+                                        )})`
+                                        : "—"}
+                                </strong>
+                            </div>
+
+                            <div className="monthly-debt-info-card">
+                                <span>Remaining Tenure</span>
+                                <strong>
+                                    {selectedDebt.remaining_tenure_months != null
+                                        ? `${selectedDebt.remaining_tenure_months} months (${formatTenure(
+                                            selectedDebt.remaining_tenure_months
+                                        )})`
+                                        : "—"}
                                 </strong>
                             </div>
 
                             <div className="monthly-debt-info-card">
                                 <span>Status</span>
-                                <strong className={`monthly-debt-status ${selectedDebt.status}`}>
+                                <strong
+                                    className={`monthly-debt-status ${selectedDebt.status}`}
+                                >
                                     {selectedDebt.status}
                                 </strong>
                             </div>
                         </div>
                     </DebtSection>
+
+                    {/* =====================================
+                        MONTHLY RECORDS
+                    ===================================== */}
 
                     <DebtSection title="Monthly Records">
                         <div className="monthly-debt-toolbar">
@@ -496,6 +767,8 @@ export default function MonthlyDebtUpdate({
                                 Record Payment
                             </button>
                         </div>
+
+                        {/* MONTHLY SNAPSHOT FORM */}
 
                         {editingMonth && (
                             <form
@@ -595,11 +868,15 @@ export default function MonthlyDebtUpdate({
                                         disabled={saving}
                                     >
                                         <Save size={16} />
-                                        {saving ? "Saving..." : "Save Record"}
+                                        {saving
+                                            ? "Saving..."
+                                            : "Save Record"}
                                     </button>
                                 </div>
                             </form>
                         )}
+
+                        {/* MONTHLY RECORD CARDS */}
 
                         {yearlySnapshots.length === 0 ? (
                             <div className="debt-category-empty">
@@ -609,15 +886,22 @@ export default function MonthlyDebtUpdate({
                         ) : (
                             <div className="monthly-debt-record-list">
                                 {yearlySnapshots.map((snapshot) => {
-                                    const monthPayments = getMonthPayments(
-                                        snapshot.month
-                                    );
+                                    const monthKey =
+                                        snapshot.month.slice(0, 7);
+
+                                    const monthPayments =
+                                        getMonthPayments(snapshot.month);
 
                                     const paymentTotal =
                                         getPaymentTotal(monthPayments);
 
                                     const paidAfterOutstanding =
-                                        getPaidAfterOutstanding(monthPayments);
+                                        getPaidAfterOutstanding(
+                                            monthPayments
+                                        );
+
+                                    const isPaymentsExpanded =
+                                        !!expandedPaymentMonths[monthKey];
 
                                     return (
                                         <article
@@ -627,8 +911,11 @@ export default function MonthlyDebtUpdate({
                                             <div className="monthly-debt-record-header">
                                                 <div>
                                                     <h3>
-                                                        {getMonthLabel(snapshot.month)}
+                                                        {getMonthLabel(
+                                                            snapshot.month
+                                                        )}
                                                     </h3>
+
                                                     <span>
                                                         {monthPayments.length} payment
                                                         {monthPayments.length !== 1
@@ -649,9 +936,14 @@ export default function MonthlyDebtUpdate({
                                                 </button>
                                             </div>
 
+                                            {/* MONTHLY AMOUNTS */}
+
                                             <div className="monthly-debt-record-values">
                                                 <div>
-                                                    <span>Opening Outstanding</span>
+                                                    <span>
+                                                        Opening Outstanding
+                                                    </span>
+
                                                     <strong>
                                                         {formatCurrency(
                                                             snapshot.opening_outstanding
@@ -661,13 +953,19 @@ export default function MonthlyDebtUpdate({
 
                                                 <div>
                                                     <span>Total Payments</span>
+
                                                     <strong className="monthly-value-green">
-                                                        {formatCurrency(paymentTotal)}
+                                                        {formatCurrency(
+                                                            paymentTotal
+                                                        )}
                                                     </strong>
                                                 </div>
 
                                                 <div>
-                                                    <span>Paid After Outstanding</span>
+                                                    <span>
+                                                        Paid After Outstanding
+                                                    </span>
+
                                                     <strong className="monthly-value-red">
                                                         {paidAfterOutstanding != null
                                                             ? formatCurrency(
@@ -678,7 +976,10 @@ export default function MonthlyDebtUpdate({
                                                 </div>
 
                                                 <div>
-                                                    <span>Closing Outstanding</span>
+                                                    <span>
+                                                        Closing Outstanding
+                                                    </span>
+
                                                     <strong className="monthly-value-red">
                                                         {snapshot.closing_outstanding != null
                                                             ? formatCurrency(
@@ -690,6 +991,7 @@ export default function MonthlyDebtUpdate({
 
                                                 <div>
                                                     <span>Interest Rate</span>
+
                                                     <strong>
                                                         {snapshot.interest_rate != null
                                                             ? `${snapshot.interest_rate}%`
@@ -697,11 +999,465 @@ export default function MonthlyDebtUpdate({
                                                     </strong>
                                                 </div>
                                             </div>
+
+                                            {/* =====================================
+                                                VIEW RECORDED PAYMENTS
+                                            ===================================== */}
+
+                                            <div className="monthly-recorded-payments">
+                                                <button
+                                                    type="button"
+                                                    className="monthly-recorded-payments-toggle"
+                                                    onClick={() =>
+                                                        toggleMonthPayments(
+                                                            monthKey
+                                                        )
+                                                    }
+                                                >
+                                                    <span>
+                                                        {isPaymentsExpanded
+                                                            ? "Hide Recorded Payments"
+                                                            : "View Recorded Payments"}
+                                                        {" "}({monthPayments.length})
+                                                    </span>
+
+                                                    {isPaymentsExpanded ? (
+                                                        <ChevronUp size={17} />
+                                                    ) : (
+                                                        <ChevronDown size={17} />
+                                                    )}
+                                                </button>
+
+                                                {isPaymentsExpanded && (
+                                                    <div className="monthly-recorded-payment-list">
+                                                        {monthPayments.length === 0 ? (
+                                                            <p className="monthly-no-payments">
+                                                                No payments recorded
+                                                                for this month.
+                                                            </p>
+                                                        ) : (
+                                                            monthPayments.map(
+                                                                (payment) => (
+                                                                    <div
+                                                                        className="monthly-recorded-payment-item"
+                                                                        key={payment.id}
+                                                                    >
+                                                                        {editingPaymentId ===
+                                                                            payment.id ? (
+                                                                            /* EDIT PAYMENT */
+                                                                            <div className="monthly-payment-edit-form">
+                                                                                <div className="monthly-payment-edit-header">
+                                                                                    <h4>
+                                                                                        Edit Payment
+                                                                                    </h4>
+
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        onClick={
+                                                                                            handleCancelPaymentEdit
+                                                                                        }
+                                                                                        disabled={
+                                                                                            paymentEditSaving
+                                                                                        }
+                                                                                        aria-label="Close payment edit form"
+                                                                                    >
+                                                                                        <X
+                                                                                            size={
+                                                                                                17
+                                                                                            }
+                                                                                        />
+                                                                                    </button>
+                                                                                </div>
+
+                                                                                <div className="monthly-payment-edit-grid">
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Payment Date
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="date"
+                                                                                            name="paid_date"
+                                                                                            value={
+                                                                                                paymentEditData.paid_date
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Payment Type
+                                                                                        </label>
+
+                                                                                        <select
+                                                                                            name="payment_type"
+                                                                                            value={
+                                                                                                paymentEditData.payment_type
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                        >
+                                                                                            <option value="EMI">
+                                                                                                EMI
+                                                                                            </option>
+
+                                                                                            <option value="PART_PAYMENT">
+                                                                                                Part Payment
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Payment Amount
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            name="amount"
+                                                                                            min="0.01"
+                                                                                            step="0.01"
+                                                                                            value={
+                                                                                                paymentEditData.amount
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Principal Amount
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            name="principal_amount"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            value={
+                                                                                                paymentEditData.principal_amount
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Interest Amount
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            name="interest_amount"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            value={
+                                                                                                paymentEditData.interest_amount
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Balance After Payment
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="number"
+                                                                                            name="balance_after_payment"
+                                                                                            min="0"
+                                                                                            step="0.01"
+                                                                                            value={
+                                                                                                paymentEditData.balance_after_payment
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Payment Mode
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="text"
+                                                                                            name="payment_mode"
+                                                                                            value={
+                                                                                                paymentEditData.payment_mode
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                            placeholder="e.g. UPI, Bank Transfer"
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <label>
+                                                                                            Transaction Reference
+                                                                                        </label>
+
+                                                                                        <input
+                                                                                            type="text"
+                                                                                            name="transaction_reference"
+                                                                                            value={
+                                                                                                paymentEditData.transaction_reference
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                            placeholder="Transaction reference"
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <div className="monthly-payment-edit-full">
+                                                                                        <label>
+                                                                                            Notes
+                                                                                        </label>
+
+                                                                                        <textarea
+                                                                                            name="notes"
+                                                                                            rows={
+                                                                                                2
+                                                                                            }
+                                                                                            value={
+                                                                                                paymentEditData.notes
+                                                                                            }
+                                                                                            onChange={
+                                                                                                handlePaymentEditChange
+                                                                                            }
+                                                                                            placeholder="Additional information"
+                                                                                        />
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                {paymentEditError && (
+                                                                                    <p className="monthly-debt-form-error">
+                                                                                        {
+                                                                                            paymentEditError
+                                                                                        }
+                                                                                    </p>
+                                                                                )}
+
+                                                                                <div className="monthly-payment-edit-actions">
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="monthly-debt-cancel-button"
+                                                                                        onClick={
+                                                                                            handleCancelPaymentEdit
+                                                                                        }
+                                                                                        disabled={
+                                                                                            paymentEditSaving
+                                                                                        }
+                                                                                    >
+                                                                                        Cancel
+                                                                                    </button>
+
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="monthly-debt-save-button"
+                                                                                        onClick={() =>
+                                                                                            handleSavePaymentEdit(
+                                                                                                payment.id
+                                                                                            )
+                                                                                        }
+                                                                                        disabled={
+                                                                                            paymentEditSaving
+                                                                                        }
+                                                                                    >
+                                                                                        <Save
+                                                                                            size={
+                                                                                                15
+                                                                                            }
+                                                                                        />
+
+                                                                                        {paymentEditSaving
+                                                                                            ? "Saving..."
+                                                                                            : "Update Payment"}
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        ) : (
+                                                                            /* PAYMENT DETAILS */
+                                                                            <>
+                                                                                <div className="monthly-recorded-payment-header">
+                                                                                    <div>
+                                                                                        <h4>
+                                                                                            {payment.payment_type ===
+                                                                                                "PART_PAYMENT"
+                                                                                                ? "Part Payment"
+                                                                                                : "EMI Payment"}
+                                                                                        </h4>
+
+                                                                                        <span>
+                                                                                            {payment.paid_date ||
+                                                                                                "—"}
+                                                                                        </span>
+                                                                                    </div>
+
+                                                                                    <div className="monthly-recorded-payment-actions">
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            onClick={() =>
+                                                                                                handleStartEditPayment(
+                                                                                                    payment
+                                                                                                )
+                                                                                            }
+                                                                                            title="Edit payment"
+                                                                                        >
+                                                                                            <Pencil
+                                                                                                size={
+                                                                                                    15
+                                                                                                }
+                                                                                            />
+                                                                                            Edit
+                                                                                        </button>
+
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            onClick={() =>
+                                                                                                handleDeleteRecordedPayment(
+                                                                                                    payment
+                                                                                                )
+                                                                                            }
+                                                                                            title="Delete payment"
+                                                                                        >
+                                                                                            <Trash2
+                                                                                                size={
+                                                                                                    15
+                                                                                                }
+                                                                                            />
+                                                                                            Delete
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className="monthly-recorded-payment-details">
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            Payment Amount
+                                                                                        </span>
+
+                                                                                        <strong className="monthly-payment-amount">
+                                                                                            {formatCurrency(
+                                                                                                payment.amount
+                                                                                            )}
+                                                                                        </strong>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            Principal
+                                                                                        </span>
+
+                                                                                        <strong>
+                                                                                            {payment.principal_amount != null
+                                                                                                ? formatCurrency(
+                                                                                                    payment.principal_amount
+                                                                                                )
+                                                                                                : "—"}
+                                                                                        </strong>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            Interest
+                                                                                        </span>
+
+                                                                                        <strong>
+                                                                                            {payment.interest_amount != null
+                                                                                                ? formatCurrency(
+                                                                                                    payment.interest_amount
+                                                                                                )
+                                                                                                : "—"}
+                                                                                        </strong>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            Balance After Payment
+                                                                                        </span>
+
+                                                                                        <strong>
+                                                                                            {payment.balance_after_payment != null
+                                                                                                ? formatCurrency(
+                                                                                                    payment.balance_after_payment
+                                                                                                )
+                                                                                                : "—"}
+                                                                                        </strong>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            Payment Mode
+                                                                                        </span>
+
+                                                                                        <strong>
+                                                                                            {payment.payment_mode ||
+                                                                                                "—"}
+                                                                                        </strong>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            Transaction Reference
+                                                                                        </span>
+
+                                                                                        <strong>
+                                                                                            {payment.transaction_reference ||
+                                                                                                "—"}
+                                                                                        </strong>
+                                                                                    </div>
+
+                                                                                    {payment.notes && (
+                                                                                        <div className="monthly-payment-notes">
+                                                                                            <span>
+                                                                                                Notes
+                                                                                            </span>
+
+                                                                                            <strong>
+                                                                                                {
+                                                                                                    payment.notes
+                                                                                                }
+                                                                                            </strong>
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+                                                                            </>
+                                                                        )}
+                                                                    </div>
+                                                                )
+                                                            )
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {paymentEditError && (
+                                                <p className="monthly-debt-form-error">
+                                                    {paymentEditError}
+                                                </p>
+                                            )}
                                         </article>
                                     );
                                 })}
                             </div>
                         )}
+
+                        {/* RECORD PAYMENT MODAL */}
 
                         <DebtPaymentModal
                             isOpen={isPaymentModalOpen}

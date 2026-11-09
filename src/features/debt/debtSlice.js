@@ -302,8 +302,21 @@ const debtSlice = createSlice({
             .addCase(deleteDebt.fulfilled, (state, action) => {
                 state.loading = false;
 
+                const deletedDebtId = action.payload;
+
+                // Remove debt
                 state.debts = state.debts.filter(
-                    (item) => item.id !== action.payload
+                    (item) => item.id !== deletedDebtId
+                );
+
+                // Remove related monthly snapshots
+                state.monthlySnapshots = state.monthlySnapshots.filter(
+                    (item) => item.debt_id !== deletedDebtId
+                );
+
+                // Remove related payments
+                state.payments = state.payments.filter(
+                    (item) => item.debt_id !== deletedDebtId
                 );
             })
 

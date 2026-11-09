@@ -28,7 +28,55 @@ const initialFormData = {
     start_date: "",
     original_amount: "",
     interest_rate: "",
+    tenure_months: "",
+    remaining_tenure_months: "",
     notes: "",
+};
+
+// Converts months into years and months.
+const formatTenure = (months) => {
+    if (months === "" || months === null || months === undefined) {
+        return "";
+    }
+
+    const totalMonths = Number(months);
+
+    if (!Number.isInteger(totalMonths) || totalMonths < 0) {
+        return "";
+    }
+
+    const years = Math.floor(totalMonths / 12);
+    const remainingMonths = totalMonths % 12;
+
+    const parts = [];
+
+    if (years > 0) {
+        parts.push(`${years} ${years === 1 ? "year" : "years"}`);
+    }
+
+    if (remainingMonths > 0) {
+        parts.push(
+            `${remainingMonths} ${
+                remainingMonths === 1 ? "month" : "months"
+            }`
+        );
+    }
+
+    return parts.length > 0 ? parts.join(" ") : "0 months";
+};
+
+const getTenurePreview = (months) => {
+    if (months === "" || months === null || months === undefined) {
+        return "";
+    }
+
+    const value = Number(months);
+
+    if (!Number.isInteger(value) || value < 0) {
+        return "";
+    }
+
+    return `${value} ${value === 1 ? "month" : "months"} (${formatTenure(value)})`;
 };
 
 export default function DebtFormModal({
@@ -46,18 +94,21 @@ export default function DebtFormModal({
             setFormData(
                 debt
                     ? {
-                        name: debt.name || "",
-                        debt_type: debt.debt_type || "",
-                        lender: debt.lender || "",
-                        loan_number:
-                            debt.loan_number ||
-                            debt.account_number_last4 ||
-                            "",
-                        start_date: debt.start_date || "",
-                        original_amount: debt.original_amount ?? "",
-                        interest_rate: debt.interest_rate ?? "",
-                        notes: debt.notes || "",
-                    }
+                          name: debt.name || "",
+                          debt_type: debt.debt_type || "",
+                          lender: debt.lender || "",
+                          loan_number:
+                              debt.loan_number ||
+                              debt.account_number_last4 ||
+                              "",
+                          start_date: debt.start_date || "",
+                          original_amount: debt.original_amount ?? "",
+                          interest_rate: debt.interest_rate ?? "",
+                          tenure_months: debt.tenure_months ?? "",
+                          remaining_tenure_months:
+                              debt.remaining_tenure_months ?? "",
+                          notes: debt.notes || "",
+                      }
                     : { ...initialFormData }
             );
 
@@ -110,6 +161,43 @@ export default function DebtFormModal({
             return;
         }
 
+        // Validate total tenure.
+        if (
+            formData.tenure_months !== "" &&
+            (
+                !Number.isInteger(Number(formData.tenure_months)) ||
+                Number(formData.tenure_months) <= 0
+            )
+        ) {
+            setFormError("Total tenure must be a positive whole number of months.");
+            return;
+        }
+
+        // Validate remaining tenure.
+        if (
+            formData.remaining_tenure_months !== "" &&
+            (
+                !Number.isInteger(Number(formData.remaining_tenure_months)) ||
+                Number(formData.remaining_tenure_months) < 0
+            )
+        ) {
+            setFormError("Remaining tenure must be zero or a positive whole number of months.");
+            return;
+        }
+
+        // Remaining tenure cannot exceed total tenure.
+        if (
+            formData.tenure_months !== "" &&
+            formData.remaining_tenure_months !== "" &&
+            Number(formData.remaining_tenure_months) >
+                Number(formData.tenure_months)
+        ) {
+            setFormError(
+                "Remaining tenure cannot be greater than total tenure."
+            );
+            return;
+        }
+
         const payload = {
             ...formData,
             name: formData.name.trim(),
@@ -122,15 +210,21 @@ export default function DebtFormModal({
                 formData.interest_rate === ""
                     ? null
                     : Number(formData.interest_rate),
+            tenure_months:
+                formData.tenure_months === ""
+                    ? null
+                    : Number(formData.tenure_months),
+            remaining_tenure_months:
+                formData.remaining_tenure_months === ""
+                    ? null
+                    : Number(formData.remaining_tenure_months),
             notes: formData.notes.trim() || null,
         };
 
         try {
             await onSubmit(payload);
         } catch (error) {
-            setFormError(
-                error.message || "Unable to save debt."
-            );
+            setFormError(error.message || "Unable to save debt.");
         }
     };
 
@@ -138,10 +232,7 @@ export default function DebtFormModal({
         <div
             className="debt-modal-overlay"
             onMouseDown={(e) => {
-                if (
-                    e.target === e.currentTarget &&
-                    !loading
-                ) {
+                if (e.target === e.currentTarget && !loading) {
                     onClose();
                 }
             }}
@@ -195,9 +286,7 @@ export default function DebtFormModal({
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="">
-                                    Select debt type
-                                </option>
+                                <option value="">Select debt type</option>
 
                                 {DEBT_TYPES.map((type) => (
                                     <option
@@ -268,6 +357,46 @@ export default function DebtFormModal({
                             />
                         </div>
 
+                        <div className="debt-form-group">
+                            <label>Total Tenure (Months)</label>
+                            <input
+                                type="number"
+                                name="tenure_months"
+                                value={formData.tenure_months}
+                                onChange={handleChange}
+                                placeholder="e.g. 240"
+                                min="1"
+                                step="1"
+                            />
+
+                            {formData.tenure_months !== "" && (
+                                <small className="debt-tenure-preview">
+                                    {getTenurePreview(formData.tenure_months)}
+                                </small>
+                            )}
+                        </div>
+
+                        <div className="debt-form-group">
+                            <label>Remaining Tenure (Months)</label>
+                            <input
+                                type="number"
+                                name="remaining_tenure_months"
+                                value={formData.remaining_tenure_months}
+                                onChange={handleChange}
+                                placeholder="e.g. 180"
+                                min="0"
+                                step="1"
+                            />
+
+                            {formData.remaining_tenure_months !== "" && (
+                                <small className="debt-tenure-preview">
+                                    {getTenurePreview(
+                                        formData.remaining_tenure_months
+                                    )}
+                                </small>
+                            )}
+                        </div>
+
                         <div className="debt-form-group debt-form-full">
                             <label>Notes</label>
                             <textarea
@@ -281,10 +410,7 @@ export default function DebtFormModal({
                     </div>
 
                     {formError && (
-                        <p
-                            className="debt-form-error"
-                            role="alert"
-                        >
+                        <p className="debt-form-error" role="alert">
                             {formError}
                         </p>
                     )}
@@ -307,8 +433,8 @@ export default function DebtFormModal({
                             {loading
                                 ? "Saving..."
                                 : debt
-                                    ? "Update Debt"
-                                    : "Save Debt"}
+                                  ? "Update Debt"
+                                  : "Save Debt"}
                         </button>
                     </div>
                 </form>

@@ -44,6 +44,8 @@ export default function AllDebtCard({
 }) {
     const isClosed = debt.status === "closed";
 
+    console.log("Debt : ", debt)
+
     return (
         <article className="debt-card">
             <div className="debt-card-header">
@@ -66,17 +68,23 @@ export default function AllDebtCard({
             <div className="debt-card-type">
                 {formatDebtType(debt.debt_type)}
             </div>
-
+            {/* 
             <div className="debt-card-loan-amount">
                 <span>Original Loan Amount</span>
                 <strong>{formatCurrency(debt.original_amount)}</strong>
+            </div> */}
+
+
+            <div className="debt-card-loan-amount">
+                <span>Current Outstanding</span>
+                <strong>{formatCurrency(currentOutstanding > 0 ? currentOutstanding : debt.original_amount)}</strong>
             </div>
 
             <div className="debt-card-metrics">
                 <Metric
-                    label="Current Outstanding"
-                    value={currentOutstanding}
-                    color="metric-red"
+                    label="Original Loan Amount"
+                    value={debt.original_amount}
+                    color="metric-blue"
                 />
 
                 <Metric
@@ -91,11 +99,11 @@ export default function AllDebtCard({
                     color="metric-red"
                 />
 
-                <Metric
+                {/* <Metric
                     label="Total EMI Paid"
                     value={totalEmiPaid}
                     color="metric-green"
-                />
+                /> */}
 
                 <Metric
                     label="Total Repayment"
@@ -107,6 +115,23 @@ export default function AllDebtCard({
                     value={debt.interest_rate}
                     format="percent"
                 />
+
+
+                <div className="debt-card-metric">
+                    <span>Start Date</span>
+                    <strong>{formatDate(debt.start_date)}</strong>
+                </div>
+
+                <div className="debt-card-metric">
+                    <span>Total Tenure's</span>
+                    <strong>{debt.tenure_months ? debt.tenure_months : 0}</strong>
+                </div>
+
+                <div className="debt-card-metric">
+                    <span>Remaining Tenure's</span>
+                    <strong>{debt.remaining_tenure_months ? debt.remaining_tenure_months : 0}</strong>
+                </div>
+
             </div>
 
             <div className="debt-card-footer">

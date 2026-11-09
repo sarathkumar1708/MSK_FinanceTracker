@@ -72,15 +72,22 @@ export default function DebtOverview() {
         return latestMap;
     }, [monthlySnapshots, activeDebtIds]);
 
-    // Attach latest outstanding to active debts only
+    // Attach latest outstanding to active debts.
+    // If no monthly snapshot exists, use the original loan amount.
     const debtOverview = useMemo(() => {
-        return activeDebtList.map((debt) => ({
-            ...debt,
-            outstanding:
-                latestSnapshots[debt.id]?.closing_outstanding != null
-                    ? Number(latestSnapshots[debt.id].closing_outstanding)
-                    : null,
-        }));
+        return activeDebtList.map((debt) => {
+            const latestSnapshot = latestSnapshots[debt.id];
+
+            const outstanding =
+                latestSnapshot?.closing_outstanding != null
+                    ? Number(latestSnapshot.closing_outstanding)
+                    : Number(debt.original_amount || 0);
+
+            return {
+                ...debt,
+                outstanding,
+            };
+        });
     }, [activeDebtList, latestSnapshots]);
 
     // Active debt loan amount only
@@ -121,9 +128,9 @@ export default function DebtOverview() {
 
     // Active debts with monthly outstanding records
     const outstandingDebts = debtOverview.filter(
-        (debt) => debt.outstanding != null
+        (debt) => debt.outstanding > 0
     );
-
+    
     // Recent payments from active debts only
     const sortedPayments = [...activePayments].sort((a, b) =>
         (b.paid_date || "").localeCompare(a.paid_date || "")
