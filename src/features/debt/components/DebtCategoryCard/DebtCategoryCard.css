@@ -1,0 +1,74 @@
+.debt-category-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 22px;
+    width: 100%;
+    min-height: 145px;
+    padding: 20px;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.debt-category-card:hover {
+    border-color: #93c5fd;
+    background: #f8fbff;
+    box-shadow: 0 5px 16px rgba(37, 99, 235, 0.08);
+    transform: translateY(-3px);
+}
+
+.debt-category-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.debt-category-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.debt-category-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 9px;
+    border-radius: 20px;
+    color: #1d4ed8;
+    background: #dbeafe;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.debt-category-card-bottom h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.debt-category-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 9px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.debt-category-card:hover .debt-category-view {
+    color: #2563eb;
+}

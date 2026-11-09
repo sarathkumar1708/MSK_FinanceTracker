@@ -6,6 +6,12 @@ export const navigationItems = [
         icon: "Wallet",
         children: [
             {
+                title: "Dashboard",
+                path: "/finance/dashboard",
+                componentKey: "finance.dashboard",
+                description: "Your complete financial overview.",
+            },
+            {
                 title: "Daily Spending",
                 path: "/finance/daily-spending",
                 componentKey: "finance.daily",
@@ -23,12 +29,7 @@ export const navigationItems = [
                 componentKey: "finance.yearly",
                 description: "Analyze your yearly financial activities.",
             },
-            {
-                title: "Dashboard",
-                path: "/finance/dashboard",
-                componentKey: "finance.dashboard",
-                description: "Your complete financial overview.",
-            },
+
         ],
     },
     {
@@ -94,12 +95,35 @@ export const navigationItems = [
         ],
     },
     {
-        id: "debt",
-        title: "DEBT",
+        id: "debt-management",
+        title: "DEBT Management",
         icon: "CreditCard",
-        path: "/debt",
-        componentKey: "debt",
-        description: "Track outstanding debts and repayments.",
+        children: [
+            {
+                title: "Debt Overview",
+                path: "/debt/debt-overview",
+                componentKey: "debt.debt-overview",
+                description: "View total outstanding, repayments and debt analytics",
+            },
+            {
+                title: "All Debts",
+                path: "/debt/outstanding",
+                componentKey: "debt.outstanding",
+                description: "Create, edit, update and manage all your debts",
+            },
+            {
+                title: "Monthly Debt Update",
+                path: "/debt/monthly-update",
+                componentKey: "debt.monthly-update",
+                description: "Update monthly outstanding balances and interest rates",
+            },
+            {
+                title: "Activity History",
+                path: "/debt/activity-history",
+                componentKey: "debt.activity-history",
+                description: "View, edit and track all debt repayment transactions",
+            },
+        ],
     },
     {
         id: "savings",

@@ -1,0 +1,257 @@
+.debt-card {
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 2px 7px rgba(15, 23, 42, 0.035);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.debt-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+}
+
+.debt-card-header,
+.debt-card-title,
+.debt-card-footer,
+.debt-card-created,
+.debt-card-actions {
+    display: flex;
+    align-items: center;
+}
+
+.debt-card-header,
+.debt-card-footer {
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.debt-card-title {
+    min-width: 0;
+    gap: 9px;
+}
+
+.debt-card-icon {
+    display: grid;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.debt-card-title h3 {
+    overflow: hidden;
+    margin: 0;
+    color: #172554;
+    font-size: 13px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.debt-card-title p {
+    overflow: hidden;
+    margin: 3px 0 0;
+    color: #64748b;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.debt-card-status {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.debt-card-status.active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.debt-card-status.closed {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.debt-card-type {
+    display: inline-block;
+    margin-top: 9px;
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.debt-card-loan-amount {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 10px 0;
+    padding: 9px 11px;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    background: #eff6ff;
+}
+
+.debt-card-loan-amount span,
+.debt-card-metric span {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.debt-card-loan-amount strong {
+    color: #1d4ed8;
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.debt-card-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+}
+
+.debt-card-metric {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 9px;
+    border: 1px solid #eef2f7;
+    border-radius: 7px;
+    background: #fafcff;
+}
+
+.debt-card-metric strong {
+    overflow-wrap: anywhere;
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.debt-card-metric .metric-red {
+    color: #dc2626;
+}
+
+.debt-card-metric .metric-blue {
+    color: #2563eb;
+}
+
+.debt-card-metric .metric-green {
+    color: #059669;
+}
+
+.debt-card-metric .metric-purple {
+    color: #7c3aed;
+}
+
+.debt-card-footer {
+    flex-wrap: wrap;
+    margin-top: 11px;
+    padding-top: 9px;
+    border-top: 1px solid #eef2f7;
+}
+
+.debt-card-created {
+    gap: 5px;
+    color: #94a3b8;
+    font-size: 9px;
+}
+
+.debt-card-actions {
+    gap: 6px;
+}
+
+.debt-card-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 27px;
+    padding: 0 8px;
+    border: none;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.debt-card-edit {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.debt-card-edit:hover {
+    background: #dbeafe;
+}
+
+.debt-card-delete {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.debt-card-delete:hover {
+    background: #fee2e2;
+}
+
+.debt-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.debt-action-btn.close-btn {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.debt-action-btn.close-btn:hover {
+    background: #c8e6c9;
+}
+
+@media (max-width: 1100px) {
+    .debt-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .debt-card-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .debt-card {
+        padding: 11px;
+    }
+
+    .debt-card-title h3 {
+        max-width: 155px;
+    }
+
+    .debt-card-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .debt-card-actions {
+        width: 100%;
+    }
+
+    .debt-card-actions button {
+        flex: 1;
+    }
+}
