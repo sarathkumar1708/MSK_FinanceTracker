@@ -12,6 +12,13 @@ import { selectHasPermission, selectIsAdmin, selectPermissionLoading } from "../
 import Login from "../pages/Login/Login";
 import MonthlySpendingPage from "../pages/Finance/MonthlySpending/MonthlySpendingPage";
 import YearlySpendingPage from "../pages/Finance/YearlySpending/YearlySpendingPage";
+import DebtOverview from "../features/debt/pages/DebtOverview/DebtOverview";
+// import MonthlyDebtSummary from "../features/debt/pages/MonthlyDebtSummary/MonthlyDebtSummary";
+// import YearlyDebtSummary from "../features/debt/pages/YearlyDebtSummary/YearlyDebtSummary";
+// import DebtPaymentHistory from "../features/debt/pages/DebtPaymentHistory/DebtPaymentHistory";
+import DebtActivityHistory from "../features/debt/pages/DebtActivityHistory/DebtActivityHistory";
+import AllDebtsContainer from "../features/debt/pages/AllDebtsContainer";
+import MonthlyDebtUpdateContainer from "../features/debt/pages/MonthlyDebtUpdate/MonthlyDebtUpdateContainer/MonthlyDebtUpdateContainer";
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
     const isAdmin = useSelector(selectIsAdmin);
@@ -35,15 +42,29 @@ function ProtectedPage({ componentKey, adminOnly, children }) {
     return children;
 }
 
+
 const customPages = {
     "/login": Login,
+
+    // Finance
     "/finance/dashboard": Dashboard,
     "/finance/daily-spending": DailySpendingPage,
     "/finance/monthly-spending": MonthlySpendingPage,
     "/finance/yearly-spending": YearlySpendingPage,
+
+    // Debt Management
+    "/debt/debt-overview": DebtOverview,
+    "/debt/outstanding": AllDebtsContainer,
+    "/debt/monthly-update": MonthlyDebtUpdateContainer,
+    // "/debt/monthly-summary": MonthlyDebtSummary,
+    // "/debt/yearly-summary": YearlyDebtSummary,
+    // "/debt/payment-history": DebtPaymentHistory,
+    "/debt/activity-history": DebtActivityHistory,
+    // User Management
     "/user-management/roles": RoleManagement,
     "/user-management/users": UsersManagement,
 };
+
 
 function AppRoutes() {
     const routes = navigationItems.flatMap((item) => {
