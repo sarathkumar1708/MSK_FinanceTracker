@@ -1,0 +1,295 @@
+
+.monthly-investment-page {
+    width: 100%;
+}
+
+.monthly-investment-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    background: var(--card-background, #fff);
+}
+
+.monthly-investment-filters > div,
+.monthly-transaction-form > div,
+.monthly-valuation-form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.monthly-investment-filters label,
+.monthly-transaction-form label,
+.monthly-valuation-form label {
+    color: var(--text-secondary, #555);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.monthly-investment-filters input,
+.monthly-investment-filters select,
+.monthly-transaction-form input,
+.monthly-transaction-form select,
+.monthly-valuation-form input {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 40px;
+    padding: 9px 11px;
+    border: 1px solid var(--border-color, #d1d5db);
+    border-radius: 7px;
+    background: var(--card-background, #fff);
+    color: var(--text-primary, #222);
+    font-size: 14px;
+}
+
+.monthly-investment-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0 28px;
+}
+
+.monthly-summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    background: var(--card-background, #fff);
+}
+
+.monthly-summary-card span {
+    color: var(--text-secondary, #777);
+    font-size: 12px;
+}
+
+.monthly-summary-card strong {
+    font-size: 19px;
+    overflow-wrap: anywhere;
+}
+
+.monthly-summary-card.contribution strong {
+    color: #15803d;
+}
+
+.monthly-summary-card.withdrawal strong {
+    color: #dc2626;
+}
+
+.monthly-transaction-form {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    align-items: end;
+    padding: 18px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    background: var(--card-background, #fff);
+}
+
+.monthly-transaction-form button,
+.monthly-valuation-form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.monthly-transaction-form button:disabled,
+.monthly-valuation-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.monthly-transaction-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 9px;
+}
+
+.monthly-transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+.monthly-transaction-table th,
+.monthly-transaction-table td {
+    padding: 13px 15px;
+    border-bottom: 1px solid var(--border-color, #eee);
+    text-align: left;
+    font-size: 13px;
+}
+
+.monthly-transaction-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 650;
+}
+
+.monthly-transaction-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.monthly-transaction-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.monthly-transaction-badge.contribution {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.monthly-transaction-badge.withdrawal {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.monthly-amount-positive {
+    color: #15803d;
+    font-weight: 650;
+}
+
+.monthly-amount-negative {
+    color: #dc2626;
+    font-weight: 650;
+}
+
+.monthly-valuation-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 14px;
+    align-items: end;
+    padding: 18px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    background: var(--card-background, #fff);
+}
+
+.monthly-investment-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 120px;
+    padding: 25px;
+    border: 1px dashed var(--border-color, #d1d5db);
+    border-radius: 10px;
+    color: var(--text-secondary, #777);
+    text-align: center;
+}
+
+.monthly-investment-empty p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.monthly-investment-message {
+    margin-top: 18px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.monthly-investment-message.error {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.monthly-investment-message.success {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+.monthly-transaction-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.monthly-transaction-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #dbe1e8;
+    border-radius: 6px;
+    background: #fff;
+    color: #2563eb;
+    cursor: pointer;
+}
+
+.monthly-transaction-actions button:hover {
+    background: #eff6ff;
+}
+
+.monthly-transaction-actions button.delete {
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.monthly-transaction-actions button.delete:hover {
+    background: #fef2f2;
+}
+
+.monthly-cancel-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+@media (max-width: 1100px) {
+    .monthly-investment-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .monthly-transaction-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .monthly-investment-filters,
+    .monthly-investment-summary,
+    .monthly-transaction-form,
+    .monthly-valuation-form {
+        grid-template-columns: 1fr;
+    }
+}

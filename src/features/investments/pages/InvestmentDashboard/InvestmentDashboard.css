@@ -1,0 +1,460 @@
+
+/* =========================================
+   DASHBOARD BASE
+========================================= */
+
+.investment-dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 30px;
+    color: #172033;
+}
+
+.investment-dashboard-page > * {
+    min-width: 0;
+}
+
+/* =========================================
+   FILTERS
+========================================= */
+
+.investment-dashboard-filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+}
+
+.investment-dashboard-filters > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.investment-dashboard-filters label {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.investment-dashboard-filters select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.investment-dashboard-filters select:hover {
+    border-color: #94a3b8;
+}
+
+.investment-dashboard-filters select:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================
+   REPORT PERIOD
+========================================= */
+
+.investment-dashboard-period {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 13px 16px;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #475569;
+    font-size: 13px;
+}
+
+.investment-dashboard-period strong {
+    color: #1d4ed8;
+    font-weight: 700;
+}
+
+.investment-dashboard-period span {
+    margin-left: auto;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.investment-dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.investment-dashboard-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    min-width: 0;
+    padding: 21px 19px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.investment-dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 22px rgba(15, 23, 42, 0.07);
+}
+
+.investment-dashboard-card > span {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.investment-dashboard-card > strong {
+    color: #172033;
+    font-size: clamp(17px, 1.4vw, 23px);
+    font-weight: 750;
+    letter-spacing: -0.6px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.investment-dashboard-card > small {
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.investment-dashboard-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.investment-dashboard-card-icon svg {
+    width: 21px;
+    height: 21px;
+    stroke-width: 2;
+}
+
+.investment-dashboard-card-icon.contribution {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.investment-dashboard-card-icon.withdrawal {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.investment-dashboard-card-icon.net {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.investment-dashboard-card-icon.count {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+/* Highlight total current value */
+
+.investment-dashboard-card.current-value {
+    background: linear-gradient(135deg, #123c32 0%, #087f5b 100%);
+    border-color: transparent;
+}
+
+.investment-dashboard-card.current-value > span,
+.investment-dashboard-card.current-value > small {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.investment-dashboard-card.current-value > strong {
+    color: #ffffff;
+    font-size: clamp(19px, 1.6vw, 25px);
+}
+
+.investment-dashboard-card.current-value .investment-dashboard-card-icon {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+/* =========================================
+   SECTION HEADINGS
+========================================= */
+
+.investment-dashboard-page .investment-section {
+    min-width: 0;
+}
+
+/* =========================================
+   MONTHLY ACTIVITY CHART
+========================================= */
+
+.investment-dashboard-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 8px 2px;
+}
+
+.investment-dashboard-chart-row {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    gap: 15px;
+}
+
+.investment-dashboard-chart-month {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.investment-dashboard-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.investment-dashboard-bar-line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 100px;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.investment-dashboard-bar-track {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #f1f5f9;
+}
+
+.investment-dashboard-bar {
+    height: 100%;
+    min-width: 0;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.investment-dashboard-bar.contribution {
+    background: linear-gradient(90deg, #34d399, #059669);
+}
+
+.investment-dashboard-bar.withdrawal {
+    background: linear-gradient(90deg, #fca5a5, #dc2626);
+}
+
+.investment-dashboard-bar-line > span {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.investment-dashboard-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 23px;
+    padding-top: 17px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.investment-dashboard-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.investment-dashboard-legend i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.investment-dashboard-legend i.contribution {
+    background: #059669;
+}
+
+.investment-dashboard-legend i.withdrawal {
+    background: #dc2626;
+}
+
+/* =========================================
+   INVESTMENT TABLE
+========================================= */
+
+.investment-dashboard-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #edf0f5;
+    border-radius: 11px;
+}
+
+.investment-dashboard-table {
+    width: 100%;
+    min-width: 780px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.investment-dashboard-table th {
+    padding: 15px 17px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.45px;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.investment-dashboard-table td {
+    padding: 16px 17px;
+    border-top: 1px solid #edf0f5;
+    color: #475569;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.investment-dashboard-table tbody tr {
+    background: #ffffff;
+    transition: background 0.15s ease;
+}
+
+.investment-dashboard-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.investment-dashboard-table th:first-child,
+.investment-dashboard-table td:first-child {
+    padding-left: 20px;
+}
+
+.investment-dashboard-name {
+    color: #172033 !important;
+    font-weight: 700;
+}
+
+.investment-dashboard-positive {
+    color: #059669 !important;
+    font-weight: 700;
+}
+
+.investment-dashboard-negative {
+    color: #dc2626 !important;
+    font-weight: 700;
+}
+
+.investment-dashboard-empty {
+    padding: 35px !important;
+    color: #94a3b8 !important;
+    text-align: center;
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.investment-dashboard-loading {
+    padding: 50px 20px;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #64748b;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1250px) {
+    .investment-dashboard-cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .investment-dashboard-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .investment-dashboard-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .investment-dashboard-page {
+        gap: 17px;
+    }
+
+    .investment-dashboard-filters {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+
+    .investment-dashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .investment-dashboard-card {
+        padding: 17px;
+    }
+
+    .investment-dashboard-chart-row {
+        grid-template-columns: 35px minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .investment-dashboard-bar-line {
+        grid-template-columns: minmax(0, 1fr) 72px;
+        gap: 8px;
+    }
+
+    .investment-dashboard-period span {
+        width: 100%;
+        margin-left: 0;
+    }
+}

@@ -5,6 +5,7 @@ import authReducer from "../features/auth/authSlice";
 import permissionReducer from "../features/permissions/permissionSlice";
 import debtReducer from "../features/debt/debtSlice";
 import goalReducer from "../features/goals/goalSlice";
+import investmentReducer from "../features/investments/investmentSlice";
 
 
 export const store = configureStore({
@@ -14,5 +15,6 @@ export const store = configureStore({
         permissions: permissionReducer,
         debt: debtReducer,
         goals: goalReducer,
+        investment: investmentReducer,
     },
 });

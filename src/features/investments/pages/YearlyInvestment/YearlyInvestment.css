@@ -1,0 +1,191 @@
+
+.yearly-investment-page {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.yearly-investment-filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.yearly-filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.yearly-filter-field label {
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.yearly-filter-field select {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #fff;
+    color: #111827;
+    font-size: 13px;
+    outline: none;
+}
+
+.yearly-filter-field select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.yearly-investment-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.yearly-summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 19px;
+    border: 1px solid #e5e7eb;
+    border-radius: 11px;
+    background: #fff;
+}
+
+.yearly-summary-card span {
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.yearly-summary-card strong {
+    color: #111827;
+    font-size: 20px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.yearly-summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 37px;
+    height: 37px;
+    border-radius: 9px;
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.yearly-summary-icon.withdrawal {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.yearly-summary-icon.balance {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.yearly-summary-icon.count {
+    background: #f5f3ff;
+    color: #7c3aed;
+}
+
+.yearly-summary-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.yearly-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.yearly-investment-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+}
+
+.yearly-investment-table th,
+.yearly-investment-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.yearly-investment-table th {
+    background: #f9fafb;
+    color: #4b5563;
+    font-weight: 700;
+}
+
+.yearly-investment-table td {
+    color: #374151;
+}
+
+.yearly-investment-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.yearly-month-name {
+    color: #111827 !important;
+    font-weight: 600;
+}
+
+.yearly-positive {
+    color: #059669 !important;
+    font-weight: 600;
+}
+
+.yearly-negative {
+    color: #dc2626 !important;
+    font-weight: 600;
+}
+
+.yearly-transaction-badge {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.yearly-transaction-badge.contribution {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.yearly-transaction-badge.withdrawal {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.yearly-no-data,
+.yearly-empty-state {
+    padding: 28px !important;
+    color: #6b7280 !important;
+    text-align: center !important;
+}
+
+@media (max-width: 900px) {
+    .yearly-investment-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .yearly-investment-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .yearly-investment-summary {
+        grid-template-columns: 1fr;
+    }
+}
