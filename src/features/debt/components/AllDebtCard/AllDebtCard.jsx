@@ -74,18 +74,24 @@ export default function AllDebtCard({
                 <strong>{formatCurrency(debt.original_amount)}</strong>
             </div> */}
 
-
-            <div className="debt-card-loan-amount">
-                <span>Current Outstanding</span>
-                <strong>{formatCurrency(currentOutstanding > 0 ? currentOutstanding : debt.original_amount)}</strong>
+            <div className="card-outstanding-amount-wrap">
+                <div className="debt-card-loan-amount original-amount">
+                    <span>Original Loan Amount</span>
+                    <strong>{formatCurrency(debt.original_amount)}</strong>
+                </div>
+                <div className="debt-card-loan-amount">
+                    <span>Current Outstanding</span>
+                    <strong>{formatCurrency(currentOutstanding > 0 ? currentOutstanding : debt.original_amount)}</strong>
+                </div>
             </div>
 
+
             <div className="debt-card-metrics">
-                <Metric
+                {/* <Metric
                     label="Original Loan Amount"
                     value={debt.original_amount}
                     color="metric-blue"
-                />
+                /> */}
 
                 <Metric
                     label="Total Principal Paid"
@@ -114,6 +120,12 @@ export default function AllDebtCard({
                     label="Interest Rate"
                     value={debt.interest_rate}
                     format="percent"
+                />
+
+                <Metric
+                    label="Monthly EMI"
+                    value={debt.monthly_emi}
+                    color="metric-green"
                 />
 
 

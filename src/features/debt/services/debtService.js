@@ -21,6 +21,128 @@ function throwIfError(error) {
     if (error) throw error;
 }
 
+async function recalculateRemainingTenure(debtId, userId) {
+    const { data: debt, error: debtError } = await supabase
+        .from(DEBTS_TABLE)
+        .select("*")
+        .eq("id", debtId)
+        .eq("user_id", userId)
+        .single();
+
+    throwIfError(debtError);
+
+    const totalTenure = Number(debt.tenure_months) || 0;
+
+    // Preserve the requested rule for loans with zero total tenure.
+    if (totalTenure <= 0) {
+        if (Number(debt.remaining_tenure_months) !== 0) {
+            const { data: updatedDebt, error } = await supabase
+                .from(DEBTS_TABLE)
+                .update({
+                    remaining_tenure_months: 0,
+                    updated_at: new Date().toISOString(),
+                })
+                .eq("id", debtId)
+                .eq("user_id", userId)
+                .select("*")
+                .single();
+
+            throwIfError(error);
+            return updatedDebt;
+        }
+
+        return debt;
+    }
+
+    const { data: snapshots, error: snapshotError } = await supabase
+        .from(SNAPSHOTS_TABLE)
+        .select("*")
+        .eq("debt_id", debtId)
+        .eq("user_id", userId)
+        .order("month", { ascending: false })
+        .limit(1);
+
+    throwIfError(snapshotError);
+
+    const latestSnapshot = snapshots?.[0];
+
+    // Without a monthly balance, interest rate and EMI,
+    // retain the existing tenure rather than inventing a value.
+    if (!latestSnapshot) return debt;
+
+    const outstanding = Number(latestSnapshot.closing_outstanding);
+    const annualRate = Number(latestSnapshot.interest_rate);
+    const emi = Number(
+        latestSnapshot.emi_amount ?? debt.monthly_emi
+    );
+
+    if (
+        !Number.isFinite(outstanding) ||
+        !Number.isFinite(annualRate) ||
+        !Number.isFinite(emi) ||
+        outstanding < 0 ||
+        annualRate < 0 ||
+        emi <= 0
+    ) {
+        return debt;
+    }
+
+    let remainingTenure = 0;
+
+    if (outstanding > 0) {
+        const monthlyRate = annualRate / 1200;
+
+        if (monthlyRate === 0) {
+            remainingTenure = Math.ceil(outstanding / emi);
+        } else {
+            const monthlyInterest = outstanding * monthlyRate;
+
+            // EMI must exceed the monthly interest,
+            // otherwise the principal will not reduce.
+            if (emi <= monthlyInterest) {
+                return debt;
+            }
+
+            const months =
+                -Math.log(
+                    1 - (monthlyRate * outstanding) / emi
+                ) / Math.log(1 + monthlyRate);
+
+            remainingTenure = Math.max(
+                0,
+                Math.ceil(months - 1e-10)
+            );
+        }
+    }
+
+    const { data: updatedDebt, error: updateError } = await supabase
+        .from(DEBTS_TABLE)
+        .update({
+            monthly_emi: emi,
+            remaining_tenure_months: remainingTenure,
+            updated_at: new Date().toISOString(),
+        })
+        .eq("id", debtId)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+    throwIfError(updateError);
+
+    // Keep the latest snapshot consistent with the calculated tenure.
+    const { error: snapshotUpdateError } = await supabase
+        .from(SNAPSHOTS_TABLE)
+        .update({
+            remaining_tenure_months: remainingTenure,
+        })
+        .eq("id", latestSnapshot.id)
+        .eq("user_id", userId);
+
+    throwIfError(snapshotUpdateError);
+
+    return updatedDebt;
+}
+
 export const debtService = {
     // =====================================
     // DEBTS
@@ -36,7 +158,29 @@ export const debtService = {
             .order("created_at", { ascending: false });
 
         throwIfError(error);
-        return data ?? [];
+
+        // Recalculate each debt independently.
+        // One failed calculation must not hide all debts.
+        const updatedDebts = await Promise.all(
+            (data || []).map(async (debt) => {
+                try {
+                    return await recalculateRemainingTenure(
+                        debt.id,
+                        userId
+                    );
+                } catch (error) {
+                    console.error(
+                        `Remaining tenure calculation failed for debt ${debt.id}:`,
+                        error
+                    );
+
+                    // Preserve the original debt information.
+                    return debt;
+                }
+            })
+        );
+
+        return updatedDebts;
     },
 
     async getById(id) {
@@ -157,6 +301,7 @@ export const debtService = {
         return data ?? [];
     },
 
+
     async saveSnapshot(payload) {
         const userId = await getCurrentUserId();
 
@@ -176,7 +321,22 @@ export const debtService = {
             .single();
 
         throwIfError(error);
-        return data;
+
+        // Recalculate using the latest monthly outstanding,
+        // interest rate and EMI.
+        const updatedDebt = await recalculateRemainingTenure(
+            payload.debt_id,
+            userId
+        );
+
+        return {
+            snapshot: {
+                ...data,
+                remaining_tenure_months:
+                    updatedDebt.remaining_tenure_months,
+            },
+            debt: updatedDebt,
+        };
     },
 
     async deleteSnapshot(id) {

@@ -101,6 +101,7 @@
     border: 1px solid #dbeafe;
     border-radius: 8px;
     background: #eff6ff;
+    width: 100%;
 }
 
 .debt-card-loan-amount span,
@@ -114,6 +115,15 @@
     color: #dc2626;
     font-size: 17px;
     font-weight: 750;
+}
+
+.card-outstanding-amount-wrap{
+    display: flex;
+    gap: 10px;
+}
+
+.original-amount strong{
+    color: #2563eb;
 }
 
 .debt-card-metrics {
