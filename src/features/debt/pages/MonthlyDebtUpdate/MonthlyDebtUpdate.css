@@ -646,6 +646,52 @@
     margin-top: 16px;
 }
 
+.monthly-debt-form-full {
+    grid-column: 1 / -1;
+}
+
+.monthly-debt-form-full textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 11px 13px;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    background: #fff;
+    color: #1e293b;
+    font: inherit;
+    resize: vertical;
+    outline: none;
+}
+
+.monthly-debt-form-full textarea:focus {
+    border-color: #64748b;
+    box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.12);
+}
+
+.monthly-debt-remarks {
+    margin-top: 16px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.monthly-debt-remarks span {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.monthly-debt-remarks p {
+    margin: 0;
+    color: #334155;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
 @media (max-width: 700px) {
     .monthly-recorded-payment-details {
         grid-template-columns: repeat(2, minmax(0, 1fr));

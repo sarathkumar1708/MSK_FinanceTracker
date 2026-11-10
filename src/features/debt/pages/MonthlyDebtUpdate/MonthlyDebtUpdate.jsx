@@ -71,12 +71,47 @@ const getMonthValue = (date) => {
     return `${year}-${month}`;
 };
 
-const getPreviousMonthClosing = (snapshots, month) => {
-    const previousSnapshots = snapshots
-        .filter((snapshot) => snapshot.month < `${month}-01`)
-        .sort((a, b) => b.month.localeCompare(a.month));
+const calculateRemainingTenure = (
+    outstanding,
+    annualInterestRate,
+    monthlyEmi
+) => {
+    const principal = Number(outstanding);
+    const annualRate = Number(annualInterestRate);
+    const emi = Number(monthlyEmi);
 
-    return previousSnapshots[0]?.closing_outstanding ?? "";
+    if (
+        !Number.isFinite(principal) ||
+        !Number.isFinite(annualRate) ||
+        !Number.isFinite(emi) ||
+        principal < 0 ||
+        annualRate < 0 ||
+        emi <= 0
+    ) {
+        throw new Error("Please enter valid outstanding, interest rate and EMI.");
+    }
+
+    if (principal === 0) return 0;
+
+    const monthlyRate = annualRate / 1200;
+
+    if (monthlyRate === 0) {
+        return Math.ceil(principal / emi);
+    }
+
+    const monthlyInterest = principal * monthlyRate;
+
+    if (emi <= monthlyInterest) {
+        throw new Error(
+            "The EMI is not sufficient to reduce the principal at this interest rate."
+        );
+    }
+
+    const months =
+        -Math.log(1 - (monthlyRate * principal) / emi) /
+        Math.log(1 + monthlyRate);
+
+    return Math.max(0, Math.ceil(months - 1e-10));
 };
 
 const initialPaymentEditData = {
@@ -112,8 +147,15 @@ export default function MonthlyDebtUpdate({
         month: getMonthValue(new Date()),
         opening_outstanding: "",
         interest_rate: "",
+        emi_amount: "",
         closing_outstanding: "",
+        notes: "",
     });
+
+    console.log("Debts ; ", debts)
+
+    console.log("Selected Debt : ", selectedDebt)
+
 
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState("");
@@ -235,14 +277,12 @@ export default function MonthlyDebtUpdate({
     // =====================================
     // MONTHLY SNAPSHOT HANDLERS
     // =====================================
-
     const handleAddMonth = () => {
         const month = getMonthValue(new Date());
 
-        const previousClosing = getPreviousMonthClosing(
-            debtSnapshots,
-            month
-        );
+        const previousSnapshot = debtSnapshots
+            .filter((snapshot) => snapshot.month < `${month}-01`)
+            .sort((a, b) => b.month.localeCompare(a.month))[0];
 
         setEditingMonth("new");
         setFormError("");
@@ -250,9 +290,21 @@ export default function MonthlyDebtUpdate({
         setFormData({
             month,
             opening_outstanding:
-                previousClosing !== "" ? String(previousClosing) : "",
-            interest_rate: selectedDebt?.interest_rate ?? "",
+                previousSnapshot?.closing_outstanding != null
+                    ? String(previousSnapshot.closing_outstanding)
+                    : "",
+            interest_rate: String(
+                previousSnapshot?.interest_rate ??
+                selectedDebt?.interest_rate ??
+                ""
+            ),
+            emi_amount: String(
+                previousSnapshot?.emi_amount ??
+                selectedDebt?.monthly_emi ??
+                ""
+            ),
             closing_outstanding: "",
+            notes: "",
         });
     };
 
@@ -264,7 +316,12 @@ export default function MonthlyDebtUpdate({
             month: snapshot.month.slice(0, 7),
             opening_outstanding: snapshot.opening_outstanding ?? "",
             interest_rate: snapshot.interest_rate ?? "",
+            emi_amount:
+                snapshot.emi_amount ??
+                selectedDebt?.monthly_emi ??
+                "",
             closing_outstanding: snapshot.closing_outstanding ?? "",
+            notes: snapshot.notes ?? "",
         });
     };
 
@@ -287,9 +344,7 @@ export default function MonthlyDebtUpdate({
         setFormError("");
 
         if (typeof onSave !== "function") {
-            setFormError(
-                "Save handler is not connected. Please check the container."
-            );
+            setFormError("Save handler is not connected. Please check the container.");
             return;
         }
 
@@ -298,23 +353,10 @@ export default function MonthlyDebtUpdate({
             return;
         }
 
-        if (
-            formData.opening_outstanding === "" ||
-            formData.closing_outstanding === ""
-        ) {
-            setFormError(
-                "Please enter opening and closing outstanding amounts."
-            );
-            return;
-        }
-
         const opening = Number(formData.opening_outstanding);
         const closing = Number(formData.closing_outstanding);
-
-        const interestRate =
-            formData.interest_rate === ""
-                ? null
-                : Number(formData.interest_rate);
+        const interestRate = Number(formData.interest_rate);
+        const emi = Number(formData.emi_amount);
 
         if (
             !Number.isFinite(opening) ||
@@ -322,17 +364,39 @@ export default function MonthlyDebtUpdate({
             opening < 0 ||
             closing < 0
         ) {
-            setFormError(
-                "Outstanding amounts must be valid non-negative numbers."
-            );
+            setFormError("Please enter valid non-negative outstanding amounts.");
             return;
         }
 
         if (
-            interestRate !== null &&
-            (!Number.isFinite(interestRate) || interestRate < 0)
+            formData.interest_rate === "" ||
+            !Number.isFinite(interestRate) ||
+            interestRate < 0
         ) {
             setFormError("Please enter a valid interest rate.");
+            return;
+        }
+
+        if (!Number.isFinite(emi) || emi <= 0) {
+            setFormError("Please enter a valid monthly EMI.");
+            return;
+        }
+
+        let remainingTenure;
+
+        try {
+            const totalTenure = Number(selectedDebt.tenure_months) || 0;
+
+            remainingTenure =
+                totalTenure <= 0
+                    ? 0
+                    : calculateRemainingTenure(
+                        closing,
+                        interestRate,
+                        emi
+                    );
+        } catch (error) {
+            setFormError(error.message);
             return;
         }
 
@@ -341,7 +405,10 @@ export default function MonthlyDebtUpdate({
             month: `${formData.month}-01`,
             opening_outstanding: opening,
             interest_rate: interestRate,
+            emi_amount: emi,
             closing_outstanding: closing,
+            remaining_tenure_months: remainingTenure,
+            notes: formData.notes.trim() || null,
         };
 
         try {
@@ -349,11 +416,16 @@ export default function MonthlyDebtUpdate({
 
             await onSave(payload);
 
+            setSelectedDebt((previous) => ({
+                ...previous,
+                monthly_emi: emi,
+                remaining_tenure_months: remainingTenure,
+            }));
+
             setEditingMonth(null);
             setFormError("");
         } catch (error) {
             console.error("Monthly snapshot save failed:", error);
-
             setFormError(
                 error?.message || "Unable to save the monthly record."
             );
@@ -691,6 +763,15 @@ export default function MonthlyDebtUpdate({
                             </div>
 
                             <div className="monthly-debt-info-card">
+                                <span>Monthly EMI</span>
+                                <strong>
+                                    {selectedDebt.monthly_emi != null
+                                        ? formatCurrency(selectedDebt.monthly_emi)
+                                        : "Not updated"}
+                                </strong>
+                            </div>
+
+                            <div className="monthly-debt-info-card">
                                 <span>Total Tenure</span>
                                 <strong>
                                     {selectedDebt.tenure_months != null
@@ -832,6 +913,20 @@ export default function MonthlyDebtUpdate({
                                     </div>
 
                                     <div>
+                                        <label>Monthly EMI (₹)</label>
+                                        <input
+                                            type="number"
+                                            name="emi_amount"
+                                            min="0.01"
+                                            step="0.01"
+                                            value={formData.emi_amount}
+                                            onChange={handleFormChange}
+                                            placeholder="Enter monthly EMI"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div>
                                         <label>Closing Outstanding</label>
                                         <input
                                             type="number"
@@ -842,6 +937,17 @@ export default function MonthlyDebtUpdate({
                                             onChange={handleFormChange}
                                             placeholder="Enter bank-reported closing amount"
                                             required
+                                        />
+                                    </div>
+
+                                    <div className="monthly-debt-form-full">
+                                        <label>Remarks</label>
+                                        <textarea
+                                            name="notes"
+                                            rows={3}
+                                            value={formData.notes}
+                                            onChange={handleFormChange}
+                                            placeholder="Enter monthly remarks or additional information"
                                         />
                                     </div>
                                 </div>
@@ -998,7 +1104,25 @@ export default function MonthlyDebtUpdate({
                                                             : "—"}
                                                     </strong>
                                                 </div>
+
+                                                <div>
+                                                    <span>Remaining Tenure</span>
+                                                    <strong>
+                                                        {snapshot.remaining_tenure_months != null
+                                                            ? `${snapshot.remaining_tenure_months} months (${formatTenure(
+                                                                snapshot.remaining_tenure_months
+                                                            )})`
+                                                            : "—"}
+                                                    </strong>
+                                                </div>
                                             </div>
+
+                                            {snapshot.notes && (
+                                                <div className="monthly-debt-remarks">
+                                                    <span>Remarks</span>
+                                                    <p>{snapshot.notes}</p>
+                                                </div>
+                                            )}
 
                                             {/* =====================================
                                                 VIEW RECORDED PAYMENTS

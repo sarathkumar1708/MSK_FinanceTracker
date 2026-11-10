@@ -126,12 +126,35 @@ export const navigationItems = [
         ],
     },
     {
-        id: "savings",
-        title: "Savings",
+        id: "investments",
+        title: "Investment Management",
         icon: "PiggyBank",
-        path: "/savings",
-        componentKey: "savings",
-        description: "Manage and monitor your savings.",
+        children: [
+            {
+                title: "Investment Dashboard",
+                path: "/investments/dashboard",
+                componentKey: "investments.dashboard",
+                description: "View total investments, contributions, withdrawals and investment analytics",
+            },
+            {
+                title: "All Investments",
+                path: "/investments/all",
+                componentKey: "investments.all",
+                description: "Create, edit, delete and manage all your investments",
+            },
+            {
+                title: "Monthly Investment",
+                path: "/investments/monthly-update",
+                componentKey: "investments.monthly-update",
+                description: "Record monthly contributions, withdrawals and investment balances",
+            },
+            {
+                title: "Yearly Investment",
+                path: "/investments/yearly",
+                componentKey: "investments.yearly",
+                description: "View yearly and monthly investment reports with filters",
+            },
+        ],
     },
     {
         id: "loan",

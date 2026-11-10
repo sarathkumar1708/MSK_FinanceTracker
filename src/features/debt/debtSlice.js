@@ -114,9 +114,17 @@ export const saveMonthlySnapshot = createAsyncThunk(
     "debt/saveMonthlySnapshot",
     async (snapshot, { rejectWithValue }) => {
         try {
-            return await debtService.saveSnapshot(snapshot);
+            // debtService returns both the saved snapshot
+            // and the updated debt with recalculated tenure.
+            const result = await debtService.saveSnapshot(snapshot);
+
+            return result;
         } catch (error) {
-            return rejectWithValue(error.message);
+            console.error("Save monthly snapshot failed:", error);
+
+            return rejectWithValue(
+                error?.message || "Failed to save monthly snapshot"
+            );
         }
     }
 );
@@ -353,16 +361,30 @@ const debtSlice = createSlice({
             .addCase(saveMonthlySnapshot.fulfilled, (state, action) => {
                 state.loading = false;
 
-                const index = state.monthlySnapshots.findIndex(
+                const { snapshot, debt } = action.payload;
+
+                // Update or insert monthly snapshot.
+                const snapshotIndex = state.monthlySnapshots.findIndex(
                     (item) =>
-                        item.debt_id === action.payload.debt_id &&
-                        item.month === action.payload.month
+                        item.debt_id === snapshot.debt_id &&
+                        item.month === snapshot.month
                 );
 
-                if (index !== -1) {
-                    state.monthlySnapshots[index] = action.payload;
+                if (snapshotIndex !== -1) {
+                    state.monthlySnapshots[snapshotIndex] = snapshot;
                 } else {
-                    state.monthlySnapshots.unshift(action.payload);
+                    state.monthlySnapshots.unshift(snapshot);
+                }
+
+                // Update debt information, including remaining tenure and EMI.
+                if (debt) {
+                    const debtIndex = state.debts.findIndex(
+                        (item) => item.id === debt.id
+                    );
+
+                    if (debtIndex !== -1) {
+                        state.debts[debtIndex] = debt;
+                    }
                 }
             })
 

@@ -19,6 +19,9 @@ import DebtOverview from "../features/debt/pages/DebtOverview/DebtOverview";
 import DebtActivityHistory from "../features/debt/pages/DebtActivityHistory/DebtActivityHistory";
 import AllDebtsContainer from "../features/debt/pages/AllDebtsContainer";
 import MonthlyDebtUpdateContainer from "../features/debt/pages/MonthlyDebtUpdate/MonthlyDebtUpdateContainer/MonthlyDebtUpdateContainer";
+import GoalsContainer from "../features/goals/GoalsContainer";
+
+
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
     const isAdmin = useSelector(selectIsAdmin);
@@ -56,10 +59,12 @@ const customPages = {
     "/debt/debt-overview": DebtOverview,
     "/debt/outstanding": AllDebtsContainer,
     "/debt/monthly-update": MonthlyDebtUpdateContainer,
-    // "/debt/monthly-summary": MonthlyDebtSummary,
-    // "/debt/yearly-summary": YearlyDebtSummary,
-    // "/debt/payment-history": DebtPaymentHistory,
     "/debt/activity-history": DebtActivityHistory,
+
+
+    // Goals
+    "/goals": GoalsContainer,
+
     // User Management
     "/user-management/roles": RoleManagement,
     "/user-management/users": UsersManagement,
