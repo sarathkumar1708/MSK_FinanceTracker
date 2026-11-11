@@ -164,6 +164,19 @@ export const navigationItems = [
         componentKey: "goals",
         description: "Organize your future goals and important milestones.",
     },
+    {
+        id: "planner",
+        title: "Planner",
+        icon: "PiggyBank",
+        children: [
+            {
+                title: "Budget Planner",
+                path: "/planner/budget",
+                componentKey: "planner.budget",
+                description: "Plan and track monthly income and expenses",
+            },
+        ],
+    },
     // {
     //     id: "my-bookmarks",
     //     title: "My Bookmarks",
