@@ -6,6 +6,8 @@ import permissionReducer from "../features/permissions/permissionSlice";
 import debtReducer from "../features/debt/debtSlice";
 import goalReducer from "../features/goals/goalSlice";
 import investmentReducer from "../features/investments/investmentSlice";
+import budgetReducer from "../features/budget/budgetSlice";
+
 
 
 export const store = configureStore({
@@ -16,5 +18,6 @@ export const store = configureStore({
         debt: debtReducer,
         goals: goalReducer,
         investment: investmentReducer,
+        budget: budgetReducer,
     },
 });

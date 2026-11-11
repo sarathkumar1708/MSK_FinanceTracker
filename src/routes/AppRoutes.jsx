@@ -1,35 +1,52 @@
 
-import { Navigate, Route, Routes, } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 import MainLayout from "../components/layout/MainLayout";
 import TrackerPage from "../pages/TrackerPage";
+
 import DailySpendingPage from "../pages/Finance/DailySpending/DailySpendingPage";
 import Dashboard from "../pages/Finance/Dashboard/Dashboard";
-import RoleManagement from "../pages/roleManagement/RoleManagement";
-import UsersManagement from "../pages/roleManagement/UsersManagement";
-import { navigationItems } from "../config/navigation";
-import { selectHasPermission, selectIsAdmin, selectPermissionLoading } from "../features/permissions/permissionSlice";
-import Login from "../pages/Login/Login";
 import MonthlySpendingPage from "../pages/Finance/MonthlySpending/MonthlySpendingPage";
 import YearlySpendingPage from "../pages/Finance/YearlySpending/YearlySpendingPage";
+
+import RoleManagement from "../pages/roleManagement/RoleManagement";
+import UsersManagement from "../pages/roleManagement/UsersManagement";
+
+import { navigationItems } from "../config/navigation";
+
+import {
+    selectHasPermission,
+    selectIsAdmin,
+    selectPermissionLoading,
+} from "../features/permissions/permissionSlice";
+
+import Login from "../pages/Login/Login";
+
+// Debt
 import DebtOverview from "../features/debt/pages/DebtOverview/DebtOverview";
-// import MonthlyDebtSummary from "../features/debt/pages/MonthlyDebtSummary/MonthlyDebtSummary";
-// import YearlyDebtSummary from "../features/debt/pages/YearlyDebtSummary/YearlyDebtSummary";
-// import DebtPaymentHistory from "../features/debt/pages/DebtPaymentHistory/DebtPaymentHistory";
 import DebtActivityHistory from "../features/debt/pages/DebtActivityHistory/DebtActivityHistory";
 import AllDebtsContainer from "../features/debt/pages/AllDebtsContainer";
 import MonthlyDebtUpdateContainer from "../features/debt/pages/MonthlyDebtUpdate/MonthlyDebtUpdateContainer/MonthlyDebtUpdateContainer";
+
+// Goals
 import GoalsContainer from "../features/goals/GoalsContainer";
+
+// Investments
 import AllInvestmentsContainer from "../features/investments/pages/AllInvestments/AllInvestmentsContainer";
 import MonthlyInvestmentContainer from "../features/investments/pages/MonthlyInvestment/MonthlyInvestmentContainer";
 import YearlyInvestmentContainer from "../features/investments/pages/YearlyInvestment/YearlyInvestmentContainer";
 import InvestmentDashboardContainer from "../features/investments/pages/InvestmentDashboard/InvestmentDashboardContainer";
 
+// Budget
+import BudgetPlannerContainer from "../features/budget/pages/BudgetPlanner/BudgetPlannerContainer";
+import MonthlyBudgetContainer from "../features/budget/pages/MonthlyBudget/MonthlyBudgetContainer";
 
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
     const isAdmin = useSelector(selectIsAdmin);
     const permissionLoading = useSelector(selectPermissionLoading);
+
     const hasPermission = useSelector(
         selectHasPermission(componentKey)
     );
@@ -65,7 +82,6 @@ const customPages = {
     "/debt/monthly-update": MonthlyDebtUpdateContainer,
     "/debt/activity-history": DebtActivityHistory,
 
-
     // Goals
     "/goals": GoalsContainer,
 
@@ -74,6 +90,9 @@ const customPages = {
     "/investments/all-investments": AllInvestmentsContainer,
     "/investments/monthly-update": MonthlyInvestmentContainer,
     "/investments/yearly": YearlyInvestmentContainer,
+
+    // Budget
+    "/planner/budget": BudgetPlannerContainer,
 
     // User Management
     "/user-management/roles": RoleManagement,
@@ -96,6 +115,8 @@ function AppRoutes() {
     return (
         <Routes>
             <Route element={<MainLayout />}>
+
+                {/* Default route */}
                 <Route
                     path="/"
                     element={
@@ -103,6 +124,7 @@ function AppRoutes() {
                     }
                 />
 
+                {/* Navigation-driven routes */}
                 {routes.map((page) => {
                     const CustomPage = customPages[page.path];
 
@@ -132,12 +154,24 @@ function AppRoutes() {
                     );
                 })}
 
+                {/* Dynamic Monthly Budget route */}
+                <Route
+                    path="/planner/budget/:year/:month"
+                    element={
+                        <ProtectedPage componentKey="planner.budget">
+                            <MonthlyBudgetContainer />
+                        </ProtectedPage>
+                    }
+                />
+
+                {/* Fallback */}
                 <Route
                     path="*"
                     element={
                         <Navigate to="/finance/dashboard" replace />
                     }
                 />
+
             </Route>
         </Routes>
     );

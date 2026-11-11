@@ -1,0 +1,227 @@
+
+.income-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(5px);
+}
+
+.income-modal-container {
+    width: 100%;
+    max-width: 490px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25);
+    animation: incomeModalEnter 0.2s ease-out;
+}
+
+@keyframes incomeModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.income-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.income-modal-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.income-modal-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: #059669;
+    background: #dff8ed;
+    border-radius: 14px;
+}
+
+.income-modal-heading h2 {
+    margin: 0;
+    color: #172033;
+    font-size: 19px;
+    font-weight: 750;
+}
+
+.income-modal-heading p {
+    margin: 5px 0 0;
+    color: #8992a3;
+    font-size: 12px;
+}
+
+.income-modal-close {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 10px;
+    color: #64748b;
+    background: #f1f5f9;
+    cursor: pointer;
+}
+
+.income-modal-close:hover {
+    color: #dc2626;
+    background: #feecec;
+}
+
+.income-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    padding: 24px;
+}
+
+.income-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.income-form-field label {
+    color: #344054;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.income-form-field label span {
+    color: #ef4444;
+}
+
+.income-form-field input,
+.income-form-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #dce2eb;
+    border-radius: 10px;
+    outline: none;
+    color: #1e293b;
+    background: #ffffff;
+    font: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.income-form-field input:focus,
+.income-form-field textarea:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+.income-form-field textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+.income-amount-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.income-amount-input > svg {
+    position: absolute;
+    left: 13px;
+    color: #059669;
+}
+
+.income-amount-input input {
+    padding-left: 40px;
+}
+
+.income-form-error {
+    padding: 11px 13px;
+    color: #b42318;
+    background: #fef3f2;
+    border: 1px solid #fecdca;
+    border-radius: 9px;
+    font-size: 12px;
+}
+
+.income-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 18px 24px;
+    border-top: 1px solid #edf0f5;
+    background: #fafbfc;
+    border-radius: 0 0 18px 18px;
+}
+
+.income-modal-footer button {
+    min-height: 40px;
+    padding: 0 17px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.income-modal-footer button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.income-modal-cancel {
+    color: #475467;
+    background: #ffffff;
+    border: 1px solid #dce2eb;
+}
+
+.income-modal-cancel:hover:not(:disabled) {
+    background: #f1f5f9;
+}
+
+.income-modal-submit {
+    color: #ffffff;
+    background: linear-gradient(135deg, #059669, #10b981);
+    border: none;
+    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
+}
+
+.income-modal-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(5, 150, 105, 0.25);
+}
+
+@media (max-width: 520px) {
+    .income-modal-overlay {
+        padding: 12px;
+    }
+
+    .income-modal-header,
+    .income-modal-body {
+        padding: 18px;
+    }
+
+    .income-modal-footer {
+        padding: 15px 18px;
+    }
+}
