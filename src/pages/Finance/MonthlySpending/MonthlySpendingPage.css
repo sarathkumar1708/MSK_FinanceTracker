@@ -1,285 +1,555 @@
 
+/* =========================================
+   MONTHLY SPENDING - PAGE
+========================================= */
+
 .monthly-spending-card {
-    padding: 24px;
-  }
-  
-  /* Year Selector */
-  
-  .monthly-spending-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
-  
-  .year-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .year-selector label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #64748b;
-  }
-  
-  .year-selector select {
-    min-width: 150px;
-    padding: 10px 12px;
-    border: 1px solid #dbe3ef;
-    border-radius: 8px;
-    background: #fff;
-    color: #1e293b;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .year-reset-button {
-    padding: 10px 14px;
-    border: 1px solid #dbe3ef;
-    border-radius: 8px;
-    background: #fff;
-    color: #2563eb;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  .year-reset-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  /* Yearly Summary */
-  
-  .yearly-summary {
-    padding: 22px;
-    margin-bottom: 30px;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    background: #f8fafc;
-  }
-  
-  .yearly-summary-header,
-  .monthly-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  
-  .yearly-summary-header h3,
-  .monthly-section-header h3 {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 700;
-    color: #1e293b;
-  }
-  
-  .yearly-summary-header span,
-  .monthly-section-header span {
-    font-size: 13px;
-    color: #64748b;
-  }
-  
+  padding: 26px;
+  border: 1px solid #e8edf5;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.045);
+  min-width: 0;
+}
+
+/* =========================================
+   YEAR TOOLBAR
+========================================= */
+
+.monthly-spending-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.year-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.year-selector label {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.year-selector select {
+  min-width: 160px;
+  height: 43px;
+  padding: 0 38px 0 14px;
+  border: 1px solid #dbe4f0;
+  border-radius: 11px;
+  outline: none;
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.year-selector select:hover,
+.year-selector select:focus {
+  border-color: #60a5fa;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.09);
+}
+
+.year-reset-button {
+  height: 43px;
+  padding: 0 17px;
+  border: 1px solid #bfdbfe;
+  border-radius: 11px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.year-reset-button:hover:not(:disabled) {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.year-reset-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   YEARLY OVERVIEW PANEL
+========================================= */
+
+.yearly-summary {
+  position: relative;
+  overflow: hidden;
+  padding: 27px;
+  margin-bottom: 34px;
+  border: 1px solid #243e70;
+  border-radius: 20px;
+  background: linear-gradient(125deg, #101f3e 0%, #173665 58%, #1e4b87 100%);
+  box-shadow: 0 12px 28px rgba(15, 40, 80, 0.16);
+}
+
+.yearly-summary::before {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  top: -155px;
+  right: -55px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.yearly-summary::after {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  bottom: -140px;
+  right: 180px;
+  border-radius: 50%;
+  background: rgba(96, 165, 250, 0.10);
+}
+
+.yearly-summary-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.yearly-summary-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.yearly-summary-header span {
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.10);
+  color: #dbeafe;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* =========================================
+   YEARLY KPI CARDS
+========================================= */
+
+.yearly-summary-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.yearly-summary-item {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
+  min-height: 112px;
+  padding: 19px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.095);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.yearly-summary-item:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.yearly-summary-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 17px;
+  bottom: 17px;
+  width: 3px;
+  border-radius: 0 5px 5px 0;
+  background: #93c5fd;
+}
+
+.yearly-summary-item.income-summary::before {
+  background: #34d399;
+}
+
+.yearly-summary-item.expense-summary::before {
+  background: #fb7185;
+}
+
+.yearly-summary-item.balance-summary::before {
+  background: #60a5fa;
+}
+
+.yearly-summary-item.count-summary::before {
+  background: #c4b5fd;
+}
+
+.yearly-summary-item span {
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.yearly-summary-item strong {
+  color: #ffffff;
+  font-size: clamp(17px, 1.7vw, 23px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================
+   MONTHLY SECTION HEADER
+========================================= */
+
+.monthly-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.monthly-section-header h3 {
+  margin: 0;
+  color: #172554;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.monthly-section-header span {
+  padding: 7px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 30px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+/* =========================================
+   MONTHLY CARD GRID
+========================================= */
+
+.monthly-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.monthly-summary-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e5eaf2;
+  border-radius: 17px;
+  background: linear-gradient(160deg, #ffffff 0%, #fbfdff 100%);
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.monthly-summary-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+.monthly-summary-card:hover {
+  transform: translateY(-4px);
+  border-color: #bfdbfe;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.09);
+}
+
+/* =========================================
+   MONTH HEADER
+========================================= */
+
+.monthly-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 17px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.monthly-card-header h3 {
+  margin: 0;
+  color: #172554;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.monthly-transaction-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 9px;
+  border: 1px solid #dbeafe;
+  border-radius: 30px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+/* =========================================
+   MONTH DETAILS
+========================================= */
+
+.monthly-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.monthly-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.monthly-detail-row span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 550;
+}
+
+.monthly-detail-row strong {
+  font-size: 14px;
+  font-weight: 800;
+  text-align: right;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.monthly-detail-row .income-text {
+  color: #059669;
+}
+
+.monthly-detail-row .expense-text {
+  color: #e11d48;
+}
+
+.monthly-detail-divider {
+  height: 1px;
+  margin: 1px 0;
+  background: linear-gradient(90deg, #e2e8f0, transparent);
+}
+
+/* =========================================
+   BALANCE HIGHLIGHT
+========================================= */
+
+.monthly-balance-row {
+  margin: 0 -4px;
+  padding: 12px;
+  border: 1px solid #dbeafe;
+  border-radius: 11px;
+  background: #f0f7ff;
+}
+
+.monthly-balance-row span {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.monthly-balance-row strong {
+  font-size: 16px;
+  font-weight: 850;
+}
+
+.monthly-balance-row strong.positive {
+  color: #047857;
+}
+
+.monthly-balance-row strong.negative {
+  color: #dc2626;
+}
+
+.monthly-balance-row strong.neutral {
+  color: #64748b;
+}
+
+/* =========================================
+   EMPTY MONTH
+========================================= */
+
+.monthly-summary-card:has(.monthly-empty-label) {
+  background: #fafbfd;
+}
+
+.monthly-summary-card:has(.monthly-empty-label)::before {
+  background: #cbd5e1;
+}
+
+.monthly-summary-card:has(.monthly-empty-label) .monthly-card-header h3 {
+  color: #64748b;
+}
+
+.monthly-empty-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px dashed #dbe3ed;
+  border-radius: 9px;
+  background: #f8fafc;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* =========================================
+   LOADING / ERROR
+========================================= */
+
+.monthly-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.monthly-spending-card .error-message {
+  padding: 13px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #fecaca;
+  border-radius: 11px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
   .yearly-summary-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
-  .yearly-summary-item {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 18px;
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    min-width: 0;
-  }
-  
-  .yearly-summary-item span {
-    font-size: 13px;
-    color: #64748b;
-    font-weight: 500;
-  }
-  
-  .yearly-summary-item strong {
-    font-size: 20px;
-    color: #1e293b;
-    overflow-wrap: anywhere;
-  }
-  
-  .income-summary strong,
-  .income-text,
-  .positive {
-    color: #16a34a;
-  }
-  
-  .expense-summary strong,
-  .expense-text,
-  .negative {
-    color: #dc2626;
-  }
-  
-  .balance-summary.neutral strong,
-  .neutral {
-    color: #64748b;
-  }
-  
-  /* Monthly Breakdown */
-  
-  .monthly-section-header {
-    margin-bottom: 18px;
-  }
-  
+
   .monthly-summary-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+}
+
+@media (max-width: 700px) {
+  .monthly-spending-card {
+    padding: 17px;
+    border-radius: 15px;
+  }
+
+  .yearly-summary {
+    padding: 19px;
+    border-radius: 15px;
+  }
+
+  .yearly-summary-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .yearly-summary-item {
+    min-height: 100px;
+    padding: 15px;
+  }
+
+  .yearly-summary-item strong {
+    font-size: 18px;
+  }
+
+  .monthly-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .monthly-summary-grid {
+    gap: 13px;
+  }
+}
+
+@media (max-width: 520px) {
+  .monthly-spending-toolbar {
+    justify-content: stretch;
+  }
+
+  .year-selector {
+    flex: 1;
+  }
+
+  .year-selector select {
+    width: 100%;
+  }
+
+  .year-reset-button {
+    flex: 1;
+  }
+
+  .yearly-summary-grid,
+  .monthly-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .yearly-summary-item {
+    min-height: 90px;
+  }
+
   .monthly-summary-card {
     padding: 18px;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    background: #fff;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    min-width: 0;
   }
-  
-  .monthly-summary-card:hover {
-    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.07);
-    transform: translateY(-2px);
-  }
-  
-  .monthly-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .monthly-card-header h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 700;
-    color: #1e293b;
-  }
-  
-  .monthly-transaction-count {
-    font-size: 11px;
-    color: #64748b;
-    background: #f1f5f9;
-    padding: 5px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-  
-  .monthly-card-details {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  
-  .monthly-detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .monthly-detail-row span {
-    font-size: 13px;
-    color: #64748b;
-  }
-  
-  .monthly-detail-row strong {
-    font-size: 14px;
-    text-align: right;
-    overflow-wrap: anywhere;
-  }
-  
-  .monthly-detail-divider {
-    height: 1px;
-    background: #e2e8f0;
-  }
-  
-  .monthly-balance-row span {
-    font-weight: 700;
-    color: #334155;
-  }
-  
-  .monthly-balance-row strong {
-    font-size: 16px;
-  }
-  
-  .monthly-empty-label {
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px dashed #e2e8f0;
-    color: #94a3b8;
-    font-size: 12px;
-    text-align: center;
-  }
-  
-  .monthly-loading {
-    padding: 50px 20px;
-    text-align: center;
-    color: #64748b;
-  }
-  
-  /* Responsive */
-  
-  @media (max-width: 1100px) {
-    .yearly-summary-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  
-    .monthly-summary-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  
-  @media (max-width: 650px) {
-    .monthly-spending-card {
-      padding: 16px;
-    }
-  
-    .monthly-spending-toolbar {
-      justify-content: flex-start;
-    }
-  
-    .year-selector {
-      flex: 1;
-    }
-  
-    .year-selector select {
-      width: 100%;
-    }
-  
-    .yearly-summary-grid,
-    .monthly-summary-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .yearly-summary {
-      padding: 16px;
-    }
-  
-    .yearly-summary-header,
-    .monthly-section-header {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-  
-    .yearly-summary-item strong {
-      font-size: 18px;
-    }
-  }
-  
+}

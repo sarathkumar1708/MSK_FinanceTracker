@@ -179,6 +179,7 @@ export default function InvestmentDashboard({
         0
     );
 
+
     const monthlyReport = useMemo(() => {
         const monthNumbers =
             selectedMonth === "all"
@@ -246,6 +247,7 @@ export default function InvestmentDashboard({
         selectedMonth === "all"
             ? selectedYear
             : `${MONTHS[Number(selectedMonth) - 1]} ${selectedYear}`;
+
 
     return (
         <div className="investment-dashboard-page">
@@ -363,6 +365,15 @@ export default function InvestmentDashboard({
                             <span>Net Invested</span>
                             <strong>{formatCurrency(summary.netInvested)}</strong>
                             <small>Contributions minus withdrawals</small>
+                        </div>
+
+                        <div className="investment-dashboard-card">
+                            <div className="investment-dashboard-card-icon count">
+                                <ArrowLeftRight />
+                            </div>
+                            <span>Total Profit</span>
+                            <strong>{formatCurrency(totalCurrentValue - summary.contributions)}</strong>
+                            <small>For selected period</small>
                         </div>
 
                         <div className="investment-dashboard-card">

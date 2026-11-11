@@ -39,7 +39,7 @@ export function InvestmentPageHeader({
     description,
     buttonText,
     onButtonClick,
-    showButton = true,
+    showButton,
 }) {
     return (
         <div className="investment-page-header">
@@ -126,6 +126,13 @@ export function InvestmentCard({
                     <span>Current Value</span>
                     <strong className="current-value">
                         {formatCurrency(currentValue)}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Profit</span>
+                    <strong className={(currentValue - totalInvested) > 0 ? "current-value" : "withdrawal-value"}>
+                        {formatCurrency(currentValue - totalInvested)}
                     </strong>
                 </div>
 

@@ -178,10 +178,10 @@ export default function MonthlyInvestment({
             return;
         }
 
-        if (transactionForm.transaction_date.slice(0, 7) !== selectedMonth) {
-            setError("Transaction date must belong to the selected month.");
-            return;
-        }
+        // if (transactionForm.transaction_date.slice(0, 7) !== selectedMonth) {
+        //     setError("Transaction date must belong to the selected month.");
+        //     return;
+        // }
 
         const payload = {
             investment_id: selectedInvestmentId,

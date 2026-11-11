@@ -1,137 +1,349 @@
 
-/* ==============================
-   TRANSACTION TABLE FILTERS
-================================ */
+/* =========================================
+   TRANSACTIONS TABLE
+========================================= */
 
 .transactions-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  
-  .transactions-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  
-  .transactions-title {
-    flex-shrink: 0;
-  }
-  
-  .transactions-filters {
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-end;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-left: auto;
-  }
-  
-  .filter-card {
-    min-width: 145px;
-  }
-  
-  .transactions-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  
-  .transactions-filters {
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-end;
-    gap: 10px;
-    flex-wrap: nowrap;
-    margin-left: auto;
-    width: auto;
-  }
-  
-  .filter-card-search {
-    min-width: 220px;
-    width: 240px;
-    flex: 0 0 240px;
-  }
-  
-  .filter-card-range {
-    min-width: 250px;
-    flex: 0 0 250px;
-  }
-  
-  .filter-card-type {
-    min-width: 125px;
-    flex: 0 0 125px;
-  }
-  
-  .filter-card-search input {
-    width: 100%;
-    min-width: 0;
-  }
-  
-  .filter-card-range {
-    min-width: 250px;
-  }
-  
-  .filter-card-type {
-    min-width: 125px;
-  }
-  
-  .filter-card input,
-  .filter-card select {
-    width: 100%;
-    min-width: 0;
-  }
-  
-  .filter-clear-button {
-    align-self: center;
-    white-space: nowrap;
-  }
-  
-  /* ==============================
-     RESPONSIVE FILTERS
-  ================================ */
-  
-  @media (max-width: 1100px) {
-    .transactions-header {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-  
-    .transactions-filters {
-      width: 100%;
-      margin-left: 0;
-      justify-content: flex-start;
-    }
-  
-    .filter-card-search {
-      flex: 1 1 100%;
-    }
-  }
-  /* Pagination */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.transactions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.transactions-title {
+  margin: 0;
+  color: #172554;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+}
+
+.transactions-filters {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  min-width: 125px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-card:focus-within {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.09);
+  background: #fff;
+}
+
+.filter-card-search {
+  width: 240px;
+  flex: 0 1 240px;
+}
+
+.filter-card-range {
+  width: 250px;
+  flex: 0 1 250px;
+}
+
+.filter-card-type {
+  width: 135px;
+  flex: 0 1 135px;
+}
+
+.filter-card-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.filter-card-label svg {
+  color: #64748b;
+}
+
+.filter-card input,
+.filter-card select {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  padding: 3px 2px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 550;
+}
+
+.filter-card input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.filter-card select {
+  cursor: pointer;
+}
+
+.filter-clear-button {
+  align-self: center;
+  padding: 10px 15px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fff7f7;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-clear-button:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* =========================================
+   TABLE CONTAINER
+========================================= */
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.035);
+}
+
+.data-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.data-table thead {
+  background: #f1f5f9;
+}
+
+.data-table th {
+  padding: 15px 14px;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table td {
+  padding: 14px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 500;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.data-table tbody tr {
+  transition: background 0.18s ease;
+}
+
+.data-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table td:first-child {
+  color: #64748b;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.data-table td:nth-child(3) {
+  color: #334155;
+  font-weight: 650;
+}
+
+.data-table td:nth-child(5) {
+  color: #0f172a;
+  font-weight: 650;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* =========================================
+   INCOME / EXPENSE BADGES
+========================================= */
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 6px 11px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.2px;
+}
+
+.type-income {
+  color: #047857;
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+}
+
+.type-expense {
+  color: #dc2626;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+/* =========================================
+   AMOUNT
+========================================= */
+
+.amount-income {
+  color: #059669 !important;
+  font-weight: 800 !important;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.amount-expense {
+  color: #dc2626 !important;
+  font-weight: 800 !important;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================
+   NOTES
+========================================= */
+
+.notes-cell {
+  max-width: 180px;
+  color: #64748b !important;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.icon-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-action-button.edit {
+  color: #2563eb;
+  background: #eff6ff;
+  border-color: #dbeafe;
+}
+
+.icon-action-button.edit:hover {
+  color: #fff;
+  background: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.icon-action-button.delete {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fee2e2;
+}
+
+.icon-action-button.delete:hover {
+  color: #fff;
+  background: #dc2626;
+  border-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.table-empty {
+  padding: 48px 20px !important;
+  text-align: center;
+  color: #94a3b8 !important;
+  font-size: 13px !important;
+  font-weight: 550 !important;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
 
 .pagination-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 4px 4px;
+  padding: 4px 2px;
   flex-wrap: wrap;
 }
 
 .pagination-info {
-  font-size: 13px;
   color: #64748b;
+  font-size: 12px;
 }
 
 .pagination-info strong {
   color: #1e293b;
-  font-weight: 600;
+  font-weight: 750;
 }
 
 .pagination-controls {
@@ -142,82 +354,95 @@
 }
 
 .pagination-button {
-  min-width: 34px;
-  height: 34px;
-  padding: 0 10px;
-  border: 1px solid #dbe3ef;
-  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 11px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
   background: #fff;
   color: #475569;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 650;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .pagination-button:hover:not(:disabled) {
-  background: #f1f5f9;
-  border-color: #94a3b8;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+  background: #eff6ff;
 }
 
 .pagination-button.active {
+  color: #fff;
   background: #2563eb;
   border-color: #2563eb;
-  color: #fff;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
 }
 
 .pagination-button:disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-@media (max-width: 600px) {
-  .pagination-container {
-    flex-direction: column;
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+  .transactions-header {
     align-items: flex-start;
+    flex-direction: column;
   }
 
-  .pagination-controls {
+  .transactions-filters {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+
+  .filter-card-search {
+    flex: 1 1 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .transactions-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .filter-card-search,
+  .filter-card-range,
+  .filter-card-type {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .filter-card-search {
+    grid-column: 1 / -1;
+  }
+
+  .filter-clear-button {
     width: 100%;
   }
 }
-  
-  @media (max-width: 768px) {
-    .transactions-filters {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-  
-    .filter-card-search {
-      grid-column: 1 / -1;
-    }
-  
-    .filter-card-range {
-      min-width: 0;
-    }
-  
-    .filter-card-type {
-      min-width: 0;
-    }
-  
-    .filter-clear-button {
-      grid-column: 1 / -1;
-      width: 100%;
-    }
+
+@media (max-width: 480px) {
+  .transactions-filters {
+    grid-template-columns: 1fr;
   }
-  
-  @media (max-width: 420px) {
-    .transactions-filters {
-      grid-template-columns: 1fr;
-    }
-  
-    .filter-card-search {
-      grid-column: auto;
-    }
-  
-    .filter-clear-button {
-      grid-column: auto;
-    }
+
+  .filter-card-search {
+    grid-column: auto;
   }
-  
+
+  .pagination-container {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

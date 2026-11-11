@@ -127,6 +127,7 @@ export default function AllInvestments({
     return (
         <div className="all-investments-page">
             <InvestmentPageHeader
+                showButton={true}
                 title="All Investments"
                 description="Manage and monitor all your investments."
                 buttonText="Create Investment"
