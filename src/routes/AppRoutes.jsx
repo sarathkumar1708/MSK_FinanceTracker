@@ -20,6 +20,10 @@ import DebtActivityHistory from "../features/debt/pages/DebtActivityHistory/Debt
 import AllDebtsContainer from "../features/debt/pages/AllDebtsContainer";
 import MonthlyDebtUpdateContainer from "../features/debt/pages/MonthlyDebtUpdate/MonthlyDebtUpdateContainer/MonthlyDebtUpdateContainer";
 import GoalsContainer from "../features/goals/GoalsContainer";
+import AllInvestmentsContainer from "../features/investments/pages/AllInvestments/AllInvestmentsContainer";
+import MonthlyInvestmentContainer from "../features/investments/pages/MonthlyInvestment/MonthlyInvestmentContainer";
+import YearlyInvestmentContainer from "../features/investments/pages/YearlyInvestment/YearlyInvestmentContainer";
+import InvestmentDashboardContainer from "../features/investments/pages/InvestmentDashboard/InvestmentDashboardContainer";
 
 
 
@@ -64,6 +68,12 @@ const customPages = {
 
     // Goals
     "/goals": GoalsContainer,
+
+    // Investments
+    "/investments/dashboard": InvestmentDashboardContainer,
+    "/investments/all-investments": AllInvestmentsContainer,
+    "/investments/monthly-update": MonthlyInvestmentContainer,
+    "/investments/yearly": YearlyInvestmentContainer,
 
     // User Management
     "/user-management/roles": RoleManagement,

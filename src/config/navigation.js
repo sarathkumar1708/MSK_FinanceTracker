@@ -69,31 +69,31 @@ export const navigationItems = [
             },
         ],
     },
-    {
-        id: "home-essentials",
-        title: "Home Essentials",
-        icon: "House",
-        children: [
-            {
-                title: "Bills",
-                path: "/home-essentials/bills",
-                componentKey: "home.bills",
-                description: "Manage household bills and payment dates.",
-            },
-            {
-                title: "Monthly Needs",
-                path: "/home-essentials/monthly-needs",
-                componentKey: "home.monthly-needs",
-                description: "Track your monthly household requirements.",
-            },
-            {
-                title: "Weekly Planning",
-                path: "/home-essentials/weekly-planning",
-                componentKey: "home.weekly-planning",
-                description: "Organize your weekly household activities.",
-            },
-        ],
-    },
+    // {
+    //     id: "home-essentials",
+    //     title: "Home Essentials",
+    //     icon: "House",
+    //     children: [
+    //         {
+    //             title: "Bills",
+    //             path: "/home-essentials/bills",
+    //             componentKey: "home.bills",
+    //             description: "Manage household bills and payment dates.",
+    //         },
+    //         {
+    //             title: "Monthly Needs",
+    //             path: "/home-essentials/monthly-needs",
+    //             componentKey: "home.monthly-needs",
+    //             description: "Track your monthly household requirements.",
+    //         },
+    //         {
+    //             title: "Weekly Planning",
+    //             path: "/home-essentials/weekly-planning",
+    //             componentKey: "home.weekly-planning",
+    //             description: "Organize your weekly household activities.",
+    //         },
+    //     ],
+    // },
     {
         id: "debt-management",
         title: "DEBT Management",
@@ -138,7 +138,7 @@ export const navigationItems = [
             },
             {
                 title: "All Investments",
-                path: "/investments/all",
+                path: "/investments/all-investments",
                 componentKey: "investments.all",
                 description: "Create, edit, delete and manage all your investments",
             },
@@ -157,14 +157,6 @@ export const navigationItems = [
         ],
     },
     {
-        id: "loan",
-        title: "Loan",
-        icon: "Landmark",
-        path: "/loan",
-        componentKey: "loan",
-        description: "Manage your loan details and repayment schedules.",
-    },
-    {
         id: "goals",
         title: "Goals",
         icon: "CalendarDays",
@@ -172,14 +164,14 @@ export const navigationItems = [
         componentKey: "goals",
         description: "Organize your future goals and important milestones.",
     },
-    {
-        id: "my-bookmarks",
-        title: "My Bookmarks",
-        icon: "Bookmark",
-        path: "/my-bookmarks",
-        componentKey: "bookmarks",
-        description: "Save and organize your important links.",
-    },
+    // {
+    //     id: "my-bookmarks",
+    //     title: "My Bookmarks",
+    //     icon: "Bookmark",
+    //     path: "/my-bookmarks",
+    //     componentKey: "bookmarks",
+    //     description: "Save and organize your important links.",
+    // },
     {
         id: "user-management",
         title: "User Management",

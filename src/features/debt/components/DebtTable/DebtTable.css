@@ -1,61 +1,122 @@
-/* =========================================
-   DEBT TABLE
-========================================= */
+
+/* =========================================================
+   DEBT TABLE — PREMIUM FINANCIAL DATA TABLE
+========================================================= */
 
 .debt-table-wrapper {
     width: 100%;
-    overflow-x: auto;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
+    max-width: 100%;
+    overflow: auto;
+    position: relative;
     background: #ffffff;
+    border: 1px solid #e1e7f1;
+    border-radius: 17px;
+    box-shadow:
+        0 5px 18px rgba(24, 42, 78, 0.045),
+        0 1px 3px rgba(24, 42, 78, 0.025);
+    scrollbar-width: thin;
+    scrollbar-color: #b9c6df #f1f4fa;
 }
+
+.debt-table-wrapper::-webkit-scrollbar {
+    height: 9px;
+    width: 9px;
+}
+
+.debt-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f4fa;
+    border-radius: 10px;
+}
+
+.debt-table-wrapper::-webkit-scrollbar-thumb {
+    background: #bdc9df;
+    border-radius: 10px;
+}
+
+.debt-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #8fa3c6;
+}
+
+/* =========================================================
+   TABLE STRUCTURE
+========================================================= */
 
 .debt-table {
     width: 100%;
-    min-width: 1800px;
+    min-width: 1900px;
     border-collapse: separate;
     border-spacing: 0;
     font-size: 13px;
 }
 
-/* =========================================
+/* =========================================================
    TABLE HEADER
-========================================= */
+========================================================= */
 
 .debt-table thead {
-    background: #f1f5f9;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.debt-table thead tr {
+    background: linear-gradient(110deg, #172b55, #263f76);
 }
 
 .debt-table th {
-    padding: 14px 12px;
+    padding: 17px 15px;
+    color: #e8eeff;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.75px;
     text-align: left;
-    color: #475569;
-    font-size: 12px;
-    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.35px;
-    border-bottom: 2px solid #e2e8f0;
     white-space: nowrap;
 }
 
-/* =========================================
+.debt-table th:first-child {
+    padding-left: 20px;
+}
+
+.debt-table th:last-child {
+    padding-right: 20px;
+}
+
+/* =========================================================
    TABLE BODY
-========================================= */
+========================================================= */
 
 .debt-table td {
-    padding: 13px 12px;
-    border-bottom: 1px solid #f1f5f9;
-    color: #334155;
-    white-space: nowrap;
+    padding: 16px 15px;
+    color: #52617a;
+    border-bottom: 1px solid #edf0f6;
+    background: #ffffff;
+    font-size: 12px;
+    font-weight: 550;
     vertical-align: middle;
+    white-space: nowrap;
+    transition: background 0.18s ease;
+}
+
+.debt-table td:first-child {
+    padding-left: 20px;
+    color: #8b98ad;
+    font-size: 11px;
+    font-weight: 750;
 }
 
 .debt-table tbody tr {
     transition: background 0.2s ease;
 }
 
-.debt-table tbody tr:hover {
-    background: #f8fafc;
+.debt-table tbody tr:nth-child(even) td {
+    background: #fafbfe;
+}
+
+.debt-table tbody tr:hover td {
+    background: #f0f4ff;
 }
 
 .debt-table tbody tr:last-child td {
@@ -63,112 +124,156 @@
 }
 
 .debt-table td strong {
-    color: #1e293b;
-    font-weight: 700;
+    color: #1c2e52;
+    font-size: 13px;
+    font-weight: 850;
 }
 
-/* =========================================
+/* =========================================================
+   DEBT NAME
+========================================================= */
+
+.debt-table td:nth-child(2) strong {
+    display: inline-block;
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+/* =========================================================
    FINANCIAL VALUE BADGES
-   Same style as Status badges
-========================================= */
+========================================================= */
 
 .debt-value {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
+    min-height: 28px;
+    padding: 6px 11px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0.05px;
     white-space: nowrap;
+    transition: transform 0.18s ease;
 }
 
-/* Original Amount - Blue */
+.debt-value:hover {
+    transform: translateY(-1px);
+}
+
+/* Original Amount */
 
 .debt-value-blue {
-    color: #1d4ed8;
-    background: #dbeafe;
+    color: #2451bd;
+    background: #edf3ff;
+    border-color: #d9e5ff;
 }
 
-/* Current Outstanding - Red */
+/* Current Outstanding */
 
 .debt-value-red {
-    color: #991b1b;
-    background: #fee2e2;
+    color: #c12e42;
+    background: #fff0f1;
+    border-color: #ffd8dc;
 }
 
-/* Paid EMI - Green */
+/* Paid EMI */
 
 .debt-value-green {
-    color: #047857;
-    background: #d1fae5;
+    color: #08764f;
+    background: #e8f8f0;
+    border-color: #cceedd;
 }
 
-/* Part Payment - Teal */
+/* Part Payment */
 
 .debt-value-teal {
-    color: #0f766e;
-    background: #ccfbf1;
+    color: #087e78;
+    background: #e5f8f6;
+    border-color: #c6efeb;
 }
 
-/* Principal Paid - Blue */
+/* Principal Paid */
 
 .debt-value-principal {
-    color: #1e40af;
-    background: #dbeafe;
+    color: #3156ad;
+    background: #edf2ff;
+    border-color: #d8e3ff;
 }
 
-/* Interest Paid - Red */
+/* Interest Paid */
 
 .debt-value-interest {
-    color: #991b1b;
-    background: #fecaca;
+    color: #b93846;
+    background: #fff0f1;
+    border-color: #ffd8dc;
 }
 
-/* Paid After Outstanding - Purple */
+/* Purple — optional */
 
 .debt-value-purple {
-    color: #7e22ce;
-    background: #f3e8ff;
+    color: #7542b5;
+    background: #f4edff;
+    border-color: #e6d9ff;
 }
 
-/* =========================================
+/* =========================================================
+   INTEREST RATE
+========================================================= */
+
+.debt-table td:nth-child(5) .debt-value {
+    color: #bd3545;
+    background: #fff0f1;
+    border-color: #ffd8dc;
+}
+
+/* =========================================================
    CREATED DATE
-========================================= */
+========================================================= */
 
 .debt-table td:nth-child(7) {
-    color: #64748b;
-    font-size: 12px;
+    color: #8490a4;
+    font-size: 11px;
+    font-weight: 650;
 }
 
-/* =========================================
+/* =========================================================
    STATUS BADGES
-========================================= */
+========================================================= */
 
 .debt-status {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
+    min-width: 70px;
+    padding: 7px 12px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.35px;
     text-transform: capitalize;
 }
 
-.debt-status.active {
-    color: #047857;
-    background: #d1fae5;
+.debt-status.active,
+.debt-status.pending {
+    color: #08764f;
+    background: #e8f8f0;
+    border-color: #cceedd;
 }
 
 .debt-status.closed {
-    color: #64748b;
-    background: #e2e8f0;
+    color: #68758b;
+    background: #eef1f6;
+    border-color: #dce2eb;
 }
 
-/* =========================================
+/* =========================================================
    ACTION BUTTONS
-========================================= */
+========================================================= */
 
 .debt-table-actions {
     display: flex;
@@ -181,74 +286,133 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    min-height: 32px;
-    padding: 6px 9px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    min-width: 34px;
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 1px solid #e0e6f0;
+    border-radius: 9px;
     background: #ffffff;
-    color: #475569;
-    font-size: 12px;
+    color: #52627d;
+    font-size: 11px;
+    font-weight: 800;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-/* Pay Button */
+.debt-table-actions button:hover {
+    transform: translateY(-2px);
+}
+
+.debt-table-actions button svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 2.2;
+}
+
+/* Pay */
 
 .debt-table-actions button:first-child {
-    color: #2563eb;
-    border-color: #bfdbfe;
-    background: #eff6ff;
+    padding: 7px 13px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4169e8, #294bc0);
+    border-color: transparent;
+    box-shadow: 0 3px 8px rgba(52, 89, 213, 0.16);
 }
 
 .debt-table-actions button:first-child:hover {
-    color: #ffffff;
-    background: #2563eb;
-    border-color: #2563eb;
+    background: linear-gradient(135deg, #3157d5, #203fae);
+    box-shadow: 0 6px 13px rgba(52, 89, 213, 0.25);
 }
 
-/* Edit Button */
+/* Edit */
+
+.debt-table-actions button:nth-child(2) {
+    color: #3157c5;
+    background: #edf2ff;
+    border-color: #dce5ff;
+}
 
 .debt-table-actions button:nth-child(2):hover {
-    color: #2563eb;
-    background: #eff6ff;
-    border-color: #93c5fd;
+    color: #ffffff;
+    background: #3459d5;
+    border-color: #3459d5;
+    box-shadow: 0 5px 12px rgba(52, 89, 213, 0.18);
 }
 
-/* Delete Button */
+/* Delete */
+
+.debt-table-actions button:nth-child(3) {
+    color: #cf4653;
+    background: #fff1f2;
+    border-color: #ffdcdf;
+}
 
 .debt-table-actions button:nth-child(3):hover {
-    color: #dc2626;
-    background: #fef2f2;
-    border-color: #fca5a5;
+    color: #ffffff;
+    background: #d34b55;
+    border-color: #d34b55;
+    box-shadow: 0 5px 12px rgba(211, 75, 85, 0.18);
 }
 
-/* =========================================
+/* =========================================================
    EMPTY STATE
-========================================= */
+========================================================= */
 
 .debt-table .empty-state {
-    padding: 35px 15px;
-    text-align: center;
-    color: #94a3b8;
-    font-size: 14px;
+    padding: 45px 20px;
+    color: #8290a6;
     background: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
 }
 
-/* =========================================
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.debt-table-actions button:focus-visible {
+    outline: 3px solid rgba(52, 89, 213, 0.25);
+    outline-offset: 2px;
+}
+
+/* =========================================================
    RESPONSIVE
-========================================= */
+========================================================= */
 
 @media (max-width: 768px) {
     .debt-table-wrapper {
-        border-radius: 8px;
+        border-radius: 12px;
     }
 
     .debt-table {
-        min-width: 1800px;
+        min-width: 1900px;
     }
 
-    .debt-table th,
+    .debt-table th {
+        padding: 14px 12px;
+        font-size: 9px;
+    }
+
     .debt-table td {
-        padding: 11px 10px;
+        padding: 13px 12px;
+    }
+
+    .debt-value {
+        min-height: 26px;
+        padding: 5px 9px;
+        font-size: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .debt-table *,
+    .debt-table-wrapper * {
+        transition: none !important;
     }
 }

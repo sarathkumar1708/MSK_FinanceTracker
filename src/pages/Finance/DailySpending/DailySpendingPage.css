@@ -1,62 +1,447 @@
 
-.spending-month-selector {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    gap: 12px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .spending-month-selector > div {
-    display: flex;
+/* =========================================
+   DAILY SPENDING - PREMIUM FINANCE UI
+========================================= */
+
+.daily-spending-card {
+  width: 100%;
+  min-width: 0;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e8edf5;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(24, 39, 75, 0.055);
+  box-sizing: border-box;
+}
+
+.daily-spending-card * {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   MONTH / YEAR FILTER PANEL
+========================================= */
+
+.daily-spending-card .spending-month-selector {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding: 18px 20px;
+  background: linear-gradient(120deg, #f7f9ff, #f1f5fc);
+  border: 1px solid #e7edf7;
+  border-radius: 14px;
+}
+
+.daily-spending-card .spending-month-selector > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.daily-spending-card .spending-month-selector label {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.daily-spending-card .spending-month-selector select {
+  min-width: 155px;
+  height: 43px;
+  padding: 0 36px 0 13px;
+  color: #263750;
+  background: #ffffff;
+  border: 1px solid #dce4f0;
+  border-radius: 9px;
+  outline: none;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.daily-spending-card .spending-month-selector select:hover {
+  border-color: #8da8d8;
+}
+
+.daily-spending-card .spending-month-selector select:focus {
+  border-color: #456fc0;
+  box-shadow: 0 0 0 3px rgba(69, 111, 192, 0.12);
+}
+
+.daily-spending-card .current-month-button {
+  height: 43px;
+  padding: 0 18px;
+  color: #345da5;
+  background: #e9f0ff;
+  border: 1px solid #d6e2fb;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.daily-spending-card .current-month-button:hover:not(:disabled) {
+  color: #ffffff;
+  background: #345da5;
+  border-color: #345da5;
+  box-shadow: 0 5px 12px rgba(52, 93, 165, 0.2);
+  transform: translateY(-1px);
+}
+
+.daily-spending-card .current-month-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   ACTION BAR
+========================================= */
+
+.daily-spending-card .action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+.daily-spending-card .action-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.daily-spending-card .transaction-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(145px, 1fr));
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.daily-spending-card .total-pill {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 13px;
+  min-width: 0;
+  min-height: 112px;
+  overflow: hidden;
+  padding: 19px 20px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.daily-spending-card .total-pill::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  content: "";
+}
+
+.daily-spending-card .total-pill::after {
+  position: absolute;
+  right: -22px;
+  bottom: -38px;
+  width: 100px;
+  height: 100px;
+  content: "";
+  border-radius: 50%;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.daily-spending-card .total-pill:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(30, 45, 70, 0.09);
+}
+
+.daily-spending-card .total-pill span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.daily-spending-card .total-pill strong {
+  position: relative;
+  z-index: 1;
+  overflow-wrap: anywhere;
+  font-size: clamp(18px, 1.6vw, 23px);
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  line-height: 1.35;
+}
+
+/* Income */
+
+.daily-spending-card .total-income {
+  color: #087a55;
+  background: linear-gradient(135deg, #f0fbf5, #e5f7ed);
+  border-color: #d5efe1;
+}
+
+.daily-spending-card .total-income::before {
+  background: #16a477;
+}
+
+.daily-spending-card .total-income::after {
+  background: #20ae7c;
+}
+
+.daily-spending-card .total-income span {
+  color: #578b73;
+}
+
+.daily-spending-card .total-income strong {
+  color: #087a55;
+}
+
+/* Expense */
+
+.daily-spending-card .total-expense {
+  color: #c64e58;
+  background: linear-gradient(135deg, #fff6f4, #ffebe9);
+  border-color: #f5dedb;
+}
+
+.daily-spending-card .total-expense::before {
+  background: #e36b70;
+}
+
+.daily-spending-card .total-expense::after {
+  background: #e36b70;
+}
+
+.daily-spending-card .total-expense span {
+  color: #b87979;
+}
+
+.daily-spending-card .total-expense strong {
+  color: #c64e58;
+}
+
+/* Balance */
+
+.daily-spending-card .total-balance {
+  background: linear-gradient(135deg, #f1f5ff, #e8efff);
+  border-color: #dce5fa;
+}
+
+.daily-spending-card .total-balance::before {
+  background: #5878d4;
+}
+
+.daily-spending-card .total-balance::after {
+  background: #5878d4;
+}
+
+.daily-spending-card .total-balance span {
+  color: #7585b2;
+}
+
+.daily-spending-card .total-balance.positive strong {
+  color: #3e5fae;
+}
+
+.daily-spending-card .total-balance.negative {
+  background: linear-gradient(135deg, #fff4f2, #ffe9e6);
+  border-color: #f5dcd8;
+}
+
+.daily-spending-card .total-balance.negative::before {
+  background: #dc6268;
+}
+
+.daily-spending-card .total-balance.negative::after {
+  background: #dc6268;
+}
+
+.daily-spending-card .total-balance.negative span,
+.daily-spending-card .total-balance.negative strong {
+  color: #c64e58;
+}
+
+.daily-spending-card .total-balance.neutral strong {
+  color: #64748b;
+}
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+.daily-spending-card .error-message {
+  margin: 0 0 20px;
+  padding: 13px 16px;
+  color: #b4232e;
+  background: #fff2f2;
+  border: 1px solid #f5d2d5;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   TRANSACTION TABLE
+========================================= */
+
+.daily-spending-card table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+}
+
+.daily-spending-card table thead th {
+  padding: 15px 15px;
+  color: #66758b;
+  background: #f4f7fc;
+  border-top: 1px solid #e8edf4;
+  border-bottom: 1px solid #e5eaf2;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.65px;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.daily-spending-card table thead th:first-child {
+  border-left: 1px solid #e8edf4;
+  border-radius: 10px 0 0 0;
+}
+
+.daily-spending-card table thead th:last-child {
+  border-right: 1px solid #e8edf4;
+  border-radius: 0 10px 0 0;
+}
+
+.daily-spending-card table tbody td {
+  padding: 15px;
+  color: #40516a;
+  border-bottom: 1px solid #edf1f6;
+  font-size: 12px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.daily-spending-card table tbody tr {
+  transition: background 0.18s ease;
+}
+
+.daily-spending-card table tbody tr:hover {
+  background: #f7f9fd;
+}
+
+.daily-spending-card table tbody tr:last-child td {
+  border-bottom: 1px solid #e8edf4;
+}
+
+.daily-spending-card table tbody td:first-child {
+  border-left: 1px solid #edf1f6;
+}
+
+.daily-spending-card table tbody td:last-child {
+  border-right: 1px solid #edf1f6;
+}
+
+/* Table action buttons */
+
+.daily-spending-card table button {
+  transition: all 0.2s ease;
+}
+
+/* =========================================
+   LOADING STATE
+========================================= */
+
+.daily-spending-card > p {
+  padding: 35px 15px;
+  color: #7c899d;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+  .daily-spending-card .action-bar {
+    align-items: stretch;
     flex-direction: column;
-    gap: 6px;
   }
-  
-  .spending-month-selector label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #64748b;
+
+  .daily-spending-card .transaction-totals {
+    width: 100%;
   }
-  
-  .spending-month-selector select {
-    min-width: 140px;
-    padding: 10px 12px;
-    border: 1px solid #dbe3ef;
-    border-radius: 8px;
-    background: #fff;
-    color: #1e293b;
-    font-size: 14px;
-    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .daily-spending-card {
+    padding: 16px;
+    border-radius: 13px;
   }
-  
-  .current-month-button {
-    padding: 10px 14px;
-    border: 1px solid #dbe3ef;
-    border-radius: 8px;
-    background: #fff;
-    color: #2563eb;
-    font-weight: 600;
-    cursor: pointer;
+
+  .daily-spending-card .spending-month-selector {
+    justify-content: flex-start;
+    padding: 14px;
   }
-  
-  .current-month-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+
+  .daily-spending-card .spending-month-selector > div {
+    flex: 1;
+    min-width: 110px;
   }
-  
-  @media (max-width: 600px) {
-    .spending-month-selector {
-      justify-content: flex-start;
-    }
-  
-    .spending-month-selector > div {
-      flex: 1;
-    }
-  
-    .spending-month-selector select {
-      width: 100%;
-    }
+
+  .daily-spending-card .spending-month-selector select {
+    width: 100%;
+    min-width: 0;
   }
-  
+
+  .daily-spending-card .transaction-totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .daily-spending-card .total-pill {
+    min-height: 95px;
+    padding: 15px;
+  }
+
+  .daily-spending-card .total-pill strong {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 450px) {
+  .daily-spending-card .action-buttons {
+    width: 100%;
+  }
+
+  .daily-spending-card .action-buttons > * {
+    flex: 1;
+  }
+
+  .daily-spending-card .transaction-totals {
+    grid-template-columns: 1fr;
+  }
+
+  .daily-spending-card .total-pill {
+    min-height: 85px;
+  }
+}

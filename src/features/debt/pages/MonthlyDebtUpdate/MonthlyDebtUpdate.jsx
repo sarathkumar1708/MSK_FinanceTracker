@@ -811,9 +811,9 @@ export default function MonthlyDebtUpdate({
                     <DebtSection title="Monthly Records">
                         <div className="monthly-debt-toolbar">
                             <div className="monthly-debt-year-filter">
-                                <label htmlFor="monthly-debt-year">
+                                {/* <label htmlFor="monthly-debt-year">
                                     Reporting Year
-                                </label>
+                                </label> */}
 
                                 <select
                                     id="monthly-debt-year"
@@ -1171,9 +1171,9 @@ export default function MonthlyDebtUpdate({
                                                                             /* EDIT PAYMENT */
                                                                             <div className="monthly-payment-edit-form">
                                                                                 <div className="monthly-payment-edit-header">
-                                                                                    <h4>
+                                                                                    <h3>
                                                                                         Edit Payment
-                                                                                    </h4>
+                                                                                    </h3>
 
                                                                                     <button
                                                                                         type="button"

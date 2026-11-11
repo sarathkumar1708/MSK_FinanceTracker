@@ -1,244 +1,318 @@
 
-/* =========================================
-   DEBT OVERVIEW - DASHBOARD
-========================================= */
+/* =========================================================
+   DEBT OVERVIEW — PREMIUM FINANCIAL DASHBOARD
+========================================================= */
 
 .debt-overview-page {
+    --do-primary: #3157d5;
+    --do-text: #17233c;
+    --do-muted: #758198;
+    --do-border: #e9edf5;
+    --do-income: #079669;
+    --do-danger: #df5050;
+
     min-height: 100%;
-    padding: 28px;
-    background: #f5f7fb;
+    padding: 26px;
+    background: #f4f6fb;
 }
 
-/* Page header */
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
 .debt-overview-page .debt-page-header {
-    margin-bottom: 24px;
+    margin-bottom: 25px;
 }
 
 .debt-overview-page .debt-page-header h1 {
     margin: 0;
     color: #172554;
-    font-size: 25px;
-    font-weight: 700;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
 }
 
 .debt-overview-page .debt-page-header p {
-    margin-top: 6px;
-    color: #64748b;
+    margin-top: 7px;
+    color: #758198;
     font-size: 13px;
+    line-height: 1.6;
 }
 
-/* Sections */
+/* =========================================================
+   SECTION CONTAINERS
+========================================================= */
+
 .debt-overview-page .debt-section {
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #e5eaf2;
-    border-radius: 12px;
+    margin-bottom: 23px;
+    padding: 23px;
+    border: 1px solid var(--do-border);
+    border-radius: 17px;
     background: #ffffff;
-    box-shadow: 0 2px 7px rgba(15, 23, 42, 0.035);
+    box-shadow: 0 5px 20px rgba(30, 48, 85, 0.045);
+    transition: box-shadow 0.25s ease;
 }
 
 .debt-overview-page .debt-section h2,
 .debt-overview-page .debt-section-title {
-    margin: 0 0 17px;
-    color: #1e293b;
-    font-size: 15px;
-    font-weight: 700;
+    margin: 0 0 20px;
+    color: var(--do-text);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
 }
 
-/* =========================================
-   OVERALL SUMMARY CARDS
-========================================= */
+/* =========================================================
+   OVERALL DEBT SUMMARY
+========================================================= */
 
 .debt-overview-summary-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 13px;
+    gap: 16px;
 }
 
 .debt-overview-summary-card {
+    position: relative;
     display: flex;
     min-width: 0;
-    min-height: 90px;
+    min-height: 125px;
     flex-direction: column;
-    justify-content: center;
-    gap: 9px;
-    padding: 14px 16px;
-    border: 1px solid #e8edf5;
-    border-radius: 10px;
-    background: #fafcff;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.debt-overview-summary-card::after {
+    content: "";
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    right: -32px;
+    bottom: -42px;
+    border: 15px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.045;
+    pointer-events: none;
+}
+
+.debt-overview-summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(30, 48, 85, 0.09);
 }
 
 .debt-overview-summary-card span {
-    color: #64748b;
+    position: relative;
+    z-index: 1;
+    color: #66758e;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 750;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
 }
 
 .debt-overview-summary-card strong {
+    position: relative;
+    z-index: 1;
     overflow-wrap: anywhere;
-    color: #1e293b;
-    font-size: 19px;
-    font-weight: 750;
+    font-size: clamp(19px, 2vw, 25px);
+    font-weight: 850;
+    letter-spacing: -0.6px;
     font-variant-numeric: tabular-nums;
 }
 
-/* Metric colors */
-.debt-overview-summary-card.loan {
-    border-color: #dbeafe;
-    background: #eff6ff;
-}
+/* Total loan */
 
-.debt-overview-summary-card.loan strong {
+.debt-overview-summary-card.loan {
+    border-color: #dbe7ff;
+    background: linear-gradient(140deg, #f1f6ff, #e5edff);
     color: #2563eb;
 }
 
+.debt-overview-summary-card.loan strong {
+    color: #2456cb;
+}
+
+/* Outstanding */
+
 .debt-overview-summary-card.outstanding {
-    border-color: #fee2e2;
-    background: #fff1f2;
+    border-color: #ffdede;
+    background: linear-gradient(140deg, #fff5f4, #ffe9e8);
+    color: #e04444;
 }
 
 .debt-overview-summary-card.outstanding strong {
-    color: #dc2626;
+    color: #d73535;
 }
 
+/* Total repaid */
+
 .debt-overview-summary-card.paid {
-    border-color: #d1fae5;
-    background: #ecfdf5;
+    border-color: #ccefe0;
+    background: linear-gradient(140deg, #f0fdf7, #ddf8eb);
+    color: #079669;
 }
 
 .debt-overview-summary-card.paid strong {
-    color: #059669;
+    color: #07865e;
 }
 
+/* Principal */
+
 .debt-overview-summary-card.principal {
-    border-color: #e0e7ff;
-    background: #eef2ff;
+    border-color: #dedcff;
+    background: linear-gradient(140deg, #f6f5ff, #eae8ff);
+    color: #6653d8;
 }
 
 .debt-overview-summary-card.principal strong {
-    color: #4f46e5;
+    color: #5945c8;
 }
 
+/* Interest */
+
 .debt-overview-summary-card.interest {
-    border-color: #fef3c7;
-    background: #fffbeb;
+    border-color: #f6e4b9;
+    background: linear-gradient(140deg, #fffbef, #fff2d7);
+    color: #c68a1b;
 }
 
 .debt-overview-summary-card.interest strong {
-    color: #d97706;
+    color: #b77a10;
 }
 
+/* Payment count */
+
 .debt-overview-summary-card.count {
-    border-color: #ede9fe;
-    background: #f5f3ff;
+    border-color: #dce7f3;
+    background: linear-gradient(140deg, #f2f8fc, #e5f0f9);
+    color: #38769f;
 }
 
 .debt-overview-summary-card.count strong {
-    color: #7c3aed;
+    color: #28658f;
 }
 
-/* =========================================
+/* =========================================================
    DEBT STATUS
-========================================= */
+========================================================= */
 
 .debt-overview-status-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 13px;
+    gap: 15px;
 }
 
 .debt-overview-status-card {
     display: flex;
+    min-height: 85px;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    padding: 14px 16px;
-    border: 1px solid #e8edf5;
-    border-radius: 9px;
-    background: #fafcff;
+    gap: 12px;
+    padding: 17px 19px;
+    border: 1px solid #e9edf5;
+    border-radius: 13px;
+    background: #fafbfe;
+    transition: all 0.2s ease;
+}
+
+.debt-overview-status-card:hover {
+    border-color: #d4def5;
+    background: #f5f8ff;
+    transform: translateY(-2px);
 }
 
 .debt-overview-status-card span {
     color: #64748b;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .debt-overview-status-card strong {
     display: grid;
-    min-width: 30px;
-    height: 30px;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 8px;
     place-items: center;
-    border-radius: 8px;
-    background: #eff6ff;
-    color: #2563eb;
-    font-size: 14px;
-    font-weight: 750;
+    border-radius: 11px;
+    background: #eaf0ff;
+    color: #3157d5;
+    font-size: 16px;
+    font-weight: 850;
 }
 
 .debt-overview-status-card:nth-child(2) strong {
-    background: #f1f5f9;
+    background: #edf1f5;
     color: #64748b;
 }
 
 .debt-overview-status-card:nth-child(3) strong {
-    background: #f5f3ff;
-    color: #7c3aed;
+    background: #f0eaff;
+    color: #7952c8;
 }
 
-/* =========================================
+/* =========================================================
    OUTSTANDING BY DEBT
-========================================= */
+========================================================= */
 
 .debt-overview-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 13px;
 }
 
 .debt-progress-item {
-    padding: 13px 15px;
+    padding: 17px 18px;
     border: 1px solid #edf0f5;
-    border-radius: 9px;
+    border-radius: 12px;
     background: #ffffff;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .debt-progress-item:hover {
-    border-color: #bfdbfe;
-    background: #fafcff;
+    border-color: #cbd9fa;
+    background: #fbfcff;
+    box-shadow: 0 5px 15px rgba(30, 48, 85, 0.04);
 }
 
 .debt-progress-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
+    gap: 15px;
+    margin-bottom: 13px;
 }
 
 .debt-progress-heading strong {
     overflow: hidden;
-    color: #334155;
-    font-size: 12px;
-    font-weight: 650;
+    color: #293750;
+    font-size: 13px;
+    font-weight: 750;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .debt-progress-heading span {
     flex-shrink: 0;
-    padding: 5px 9px;
-    border-radius: 6px;
-    background: #fff1f2;
-    color: #dc2626;
-    font-size: 11px;
-    font-weight: 700;
+    padding: 7px 11px;
+    border: 1px solid #ffdddd;
+    border-radius: 8px;
+    background: #fff1f1;
+    color: #d83c3c;
+    font-size: 12px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
 }
 
 .debt-progress-track {
     width: 100%;
-    height: 7px;
+    height: 10px;
     overflow: hidden;
     border-radius: 20px;
     background: #edf1f7;
@@ -247,35 +321,37 @@
 .debt-progress-fill {
     height: 100%;
     border-radius: 20px;
-    background: linear-gradient(90deg, #60a5fa, #2563eb);
-    transition: width 0.4s ease;
+    background: linear-gradient(90deg, #547ce9, #3157d5);
+    box-shadow: 0 2px 8px rgba(49, 87, 213, 0.18);
+    transition: width 0.6s ease;
 }
 
 .debt-overview-list > p {
     margin: 0;
-    padding: 20px;
-    border: 1px dashed #dbe3ef;
-    border-radius: 8px;
-    color: #94a3b8;
-    font-size: 12px;
+    padding: 25px 15px;
+    border: 1px dashed #dce3ee;
+    border-radius: 11px;
+    background: #fafbfe;
+    color: #8793a8;
+    font-size: 13px;
     text-align: center;
 }
 
-/* =========================================
+/* =========================================================
    RECENT PAYMENTS
-========================================= */
+========================================================= */
 
 .debt-payment-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    padding: 13px 14px;
+    gap: 16px;
+    margin-bottom: 11px;
+    padding: 15px 17px;
     border: 1px solid #edf0f5;
-    border-radius: 9px;
-    margin-bottom: 9px;
+    border-radius: 12px;
     background: #ffffff;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .debt-payment-row:last-child {
@@ -283,28 +359,31 @@
 }
 
 .debt-payment-row:hover {
-    background: #fafcff;
+    border-color: #d4e8df;
+    background: #f8fdfb;
+    transform: translateX(3px);
 }
 
 .debt-payment-row > div {
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 
 .debt-payment-row > div:first-child strong {
     overflow: hidden;
-    color: #334155;
-    font-size: 12px;
-    font-weight: 650;
+    color: #293750;
+    font-size: 13px;
+    font-weight: 750;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .debt-payment-row small {
-    color: #94a3b8;
-    font-size: 10px;
+    color: #8793a8;
+    font-size: 11px;
+    font-weight: 500;
 }
 
 .debt-payment-details {
@@ -313,22 +392,26 @@
 }
 
 .debt-payment-details strong {
-    color: #059669;
-    font-size: 13px;
-    font-weight: 750;
+    color: #07865e;
+    font-size: 15px;
+    font-weight: 850;
+    font-variant-numeric: tabular-nums;
 }
 
 .debt-overview-page .debt-section > p {
     margin: 0;
-    padding: 15px;
-    color: #94a3b8;
-    font-size: 12px;
+    padding: 22px;
+    border: 1px dashed #dce3ee;
+    border-radius: 11px;
+    background: #fafbfe;
+    color: #8793a8;
+    font-size: 13px;
     text-align: center;
 }
 
-/* =========================================
+/* =========================================================
    RESPONSIVE
-========================================= */
+========================================================= */
 
 @media (max-width: 1000px) {
     .debt-overview-summary-grid {
@@ -342,26 +425,35 @@
     }
 
     .debt-overview-page .debt-section {
-        padding: 15px;
+        padding: 16px;
+        border-radius: 14px;
     }
 
     .debt-overview-summary-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 9px;
+        gap: 11px;
+    }
+
+    .debt-overview-summary-card {
+        min-height: 105px;
+        padding: 15px;
+    }
+
+    .debt-overview-summary-card strong {
+        font-size: 18px;
     }
 
     .debt-overview-status-grid {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 9px;
     }
 
-    .debt-overview-summary-card {
-        min-height: 78px;
-        padding: 11px;
+    .debt-overview-status-card {
+        min-height: 65px;
+        padding: 12px 15px;
     }
 
-    .debt-overview-summary-card strong {
-        font-size: 16px;
+    .debt-progress-item {
+        padding: 14px;
     }
 }
 
@@ -371,7 +463,11 @@
     }
 
     .debt-payment-row {
-        gap: 8px;
-        padding: 10px;
+        gap: 9px;
+        padding: 12px;
+    }
+
+    .debt-payment-details strong {
+        font-size: 13px;
     }
 }

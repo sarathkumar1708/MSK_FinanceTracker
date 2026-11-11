@@ -1,110 +1,201 @@
 
+/* =========================================================
+   ALL DEBTS — PREMIUM FINANCIAL DASHBOARD
+========================================================= */
+
 .all-debts-page {
+    --debt-primary: #315cf5;
+    --debt-primary-dark: #2448d8;
+    --debt-navy: #172554;
+    --debt-text: #1e293b;
+    --debt-muted: #718096;
+    --debt-border: #e7ecf5;
+    --debt-surface: #ffffff;
+
     min-height: 100%;
     padding: 30px;
-    background: #f8fafc;
+    background:
+        radial-gradient(ellipse at 5% 0%, rgba(49, 92, 245, 0.07), transparent 30%),
+        linear-gradient(180deg, #f5f7fc 0%, #f8faff 100%);
+    color: var(--debt-text);
 }
 
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
 .all-debts-page .debt-page-header {
-    margin-bottom: 32px;
+    position: relative;
+    margin-bottom: 30px;
+    padding: 27px 30px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.16), transparent 25%),
+        linear-gradient(115deg, #172554 0%, #243d85 52%, #315cf5 100%);
+    box-shadow: 0 14px 32px rgba(30, 64, 175, 0.16);
+}
+
+.all-debts-page .debt-page-header::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    right: -65px;
+    top: -115px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 25px rgba(255,255,255,0.035),
+        0 0 0 55px rgba(255,255,255,0.025);
+    pointer-events: none;
 }
 
 .all-debts-page .debt-page-header h1 {
-    color: #172554;
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #ffffff;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -0.9px;
 }
 
 .all-debts-page .debt-page-header p {
-    margin-top: 7px;
-    color: #64748b;
-    font-size: 14px;
-}
-
-.all-debts-page .primary-btn {
-    min-height: 42px;
-    padding: 0 19px;
-    border-radius: 9px;
-    background: #2563eb;
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.16);
+    position: relative;
+    z-index: 1;
+    margin-top: 9px;
+    color: rgba(255,255,255,0.76);
     font-size: 13px;
+    line-height: 1.6;
 }
 
-.all-debts-page .primary-btn:hover {
-    background: #1d4ed8;
+.all-debts-page .debt-page-header .primary-btn {
+    position: relative;
+    z-index: 2;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 11px;
+    background: #ffffff;
+    color: #2448d8;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.12);
+    font-size: 13px;
+    font-weight: 750;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.all-debts-page .debt-page-header .primary-btn:hover {
+    transform: translateY(-2px);
+    background: #f1f5ff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.17);
+}
+
+/* =========================================================
+   MAIN SECTION
+========================================================= */
 
 .all-debts-page .debt-section {
-    padding: 24px;
-    border: 1px solid #e8edf5;
-    border-radius: 14px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+    padding: 27px;
+    border: 1px solid rgba(226,232,240,0.9);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.94);
+    box-shadow:
+        0 3px 10px rgba(15,23,42,0.025),
+        0 15px 40px rgba(15,23,42,0.035);
+    backdrop-filter: blur(10px);
 }
 
 .all-debts-page .debt-section h2,
 .all-debts-page .debt-section-title {
-    margin-bottom: 22px;
-    color: #1e293b;
-    font-size: 17px;
-    font-weight: 650;
+    margin-bottom: 23px;
+    color: #172554;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
 }
 
-/* Status tabs */
-.debt-status-tabs {
+/* =========================================================
+   STATUS TABS
+========================================================= */
+
+.all-debts-page .debt-status-tabs {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 9px;
-    margin-bottom: 22px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eef2f7;
+    gap: 10px;
+    margin-bottom: 24px;
+    padding: 7px;
+    border: 1px solid #e9edf6;
+    border-radius: 14px;
+    background: #f7f9fd;
 }
 
-.debt-status-tabs button {
+.all-debts-page .debt-status-tabs button {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    min-height: 36px;
-    padding: 0 13px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    background: #fff;
+    justify-content: center;
+    gap: 10px;
+    min-height: 41px;
+    padding: 0 17px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
     color: #64748b;
     font-size: 12px;
-    font-weight: 650;
+    font-weight: 700;
     cursor: pointer;
+    transition: all 0.22s ease;
 }
 
-.debt-status-tabs button span {
-    display: grid;
-    min-width: 21px;
-    height: 21px;
+.all-debts-page .debt-status-tabs button:hover {
+    background: #ffffff;
+    color: #315cf5;
+}
+
+.all-debts-page .debt-status-tabs button span {
+    display: inline-grid;
+    min-width: 23px;
+    height: 23px;
+    padding: 0 6px;
     place-items: center;
-    border-radius: 20px;
-    background: #f1f5f9;
-    color: #475569;
+    border-radius: 7px;
+    background: #e9eef8;
+    color: #64748b;
     font-size: 10px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    transition: all 0.2s ease;
 }
 
-.debt-status-tabs button.active {
-    border-color: #bfdbfe;
-    background: #eff6ff;
-    color: #1d4ed8;
+.all-debts-page .debt-status-tabs button.active {
+    border-color: #dce5ff;
+    background: #ffffff;
+    color: #315cf5;
+    box-shadow: 0 3px 10px rgba(49,92,245,0.09);
 }
 
-.debt-status-tabs button.active span {
-    background: #dbeafe;
-    color: #1d4ed8;
+.all-debts-page .debt-status-tabs button.active span {
+    background: #e9efff;
+    color: #315cf5;
 }
 
-/* Toolbar */
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
 .all-debts-page .debt-toolbar {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 22px;
+    gap: 18px;
+    margin-bottom: 25px;
+    padding: 17px;
+    border: 1px solid #edf0f6;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #ffffff, #fafbff);
 }
 
 .all-debts-page .debt-toolbar-left {
@@ -115,47 +206,59 @@
 }
 
 /* Search */
+
 .all-debts-page .debt-search {
     position: relative;
-    width: 340px;
-    max-width: 340px;
+    width: 350px;
+    max-width: 350px;
     min-width: 220px;
 }
 
 .all-debts-page .debt-search-icon {
     position: absolute;
     top: 50%;
-    left: 13px;
+    left: 14px;
     width: 17px;
     height: 17px;
     transform: translateY(-50%);
     color: #94a3b8;
     pointer-events: none;
+    transition: color 0.2s ease;
 }
 
 .all-debts-page .debt-search input {
     width: 100%;
-    height: 43px;
-    padding: 0 14px 0 40px;
-    border: 1px solid #dbe3ef;
-    border-radius: 9px;
-    background: #fff;
+    height: 45px;
+    padding: 0 14px 0 42px;
+    border: 1px solid #e1e7f0;
+    border-radius: 10px;
+    outline: none;
+    background: #ffffff;
     color: #1e293b;
-    font-size: 13px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.all-debts-page .debt-search input::placeholder {
+    color: #a0aabd;
+}
+
+.all-debts-page .debt-search:focus-within .debt-search-icon {
+    color: #315cf5;
 }
 
 .all-debts-page .debt-search input:focus {
-    border-color: #3b82f6;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+    border-color: #8ba7ff;
+    box-shadow: 0 0 0 4px rgba(49,92,245,0.09);
 }
 
 /* Debt type filter */
+
 .all-debts-page .debt-filter {
     display: flex;
     flex-direction: column;
     gap: 7px;
-    min-width: 180px;
+    min-width: 190px;
 }
 
 .all-debts-page .debt-filter label {
@@ -164,87 +267,164 @@
     gap: 7px;
     margin: 0;
     color: #64748b;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.all-debts-page .debt-filter label svg {
+    color: #315cf5;
 }
 
 .all-debts-page .debt-filter select {
     width: 100%;
-    height: 43px;
-    padding: 0 34px 0 12px;
-    border: 1px solid #dbe3ef;
-    border-radius: 9px;
-    background: #fff;
+    height: 45px;
+    padding: 0 35px 0 13px;
+    border: 1px solid #e1e7f0;
+    border-radius: 10px;
+    outline: none;
+    background-color: #ffffff;
     color: #334155;
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
+
+.all-debts-page .debt-filter select:focus {
+    border-color: #8ba7ff;
+    box-shadow: 0 0 0 4px rgba(49,92,245,0.08);
+}
+
+/* Clear filters */
 
 .all-debts-page .debt-clear-filters {
     height: 43px;
-    padding: 0 10px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: #2563eb;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 0 13px;
+    border: 1px solid #dce6ff;
+    border-radius: 9px;
+    background: #f1f5ff;
+    color: #315cf5;
+    font-size: 11px;
+    font-weight: 750;
     white-space: nowrap;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .all-debts-page .debt-clear-filters:hover {
-    background: #eff6ff;
+    border-color: #315cf5;
+    background: #e6edff;
 }
 
+/* Results count */
+
 .all-debts-page .debt-results-count {
-    padding-bottom: 12px;
-    color: #64748b;
-    font-size: 12px;
+    padding-bottom: 13px;
+    color: #8792a5;
+    font-size: 11px;
     white-space: nowrap;
 }
 
 .all-debts-page .debt-results-count strong {
-    color: #1e293b;
+    color: #243b75;
     font-size: 13px;
+    font-weight: 800;
 }
 
-/* Reusable debt card grid */
-.debt-card-grid {
+/* =========================================================
+   DEBT CARD GRID
+========================================================= */
+
+.all-debts-page .debt-card-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    gap: 21px;
+    align-items: stretch;
 }
+
+/* Hover enhancement for individual cards.
+   AllDebtCard should use its own root element. */
+
+.all-debts-page .debt-card-grid > * {
+    min-width: 0;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.all-debts-page .debt-card-grid > *:hover {
+    transform: translateY(-4px);
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
 
 .all-debts-page .debt-empty-state,
 .all-debts-page .empty-state {
-    min-height: 190px;
-    padding: 55px 20px;
+    display: flex;
+    min-height: 230px;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 20px;
+    border: 1px dashed #d6dfed;
+    border-radius: 15px;
+    background: #fafcff;
     color: #94a3b8;
     font-size: 13px;
     text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 1100px) {
-    .debt-card-grid {
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+    .all-debts-page .debt-card-grid {
         grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .all-debts-page {
-        padding: 16px;
-    }
-
-    .all-debts-page .debt-section {
-        padding: 17px;
+        padding: 22px;
     }
 
     .all-debts-page .debt-toolbar {
         align-items: stretch;
         flex-direction: column;
-        gap: 15px;
+    }
+
+    .all-debts-page .debt-results-count {
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .all-debts-page {
+        padding: 15px;
+    }
+
+    .all-debts-page .debt-page-header {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .all-debts-page .debt-page-header h1 {
+        font-size: 24px;
+    }
+
+    .all-debts-page .debt-section {
+        padding: 17px;
+        border-radius: 16px;
+    }
+
+    .all-debts-page .debt-status-tabs {
+        gap: 5px;
+    }
+
+    .all-debts-page .debt-status-tabs button {
+        flex: 1;
+        padding: 0 9px;
+        font-size: 11px;
     }
 
     .all-debts-page .debt-toolbar-left {
@@ -260,8 +440,8 @@
         min-width: 0;
     }
 
-    .all-debts-page .debt-results-count {
-        padding: 0;
+    .all-debts-page .debt-clear-filters {
+        align-self: flex-start;
     }
 }
 
@@ -269,9 +449,21 @@
     .all-debts-page .debt-page-header {
         align-items: stretch;
         flex-direction: column;
+        gap: 15px;
     }
 
     .all-debts-page .debt-page-header .primary-btn {
         width: 100%;
+    }
+
+    .all-debts-page .debt-status-tabs button {
+        gap: 5px;
+        padding: 0 7px;
+        font-size: 10px;
+    }
+
+    .all-debts-page .debt-status-tabs button span {
+        min-width: 19px;
+        height: 19px;
     }
 }

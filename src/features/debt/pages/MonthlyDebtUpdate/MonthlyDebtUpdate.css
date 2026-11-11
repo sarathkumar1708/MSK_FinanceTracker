@@ -1,777 +1,1553 @@
-.debt-category-debt-action {
+
+/* =========================================================
+   MONTHLY DEBT UPDATE — PREMIUM FINANCE UI
+========================================================= */
+
+.debt-page {
+    --md-primary: #3157d5;
+    --md-primary-dark: #203fae;
+    --md-navy: #172554;
+    --md-text: #172033;
+    --md-muted: #718096;
+    --md-border: #e5eaf3;
+    --md-surface: #ffffff;
+    --md-background: #f4f7fc;
+    --md-green: #13845b;
+    --md-red: #d34b55;
+
+    color: var(--md-text);
+}
+
+/* =========================================================
+   CATEGORY GRID
+========================================================= */
+
+.debt-page .debt-category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 26px;
+}
+
+.debt-page .debt-category-debt-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.debt-page .debt-category-debt-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 21px 23px;
+    background: linear-gradient(135deg, #ffffff, #f8faff);
+    border: 1px solid var(--md-border);
+    border-radius: 17px;
+    box-shadow: 0 5px 18px rgba(28, 48, 91, 0.045);
+    transition: transform 0.22s ease, box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.debt-page .debt-category-debt-item:hover {
+    transform: translateY(-3px);
+    border-color: #b8c8f8;
+    box-shadow: 0 12px 28px rgba(39, 73, 160, 0.11);
+}
+
+.debt-page .debt-category-debt-action {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: #2563eb;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.debt-category-debt-action svg {
-    transform: rotate(180deg);
-}
-
-/* =========================================
-   MONTHLY DEBT UPDATE
-========================================= */
-
-.debt-monthly-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin: 20px 0;
-    padding: 17px 20px;
-    border: 1px solid #dbeafe;
-    border-radius: 9px;
-    background: #eff6ff;
-}
-
-.debt-monthly-total span {
-    color: #334155;
-    font-size: 14px;
-    font-weight: 550;
-}
-
-.debt-monthly-total strong {
-    color: #1d4ed8;
-    font-size: 20px;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 16px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4268e8, #294bc1);
+    border: none;
+    border-radius: 10px;
     font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-@media (max-width: 768px) {
-    .debt-monthly-total {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+.debt-page .debt-category-debt-action:hover {
+    background: linear-gradient(135deg, #294bc1, #1d399f);
+    box-shadow: 0 6px 15px rgba(49, 87, 213, 0.23);
+    transform: translateY(-1px);
 }
 
-/* =========================================
-   MONTHLY DEBT CATEGORY CARDS
-========================================= */
+.debt-page .debt-navigation-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 16px;
+    margin-bottom: 20px;
+    color: #34466e;
+    background: #ffffff;
+    border: 1px solid var(--md-border);
+    border-radius: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
-.debt-category-grid {
+.debt-page .debt-navigation-back:hover {
+    color: var(--md-primary);
+    background: #f0f4ff;
+    border-color: #c4d1fa;
+    transform: translateX(-2px);
+}
+
+.debt-page .debt-category-empty {
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--md-muted);
+    background: #ffffff;
+    border: 1px dashed #cbd5e5;
+    border-radius: 18px;
+}
+
+/* =========================================================
+   SELECTED DEBT — OVERVIEW CARDS
+========================================================= */
+
+.debt-page .monthly-debt-info-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
-    width: 100%;
+    margin: 25px 0 30px;
 }
 
-/* Navigation */
+.debt-page .monthly-debt-info-card {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+    padding: 23px 24px;
+    background: #ffffff;
+    border: 1px solid var(--md-border);
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(25, 45, 85, 0.055);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
 
-.debt-navigation-back {
+.debt-page .monthly-debt-info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(25, 45, 85, 0.09);
+}
+
+.debt-page .monthly-debt-info-card::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #4268e8, #8ba7ff);
+    content: "";
+}
+
+.debt-page .monthly-debt-info-card:nth-child(2)::after {
+    background: linear-gradient(90deg, #159b70, #66d5a9);
+}
+
+.debt-page .monthly-debt-info-card:nth-child(3)::after {
+    background: linear-gradient(90deg, #dc5962, #ff9a9f);
+}
+
+.debt-page .monthly-debt-info-card h3,
+.debt-page .monthly-debt-info-card h4 {
+    margin: 0 0 13px;
+    color: #74819a;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+}
+
+.debt-page .monthly-debt-info-card p {
+    margin: 0;
+    color: var(--md-navy);
+    font-size: clamp(19px, 2vw, 26px);
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    overflow-wrap: anywhere;
+}
+
+.debt-page .monthly-debt-status {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    margin-bottom: 20px;
-    padding: 8px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #475569;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
+    padding: 7px 12px;
+    color: #08764f;
+    background: #e6f8ef;
+    border: 1px solid #c5eed8;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 800;
 }
 
-.debt-navigation-back:hover {
-    color: #2563eb;
-    border-color: #93c5fd;
-    background: #eff6ff;
-}
+/* =========================================================
+   MONTHLY TOOLBAR
+========================================================= */
 
-/* Individual debts */
-
-.debt-category-debt-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.debt-category-debt-item {
+.debt-page .monthly-debt-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    padding: 17px 18px;
-    border: 1px solid #e2e8f0;
-    border-radius: 9px;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 19px 22px;
+    margin: 25px 0 22px;
+    background: linear-gradient(110deg, #ffffff, #f6f8ff);
+    border: 1px solid var(--md-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(25, 45, 85, 0.04);
+}
+
+.debt-page .monthly-debt-year-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 0 13px;
+    color: #4a5875;
     background: #ffffff;
+    border: 1px solid #dce3f0;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+
+.debt-page .monthly-debt-year-filter select,
+.debt-page .monthly-debt-year-filter input {
+    min-width: 100px;
+    padding: 9px 10px;
+    color: #23345d;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-weight: 700;
+}
+
+.debt-page .monthly-debt-add-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0 19px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4268e8, #294bc1);
+    border: none;
+    border-radius: 11px;
+    box-shadow: 0 5px 13px rgba(49, 87, 213, 0.2);
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.debt-page .monthly-debt-add-button:hover {
+    background: linear-gradient(135deg, #3157d5, #203fae);
+    box-shadow: 0 8px 18px rgba(49, 87, 213, 0.27);
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   MONTHLY SNAPSHOT FORM
+========================================================= */
+
+.debt-page .monthly-debt-edit-form {
+    padding: 27px;
+    margin: 22px 0;
+    background: linear-gradient(145deg, #ffffff, #f7f9ff);
+    border: 1px solid #dce5fa;
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(38, 65, 130, 0.085);
+}
+
+.debt-page .monthly-debt-edit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-bottom: 19px;
+    margin-bottom: 23px;
+    border-bottom: 1px solid #e6ebf5;
+}
+
+.debt-page .monthly-debt-edit-header h3 {
+    margin: 0;
+    color: var(--md-navy);
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.35px;
+}
+
+.debt-page .monthly-debt-edit-header button {
+border : none;
+}
+
+.debt-page .monthly-debt-form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 19px;
+}
+
+.debt-page .monthly-debt-form-grid div input {
+    color: #6383e9;
+}
+
+.debt-page .monthly-debt-form-full {
+    grid-column: 1 / -1;
+}
+
+.debt-page .monthly-debt-edit-form label,
+.debt-page .monthly-payment-edit-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #43516d;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+}
+
+.debt-page .monthly-debt-edit-form input,
+.debt-page .monthly-debt-edit-form select,
+.debt-page .monthly-debt-edit-form textarea,
+.debt-page .monthly-payment-edit-form input,
+.debt-page .monthly-payment-edit-form select,
+.debt-page .monthly-payment-edit-form textarea {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+    color: #263653;
+    background: #ffffff;
+    border: 1px solid #dce3ef;
+    border-radius: 10px;
+    outline: none;
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.debt-page .monthly-debt-edit-form textarea,
+.debt-page .monthly-payment-edit-form textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.debt-page .monthly-debt-edit-form input:focus,
+.debt-page .monthly-debt-edit-form select:focus,
+.debt-page .monthly-debt-edit-form textarea:focus,
+.debt-page .monthly-payment-edit-form input:focus,
+.debt-page .monthly-payment-edit-form select:focus,
+.debt-page .monthly-payment-edit-form textarea:focus {
+    border-color: #6383e9;
+    box-shadow: 0 0 0 4px rgba(66, 104, 232, 0.11);
+}
+
+.debt-page .monthly-debt-form-error {
+    padding: 12px 15px;
+    margin-top: 15px;
+    color: #b42332;
+    background: #fff0f1;
+    border: 1px solid #ffd2d6;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.debt-page .monthly-debt-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 11px;
+    padding-top: 22px;
+    margin-top: 23px;
+    border-top: 1px solid #e6ebf5;
+}
+
+.debt-page .monthly-debt-cancel-button,
+.debt-page .monthly-debt-save-button {
+    min-height: 43px;
+    padding: 0 20px;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.debt-page .monthly-debt-cancel-button {
+    color: #52617c;
+    background: #ffffff;
+    border: 1px solid #dce3ef;
+}
+
+.debt-page .monthly-debt-cancel-button:hover {
+    color: #263653;
+    background: #f0f3f9;
+}
+
+.debt-page .monthly-debt-save-button {
+    color: #ffffff;
+    background: linear-gradient(135deg, #159b70, #08764f);
+    border: none;
+    box-shadow: 0 5px 13px rgba(19, 132, 91, 0.17);
+}
+
+.debt-page .monthly-debt-save-button:hover {
+    box-shadow: 0 8px 17px rgba(19, 132, 91, 0.25);
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   MONTHLY RECORDS
+========================================================= */
+
+.debt-page .monthly-debt-record-list {
+    display: grid;
+    gap: 19px;
+    margin-top: 22px;
+}
+
+.debt-page .monthly-debt-record-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid var(--md-border);
+    border-radius: 18px;
+    box-shadow: 0 5px 19px rgba(25, 45, 85, 0.05);
+    transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.debt-page .monthly-debt-record-card:hover {
+    box-shadow: 0 12px 28px rgba(25, 45, 85, 0.09);
+}
+
+.debt-page .monthly-debt-record-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 18px 23px;
+    background: linear-gradient(110deg, #f5f7ff, #ffffff);
+    border-bottom: 1px solid #e9edf5;
+}
+
+.debt-page .monthly-debt-record-header h3,
+.debt-page .monthly-debt-record-header h4 {
+    margin: 0;
+    color: var(--md-navy);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.debt-page .monthly-debt-edit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 13px;
+    color: #3157d5;
+    background: #edf2ff;
+    border: 1px solid #d8e2ff;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.debt-page .monthly-debt-edit-button:hover {
+    color: #ffffff;
+    background: #3157d5;
+    border-color: #3157d5;
+}
+
+.debt-page .monthly-debt-record-values {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 13px;
+    padding: 21px 23px;
+}
+
+.debt-page .monthly-debt-record-values > div {
+    min-width: 0;
+    padding: 15px;
+    background: #f7f9fd;
+    border: 1px solid #edf0f6;
+    border-radius: 12px;
+}
+
+.debt-page .monthly-debt-record-values span {
+    display: block;
+    margin-bottom: 9px;
+    color: #7a879d;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.065em;
+    text-transform: uppercase;
+}
+
+.debt-page .monthly-debt-record-values strong {
+    display: block;
+    color: #263653;
+    font-size: clamp(14px, 1.3vw, 17px);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.debt-page .monthly-debt-record-values .monthly-value-green {
+    color: #08764f;
+    background: #eaf8f0;
+    border-color: #d3efdf;
+}
+
+.debt-page .monthly-debt-record-values .monthly-value-red {
+    color: #bd3543;
+    background: #fff0f1;
+    border-color: #ffdadd;
+}
+
+.debt-page .monthly-debt-remarks {
+    padding: 13px 16px;
+    margin: 0 23px 20px;
+    color: #65738d;
+    background: #f7f9fd;
+    border-left: 3px solid #8ca5ed;
+    border-radius: 0 9px 9px 0;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   RECORDED PAYMENTS — EXPANDABLE AREA
+========================================================= */
+
+.debt-page .monthly-recorded-payments {
+    padding: 0 23px 20px;
+}
+
+.debt-page .monthly-recorded-payments-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 16px;
+    color: #34466e;
+    background: #f4f7ff;
+    border: 1px solid #e0e8fa;
+    border-radius: 11px;
+    font-weight: 800;
     text-align: left;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.debt-category-debt-item:hover {
-    border-color: #93c5fd;
-    background: #f8fbff;
+.debt-page .monthly-recorded-payments-toggle:hover {
+    color: #3157d5;
+    background: #edf2ff;
+    border-color: #cbd8fa;
 }
 
-.debt-category-debt-item div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.debt-category-debt-item strong {
-    color: #1e293b;
-    font-size: 14px;
-}
-
-.debt-category-debt-item span {
-    color: #64748b;
-    font-size: 12px;
-}
-
-.debt-category-debt-arrow {
-    color: #64748b;
-    transform: rotate(180deg);
-}
-
-.debt-category-empty {
-    padding: 35px 20px;
-    border: 1px dashed #cbd5e1;
-    border-radius: 10px;
-    color: #64748b;
-    text-align: center;
-    font-size: 14px;
-}
-
-.debt-category-empty p {
-    margin-bottom: 0;
-}
-
-/* =========================================
-   SELECTED DEBT INFORMATION
-========================================= */
-
-.monthly-debt-info-grid {
+.debt-page .monthly-recorded-payment-list {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 13px;
+    padding-top: 15px;
 }
 
-.monthly-debt-info-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 9px;
-    background: #f8fafc;
-}
-
-.monthly-debt-info-card span {
-    color: #64748b;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.monthly-debt-info-card strong {
-    color: #1e293b;
-    font-size: 15px;
-}
-
-.monthly-debt-status {
-    text-transform: capitalize;
-}
-
-/* =========================================
-   MONTHLY RECORD TOOLBAR
-========================================= */
-
-.monthly-debt-toolbar {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.monthly-debt-year-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.monthly-debt-year-filter label,
-.monthly-debt-edit-form label {
-    color: #475569;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.monthly-debt-year-filter select,
-.monthly-debt-edit-form input {
-    min-height: 40px;
-    padding: 9px 11px;
-    border: 1px solid #cbd5e1;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #1e293b;
-    font-size: 13px;
-    outline: none;
-}
-
-.monthly-debt-year-filter select:focus,
-.monthly-debt-edit-form input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.monthly-debt-add-button,
-.monthly-debt-save-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-height: 40px;
-    padding: 9px 15px;
-    border: 1px solid #2563eb;
-    border-radius: 7px;
-    background: #2563eb;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.monthly-debt-add-button:hover,
-.monthly-debt-save-button:hover {
-    background: #1d4ed8;
-}
-
-/* =========================================
-   ADD / EDIT MONTH FORM
-========================================= */
-
-.monthly-debt-edit-form {
-    margin-bottom: 22px;
-    padding: 20px;
-    border: 1px solid #bfdbfe;
-    border-radius: 10px;
-    background: #f8fbff;
-}
-
-.monthly-debt-edit-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-}
-
-.monthly-debt-edit-header h3 {
-    margin: 0;
-    color: #1e293b;
-    font-size: 16px;
-}
-
-.monthly-debt-edit-header button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #64748b;
-    cursor: pointer;
-}
-
-.monthly-debt-form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-}
-
-.monthly-debt-form-grid > div {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.monthly-debt-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.monthly-debt-cancel-button {
-    min-height: 38px;
-    padding: 8px 15px;
-    border: 1px solid #cbd5e1;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #475569;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.monthly-debt-form-error {
-    margin: 14px 0 0;
-    color: #dc2626;
-    font-size: 13px;
-}
-
-/* =========================================
-   MONTHLY RECORD CARDS
-========================================= */
-
-.monthly-debt-record-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.monthly-debt-record-card {
-    padding: 18px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    background: #ffffff;
-    transition: border-color 0.2s ease;
-}
-
-.monthly-debt-record-card:hover {
-    border-color: #bfdbfe;
-}
-
-.monthly-debt-record-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 18px;
-    padding-bottom: 13px;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.monthly-debt-record-header h3 {
-    margin: 0 0 5px;
-    color: #1e293b;
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.monthly-debt-record-header span {
-    color: #94a3b8;
-    font-size: 12px;
-}
-
-.monthly-debt-edit-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 11px;
-    border: 1px solid #bfdbfe;
-    border-radius: 6px;
-    background: #eff6ff;
-    color: #2563eb;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.monthly-debt-record-values {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.monthly-debt-record-values > div {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-.monthly-debt-record-values span {
-    color: #64748b;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.monthly-debt-record-values strong {
-    color: #1e293b;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.monthly-debt-record-values .monthly-value-green {
-    color: #059669;
-}
-
-.monthly-debt-record-values .monthly-value-red {
-    color: #dc2626;
-}
-
-.monthly-debt-category-debt-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: #2563eb;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.monthly-debt-category-debt-action svg {
-    transform: rotate(180deg);
-}
-
-
-/* =====================================
-   RECORDED PAYMENTS
-===================================== */
-
-.monthly-recorded-payments {
-    margin-top: 16px;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 12px;
-}
-
-.monthly-recorded-payments-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #dbeafe;
-    border-radius: 8px;
-    background: #eff6ff;
-    color: #1d4ed8;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.monthly-recorded-payments-toggle:hover {
-    background: #dbeafe;
-}
-
-.monthly-recorded-payment-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.monthly-no-payments {
-    padding: 16px;
-    color: #64748b;
+.debt-page .monthly-no-payments {
+    padding: 21px;
+    color: #8490a4;
+    background: #fafbfe;
+    border: 1px dashed #d7dfeb;
+    border-radius: 11px;
     font-size: 13px;
     text-align: center;
-    background: #f8fafc;
-    border-radius: 8px;
 }
 
-.monthly-recorded-payment-item {
-    padding: 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    background: #ffffff;
+.debt-page .monthly-recorded-payment-item {
+    padding: 17px;
+    background: #fbfcff;
+    border: 1px solid #e6ebf4;
+    border-radius: 13px;
 }
 
-.monthly-recorded-payment-header {
+.debt-page .monthly-recorded-payment-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
     margin-bottom: 14px;
 }
 
-.monthly-recorded-payment-header h4 {
-    margin: 0 0 5px;
-    color: #1e293b;
+.debt-page .monthly-recorded-payment-header h4 {
+    margin: 0;
+    color: #263653;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
-.monthly-recorded-payment-header span {
-    color: #64748b;
-    font-size: 12px;
-}
-
-.monthly-recorded-payment-actions {
+.debt-page .monthly-recorded-payment-actions {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.monthly-recorded-payment-actions button {
-    display: flex;
+.debt-page .monthly-recorded-payment-actions button {
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 6px 9px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #536581;
     background: #ffffff;
-    color: #475569;
-    font-size: 12px;
-    font-weight: 600;
+    border: 1px solid #e0e6f0;
+    border-radius: 9px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.monthly-recorded-payment-actions button:hover {
-    background: #f1f5f9;
+.debt-page .monthly-recorded-payment-actions button:hover {
+    color: #3157d5;
+    background: #edf2ff;
+    border-color: #cbd8fa;
 }
 
-.monthly-recorded-payment-actions button:last-child {
-    color: #dc2626;
-    border-color: #fecaca;
+.debt-page .monthly-recorded-payment-actions button:last-child:hover {
+    color: #c93645;
+    background: #fff0f1;
+    border-color: #ffd4d8;
 }
 
-.monthly-recorded-payment-actions button:last-child:hover {
-    background: #fef2f2;
-}
-
-.monthly-recorded-payment-details {
+.debt-page .monthly-recorded-payment-details {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    gap: 11px;
 }
 
-.monthly-recorded-payment-details > div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px;
-    border-radius: 7px;
-    background: #f8fafc;
-    min-width: 0;
+.debt-page .monthly-recorded-payment-details > div {
+    padding: 13px;
+    background: #ffffff;
+    border: 1px solid #edf0f6;
+    border-radius: 10px;
 }
 
-.monthly-recorded-payment-details span {
-    color: #64748b;
-    font-size: 11px;
+.debt-page .monthly-recorded-payment-details span {
+    display: block;
+    margin-bottom: 7px;
+    color: #8490a4;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
 }
 
-.monthly-recorded-payment-details strong {
-    color: #334155;
-    font-size: 13px;
+.debt-page .monthly-recorded-payment-details strong {
+    color: #34466e;
+    font-size: 14px;
+    font-weight: 800;
     overflow-wrap: anywhere;
 }
 
-.monthly-recorded-payment-details .monthly-payment-amount {
-    color: #15803d;
+.debt-page .monthly-recorded-payment-details .monthly-payment-amount {
+    color: #08764f;
+    font-size: 17px;
 }
 
-.monthly-recorded-payment-details .monthly-payment-notes {
-    grid-column: 1 / -1;
-}
-
-/* =====================================
-   PAYMENT EDIT FORM
-===================================== */
-
-.monthly-payment-edit-form {
-    width: 100%;
-}
-
-.monthly-payment-edit-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-}
-
-.monthly-payment-edit-header h4 {
-    margin: 0;
-    font-size: 15px;
-    color: #1e293b;
-}
-
-.monthly-payment-edit-header button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 6px;
-    background: #f1f5f9;
-    color: #475569;
-    cursor: pointer;
-}
-
-.monthly-payment-edit-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.monthly-payment-edit-grid > div {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-}
-
-.monthly-payment-edit-grid label {
-    color: #475569;
+.debt-page .monthly-payment-notes {
+    padding: 11px 13px;
+    margin-top: 12px;
+    color: #6d7a91;
+    background: #f5f7fb;
+    border-radius: 9px;
     font-size: 12px;
-    font-weight: 600;
+    line-height: 1.6;
 }
 
-.monthly-payment-edit-grid input,
-.monthly-payment-edit-grid select,
-.monthly-payment-edit-grid textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 9px 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #1e293b;
-    font-size: 13px;
-    outline: none;
+/* =========================================================
+   PAYMENT EDIT FORM
+========================================================= */
+
+.debt-page .monthly-payment-edit-form {
+    padding: 20px;
+    margin-top: 15px;
+    background: #f6f8ff;
+    border: 1px solid #dce5fa;
+    border-radius: 14px;
 }
 
-.monthly-payment-edit-grid input:focus,
-.monthly-payment-edit-grid select:focus,
-.monthly-payment-edit-grid textarea:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+.debt-page .monthly-payment-edit-header {
+    padding-bottom: 14px;
+    margin-bottom: 17px;
+    border-bottom: 1px solid #e1e7f3;
+    display: flex;
+    justify-content: space-between;
 }
 
-.monthly-payment-edit-full {
+.debt-page .monthly-payment-edit-header button {
+   border: none
+}
+
+.debt-page .monthly-payment-edit-header h4 {
+    margin: 0;
+    color: var(--md-navy);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.debt-page .monthly-payment-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.debt-page .monthly-payment-edit-grid label {
+   color: #3157d5;
+}
+
+.debt-page .monthly-payment-edit-full {
     grid-column: 1 / -1;
 }
 
-.monthly-payment-edit-actions {
+.debt-page .monthly-payment-edit-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 16px;
+    margin-top: 18px;
 }
 
-.monthly-debt-form-full {
-    grid-column: 1 / -1;
+.debt-page .monthly-payment-edit-actions button {
+    min-height: 39px;
+    padding: 0 16px;
+    border-radius: 9px;
+    font-weight: 800;
+    cursor: pointer;
 }
 
-.monthly-debt-form-full textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 11px 13px;
-    border: 1px solid #dbe2ea;
-    border-radius: 8px;
-    background: #fff;
-    color: #1e293b;
-    font: inherit;
-    resize: vertical;
-    outline: none;
+/* =========================================================
+   ACCESSIBILITY & TRANSITIONS
+========================================================= */
+
+.debt-page button:focus-visible,
+.debt-page input:focus-visible,
+.debt-page select:focus-visible,
+.debt-page textarea:focus-visible {
+    outline: 3px solid rgba(66, 104, 232, 0.25);
+    outline-offset: 2px;
 }
 
-.monthly-debt-form-full textarea:focus {
-    border-color: #64748b;
-    box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.12);
+
+/* =========================================================
+   MONTHLY DEBT UPDATE — LAYOUT FIXES & VISUAL POLISH
+   Append this section at the bottom of the existing CSS
+========================================================= */
+
+/* ---------- Selected debt overview ---------- */
+
+.debt-page .monthly-debt-info-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    margin: 26px 0 12px;
 }
 
-.monthly-debt-remarks {
-    margin-top: 16px;
-    padding: 12px 15px;
-    border-radius: 8px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+.debt-page .monthly-debt-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 11px;
+    min-height: 105px;
+    padding: 22px 24px;
+    background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+    border: 1px solid #e2e9f5;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(32, 56, 110, 0.055);
 }
 
-.monthly-debt-remarks span {
+.debt-page .monthly-debt-info-card > span {
     display: block;
-    margin-bottom: 5px;
-    color: #64748b;
+    margin: 0;
+    color: #7b879e;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.075em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.debt-page .monthly-debt-info-card > strong {
+    display: block;
+    max-width: 100%;
+    margin: 0;
+    color: #172b50;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.35px;
+    overflow-wrap: anywhere;
+}
+
+.debt-page .monthly-debt-info-card:nth-child(4) > strong,
+.debt-page .monthly-debt-info-card:nth-child(6) > strong {
+    color: #3157d5;
+}
+
+.debt-page .monthly-debt-info-card:nth-child(5) > strong {
+    color: #b45309;
+}
+
+.debt-page .monthly-debt-info-card > strong.monthly-debt-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 7px 13px;
+    color: #08764f;
+    background: #e6f8ef;
+    border: 1px solid #c5eed8;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-transform: capitalize;
+}
+
+/* ---------- Monthly toolbar ---------- */
+
+.debt-page .monthly-debt-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 17px 20px;
+    background: linear-gradient(120deg, #f8faff, #ffffff);
+    border: 1px solid #e2e9f5;
+    border-radius: 15px;
+}
+
+.debt-page .monthly-debt-year-filter {
+    min-width: 260px;
+    margin-right: auto;
+}
+
+.debt-page .monthly-debt-add-button {
+    min-height: 46px;
+    padding: 0 21px;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+/* ---------- Monthly record cards ---------- */
+
+.debt-page .monthly-debt-record-card {
+    border: 1px solid #dfe7f3;
+    border-radius: 18px;
+    box-shadow: 0 7px 24px rgba(32, 56, 110, 0.055);
+}
+
+.debt-page .monthly-debt-record-header {
+    padding: 20px 24px;
+    background: linear-gradient(110deg, #f1f5ff 0%, #ffffff 85%);
+}
+
+.debt-page .monthly-debt-record-header h3 {
+    color: #1c3158;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.debt-page .monthly-debt-record-header > div > span {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 9px;
+    color: #536b9c;
+    background: #eaf0ff;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Six tiles arranged evenly in two rows */
+
+.debt-page .monthly-debt-record-values {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    padding: 22px 24px;
+}
+
+.debt-page .monthly-debt-record-values > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    min-height: 78px;
+    padding: 16px 17px;
+    background: #f7f9fd;
+    border: 1px solid #e9eef7;
+    border-radius: 13px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.debt-page .monthly-debt-record-values > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(32, 56, 110, 0.07);
+}
+
+.debt-page .monthly-debt-record-values span {
+    margin: 0;
+    color: #8290a8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+}
+
+.debt-page .monthly-debt-record-values strong {
+    color: #263b60;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.debt-page .monthly-debt-record-values strong.monthly-value-green {
+    display: inline-flex;
+    align-self: flex-start;
+    width: fit-content;
+    padding: 5px 10px;
+    color: #08764f;
+    background: #e6f8ef;
+    border: 1px solid #c9efda;
+    border-radius: 8px;
+}
+
+.debt-page .monthly-debt-record-values strong.monthly-value-red {
+    display: inline-flex;
+    align-self: flex-start;
+    width: fit-content;
+    padding: 5px 10px;
+    color: #c33343;
+    background: #fff0f1;
+    border: 1px solid #ffdade;
+    border-radius: 8px;
+}
+
+/* ---------- Remarks ---------- */
+
+.debt-page .monthly-debt-remarks {
+    margin: 0 24px 20px;
+    padding: 15px 17px;
+    background: #f5f8ff;
+    border: 1px solid #e4eafe;
+    border-left: 4px solid #5576df;
+    border-radius: 10px;
+}
+
+.debt-page .monthly-debt-remarks > span {
+    display: block;
+    margin-bottom: 6px;
+    color: #61749b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.debt-page .monthly-debt-remarks p {
+    margin: 0;
+    color: #405273;
+    line-height: 1.6;
+}
+
+/* ---------- Recorded payments ---------- */
+
+.debt-page .monthly-recorded-payments-toggle {
+    padding: 15px 17px;
+    color: #304b83;
+    background: linear-gradient(110deg, #f0f4ff, #f8faff);
+    border: 1px solid #dce5fa;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.debt-page .monthly-recorded-payment-item {
+    background: #ffffff;
+    border: 1px solid #e4eaf4;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(32, 56, 110, 0.035);
+}
+
+.debt-page .monthly-recorded-payment-header > div:first-child > span {
+    display: inline-block;
+    margin-top: 5px;
+    color: #8995a9;
+    font-size: 12px;
+}
+
+.debt-page .monthly-recorded-payment-details {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.debt-page .monthly-recorded-payment-details > div {
+    min-width: 0;
+    background: #f8faff;
+    border: 1px solid #edf1f7;
+}
+
+.debt-page .monthly-recorded-payment-details strong {
+    display: block;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   RECORDED PAYMENT HEADER — PREMIUM ACTION DESIGN
+========================================================= */
+
+.debt-page .monthly-recorded-payment-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e8edf5;
+}
+
+.debt-page .monthly-recorded-payment-header > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 0;
+    flex: 1 1 180px;
+}
+
+.debt-page .monthly-recorded-payment-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    color: #1e3155;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.debt-page .monthly-recorded-payment-header > div:first-child > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #8491a8;
     font-size: 12px;
     font-weight: 600;
 }
 
-.monthly-debt-remarks p {
+/* Action button container */
+
+.debt-page .monthly-recorded-payment-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    gap: 9px;
+    margin-left: auto;
+}
+
+/* Edit and Delete buttons */
+
+.debt-page .monthly-recorded-payment-actions button {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px;
+
+    width: auto !important;
+    min-width: 82px;
+    height: 36px;
+    padding: 0 12px !important;
+
+    color: #3659bd;
+    background: #eff3ff;
+    border: 1px solid #dce5ff;
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.debt-page .monthly-recorded-payment-actions button svg {
+    display: block !important;
+    flex: 0 0 15px;
+    width: 15px;
+    height: 15px;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Edit hover */
+
+.debt-page .monthly-recorded-payment-actions button:first-child:hover {
+    color: #ffffff;
+    background: #3157d5;
+    border-color: #3157d5;
+    box-shadow: 0 4px 12px rgba(49, 87, 213, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Delete button */
+
+.debt-page .monthly-recorded-payment-actions button:last-child {
+    color: #c33c4a;
+    background: #fff2f3;
+    border-color: #ffdcdf;
+}
+
+.debt-page .monthly-recorded-payment-actions button:last-child:hover {
+    color: #ffffff;
+    background: #d94452;
+    border-color: #d94452;
+    box-shadow: 0 4px 12px rgba(217, 68, 82, 0.2);
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CATEGORY DEBT LIST — PREMIUM CARD DESIGN
+========================================================= */
+
+.debt-page .debt-category-debt-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch;
+    gap: 20px;
+    width: 100%;
+    margin-top: 26px;
+}
+
+/* Individual debt card */
+
+.debt-page .debt-category-debt-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    justify-content: initial !important;
+    gap: 18px;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 112px;
+    padding: 22px 23px;
+
+    color: #1d3156;
+    background: linear-gradient(135deg, #ffffff 0%, #f6f8ff 100%);
+    border: 1px solid #e0e7f3;
+    border-radius: 17px;
+
+    box-shadow: 0 5px 18px rgba(31, 54, 105, 0.055);
+
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease;
+}
+
+/* Debt name and lender */
+
+.debt-page .debt-category-debt-item > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 9px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.debt-page .debt-category-debt-item > div > strong {
+    display: block;
+    max-width: 100%;
     margin: 0;
-    color: #334155;
-    font-size: 13px;
-    line-height: 1.6;
-    white-space: pre-wrap;
+
+    color: #1b3159;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.3px;
+
+    overflow-wrap: anywhere;
 }
 
-@media (max-width: 700px) {
-    .monthly-recorded-payment-details {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+.debt-page .debt-category-debt-item > div > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
 
-    .monthly-recorded-payment-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+    max-width: 100%;
+    margin: 0;
 
-    .monthly-payment-edit-grid {
-        grid-template-columns: 1fr;
-    }
+    color: #7b89a1;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
 
-    .monthly-payment-edit-full {
-        grid-column: auto;
-    }
+    overflow-wrap: anywhere;
 }
 
-@media (max-width: 420px) {
-    .monthly-recorded-payment-details {
-        grid-template-columns: 1fr;
-    }
+/* Lender icon-style indicator */
+
+.debt-page .debt-category-debt-item > div > span::before {
+    content: "";
+    display: inline-block;
+    flex: 0 0 7px;
+    width: 7px;
+    height: 7px;
+
+    background: #21a477;
+    border-radius: 50%;
 }
 
+/* View monthly details action */
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+.debt-page .debt-category-debt-action {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px;
+
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 40px;
+    padding: 0 14px;
+
+    color: #3157c9;
+    background: #edf2ff;
+    border: 1px solid #dce5ff;
+    border-radius: 10px;
+
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+
+    transition: all 0.2s ease;
+}
+
+.debt-page .debt-category-debt-action svg {
+    display: block !important;
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(180deg);
+}
+
+/* Card hover */
+
+.debt-page .debt-category-debt-item:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(135deg, #ffffff, #f0f4ff);
+    border-color: #aebff2;
+    box-shadow: 0 13px 28px rgba(49, 87, 180, 0.12);
+}
+
+.debt-page .debt-category-debt-item:hover > div > strong {
+    color: #3157d5;
+}
+
+.debt-page .debt-category-debt-item:hover .debt-category-debt-action {
+    color: #ffffff;
+    background: linear-gradient(135deg, #4268e8, #294bc1);
+    border-color: #3157d5;
+    box-shadow: 0 5px 12px rgba(49, 87, 213, 0.2);
+}
+
+/* Keyboard accessibility */
+
+.debt-page .debt-category-debt-item:focus-visible {
+    outline: 3px solid rgba(66, 104, 232, 0.25);
+    outline-offset: 3px;
+}
+
+/* Empty state */
+
+.debt-page .debt-category-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    padding: 30px;
+    color: #78869e;
+    background: linear-gradient(135deg, #ffffff, #f7f9ff);
+    border: 1px dashed #cbd6e8;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Tablet */
 
 @media (max-width: 1000px) {
-    .monthly-debt-record-values {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .debt-page .debt-category-debt-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 14px;
     }
 
-    .monthly-debt-info-grid {
+    .debt-page .debt-category-debt-item {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 14px;
+    }
+
+    .debt-page .debt-category-debt-action {
+        justify-self: start;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .debt-page .debt-category-debt-list {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 13px;
+    }
+
+    .debt-page .debt-category-debt-item {
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        min-height: 95px;
+        padding: 17px;
+        gap: 10px;
+    }
+
+    .debt-page .debt-category-debt-item > div > strong {
+        font-size: 15px;
+    }
+
+    .debt-page .debt-category-debt-action {
+        min-height: 36px;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 380px) {
+    .debt-page .debt-category-debt-item {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .debt-page .debt-category-debt-action {
+        justify-self: start;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .debt-page .monthly-recorded-payment-header {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    .debt-page .monthly-recorded-payment-actions {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .debt-page .monthly-recorded-payment-actions button {
+        flex: 1;
+    }
+}
+
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1000px) {
+    .debt-page .monthly-debt-info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .debt-page .monthly-debt-record-values {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
+/* ---------- Mobile ---------- */
+
 @media (max-width: 600px) {
-    .monthly-debt-toolbar {
+    .debt-page .monthly-debt-info-grid,
+    .debt-page .monthly-debt-record-values,
+    .debt-page .monthly-recorded-payment-details {
+        grid-template-columns: 1fr;
+    }
+
+    .debt-page .monthly-debt-info-card {
+        min-height: 85px;
+        padding: 17px 19px;
+    }
+
+    .debt-page .monthly-debt-toolbar {
         align-items: stretch;
         flex-direction: column;
     }
 
-    .monthly-debt-add-button {
+    .debt-page .monthly-debt-year-filter {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .debt-page .monthly-debt-add-button {
         width: 100%;
     }
 
-    .monthly-debt-form-grid {
-        grid-template-columns: 1fr;
+    .debt-page .monthly-debt-record-values {
+        padding: 15px;
     }
 
-    .monthly-debt-record-values {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .monthly-debt-info-grid {
-        grid-template-columns: 1fr;
+    .debt-page .monthly-debt-remarks {
+        margin-right: 15px;
+        margin-left: 15px;
     }
 }
 
-/* Responsive */
+
+@media (prefers-reduced-motion: reduce) {
+    .debt-page * {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
 
 @media (max-width: 1100px) {
-    .debt-category-grid {
+    .debt-page .debt-category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .debt-page .monthly-debt-record-values {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 768px) {
-    .debt-category-grid {
+@media (max-width: 850px) {
+    .debt-page .monthly-debt-info-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+    }
+
+    .debt-page .monthly-recorded-payment-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 480px) {
-    .debt-category-grid {
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+    .debt-page .debt-category-grid,
+    .debt-page .debt-category-debt-list,
+    .debt-page .monthly-debt-info-grid,
+    .debt-page .monthly-debt-form-grid,
+    .debt-page .monthly-payment-edit-grid {
         grid-template-columns: 1fr;
+    }
+
+    .debt-page .monthly-debt-info-card {
+        padding: 19px;
+    }
+
+    .debt-page .monthly-debt-toolbar {
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    .debt-page .monthly-debt-year-filter,
+    .debt-page .monthly-debt-add-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .debt-page .monthly-debt-edit-form {
+        padding: 18px;
+    }
+
+    .debt-page .monthly-debt-record-header {
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .debt-page .monthly-debt-record-values {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        padding: 15px;
+    }
+
+    .debt-page .monthly-debt-record-values > div {
+        padding: 12px;
+    }
+
+    .debt-page .monthly-debt-record-values strong {
+        font-size: 14px;
+    }
+
+    .debt-page .monthly-debt-remarks {
+        margin: 0 15px 16px;
+    }
+
+    .debt-page .monthly-recorded-payments {
+        padding: 0 15px 16px;
+    }
+
+    .debt-page .monthly-recorded-payment-details {
+        grid-template-columns: 1fr;
+    }
+
+    .debt-page .monthly-recorded-payment-header {
+        align-items: flex-start;
+    }
+
+    .debt-page .monthly-debt-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .debt-page .monthly-debt-form-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .debt-page .monthly-debt-record-values {
+        grid-template-columns: 1fr;
+    }
+
+    .debt-page .monthly-debt-record-header {
+        flex-direction: column;
     }
 }

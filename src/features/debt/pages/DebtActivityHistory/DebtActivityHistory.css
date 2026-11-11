@@ -1,420 +1,559 @@
 
-/* =========================================
-   DEBT ACTIVITY HISTORY
-========================================= */
+/* =========================================================
+   DEBT ACTIVITY HISTORY — PREMIUM DESIGN
+========================================================= */
 
 .debt-activity-page {
-    padding-bottom: 24px;
+    --activity-primary: #4f46e5;
+    --activity-primary-light: #eef2ff;
+    --activity-text: #172033;
+    --activity-muted: #8490a5;
+    --activity-border: #e8edf5;
+    --activity-surface: #ffffff;
+
+    padding-bottom: 30px;
 }
 
-.activity-history-section {
+.debt-activity-page .activity-history-section {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    scroll-margin-top: 20px;
+    gap: 20px;
+    scroll-margin-top: 24px;
 }
 
-/* =========================================
-   ACTIVITY SUMMARY
-========================================= */
+/* =========================================================
+   SUMMARY CARD
+========================================================= */
 
-.activity-summary {
+.debt-activity-page .activity-summary {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 13px 15px;
-    border: 1px solid #e5eaf2;
-    border-radius: 10px;
-    background: #f8fafc;
+    gap: 16px;
+    min-height: 90px;
+    padding: 19px 22px;
+    overflow: hidden;
+    border: 1px solid #dfe6f2;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at 95% 10%, rgba(99, 102, 241, 0.12), transparent 32%),
+        linear-gradient(120deg, #ffffff 0%, #f7f9ff 100%);
+    box-shadow: 0 5px 18px rgba(30, 41, 59, 0.045);
 }
 
-.activity-summary-icon {
+.debt-activity-page .activity-summary::after {
+    position: absolute;
+    right: -35px;
+    bottom: -65px;
+    width: 160px;
+    height: 160px;
+    border: 1px solid rgba(99, 102, 241, 0.09);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+}
+
+.debt-activity-page .activity-summary-icon {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
-    flex-shrink: 0;
-    border-radius: 9px;
-    background: #eff6ff;
-    color: #2563eb;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #dfe4ff;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #eef2ff, #e0e7ff);
+    color: #4f46e5;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.10);
 }
 
-.activity-summary > div:nth-child(2) {
+.debt-activity-page .activity-summary > div:nth-child(2) {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
 }
 
-.activity-summary > div:nth-child(2) strong {
-    color: #1e293b;
-    font-size: 17px;
-    font-weight: 750;
+.debt-activity-page .activity-summary > div:nth-child(2) strong {
+    color: #172033;
+    font-size: 25px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.8px;
 }
 
-.activity-summary > div:nth-child(2) span {
-    color: #64748b;
-    font-size: 11px;
-}
-
-.activity-summary-range {
-    margin-left: auto;
-    color: #64748b;
-    font-size: 11px;
+.debt-activity-page .activity-summary > div:nth-child(2) span {
+    color: #78859a;
+    font-size: 12px;
     font-weight: 600;
 }
 
-/* =========================================
-   ACTIVITY LIST
-========================================= */
+.debt-activity-page .activity-summary-range {
+    position: relative;
+    z-index: 1;
+    margin-left: auto;
+    padding: 9px 13px;
+    border: 1px solid #e2e8f5;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #65728a;
+    font-size: 11px;
+    font-weight: 700;
+}
 
-.activity-list {
+/* =========================================================
+   ACTIVITY LIST
+========================================================= */
+
+.debt-activity-page .activity-list {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
-.activity-item {
+/* Timeline connector */
+.debt-activity-page .activity-list::before {
+    position: absolute;
+    top: 27px;
+    bottom: 27px;
+    left: 25px;
+    width: 2px;
+    border-radius: 5px;
+    background: linear-gradient(
+        to bottom,
+        #c7d2fe,
+        #e2e8f0 75%,
+        transparent
+    );
+    content: "";
+}
+
+/* =========================================================
+   ACTIVITY CARD
+========================================================= */
+
+.debt-activity-page .activity-item {
+    position: relative;
     display: flex;
     align-items: flex-start;
-    gap: 13px;
-    padding: 16px;
-    border: 1px solid #e8edf4;
-    border-radius: 10px;
-    background: #ffffff;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    gap: 17px;
+    padding: 20px;
+    border: 1px solid var(--activity-border);
+    border-radius: 15px;
+    background: var(--activity-surface);
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.035);
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
 }
 
-.activity-item:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+.debt-activity-page .activity-item:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5f5;
+    box-shadow: 0 10px 25px rgba(30, 41, 59, 0.075);
 }
 
-/* =========================================
-   ACTIVITY ICON
-========================================= */
+/* =========================================================
+   ACTION ICONS
+========================================================= */
 
-.activity-icon {
+.debt-activity-page .activity-icon {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
+    width: 52px;
+    height: 52px;
+    border: 4px solid #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.10);
 }
 
-.activity-created {
-    background: #ecfdf5;
-    color: #059669;
+.debt-activity-page .activity-icon svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+    stroke-width: 2.4;
 }
 
-.activity-updated {
-    background: #eff6ff;
-    color: #2563eb;
+.debt-activity-page .activity-icon.activity-created {
+    background: linear-gradient(145deg, #d1fae5, #a7f3d0);
+    color: #047857;
 }
 
-.activity-deleted {
-    background: #fff1f2;
-    color: #dc2626;
+.debt-activity-page .activity-icon.activity-updated {
+    background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+    color: #1d4ed8;
 }
 
-.activity-closed {
-    background: #f1f5f9;
+.debt-activity-page .activity-icon.activity-deleted {
+    background: linear-gradient(145deg, #ffe4e6, #fecdd3);
+    color: #be123c;
+}
+
+.debt-activity-page .activity-icon.activity-closed {
+    background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
     color: #475569;
 }
 
-.activity-reopened {
-    background: #f5f3ff;
-    color: #7c3aed;
+.debt-activity-page .activity-icon.activity-reopened {
+    background: linear-gradient(145deg, #ede9fe, #ddd6fe);
+    color: #6d28d9;
 }
 
-.activity-default {
-    background: #f1f5f9;
-    color: #64748b;
+.debt-activity-page .activity-icon.activity-default {
+    background: linear-gradient(145deg, #e2e8f0, #f1f5f9);
+    color: #475569;
 }
 
-/* =========================================
+/* =========================================================
    ACTIVITY CONTENT
-========================================= */
+========================================================= */
 
-.activity-content {
+.debt-activity-page .activity-content {
     flex: 1;
     min-width: 0;
 }
 
-.activity-heading {
+.debt-activity-page .activity-heading {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 14px;
+    gap: 16px;
 }
 
-.activity-heading-main {
+.debt-activity-page .activity-heading-main {
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: 7px;
+    gap: 9px;
 }
 
-.activity-title-row {
+.debt-activity-page .activity-title-row {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 8px;
 }
 
-.activity-action-badge,
-.activity-entity-badge {
+.debt-activity-page .activity-action-badge,
+.debt-activity-page .activity-entity-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     width: fit-content;
-    padding: 4px 8px;
-    border-radius: 5px;
+    min-height: 25px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 7px;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
 }
 
-.activity-action-badge.activity-created {
+.debt-activity-page .activity-action-badge.activity-created {
+    border-color: #a7f3d0;
     background: #ecfdf5;
     color: #047857;
 }
 
-.activity-action-badge.activity-updated {
+.debt-activity-page .activity-action-badge.activity-updated {
+    border-color: #bfdbfe;
     background: #eff6ff;
     color: #1d4ed8;
 }
 
-.activity-action-badge.activity-deleted {
+.debt-activity-page .activity-action-badge.activity-deleted {
+    border-color: #fecdd3;
     background: #fff1f2;
     color: #be123c;
 }
 
-.activity-action-badge.activity-closed {
+.debt-activity-page .activity-action-badge.activity-closed {
+    border-color: #cbd5e1;
     background: #f1f5f9;
     color: #475569;
 }
 
-.activity-action-badge.activity-reopened {
+.debt-activity-page .activity-action-badge.activity-reopened {
+    border-color: #ddd6fe;
     background: #f5f3ff;
     color: #6d28d9;
 }
 
-.activity-action-badge.activity-default {
+.debt-activity-page .activity-action-badge.activity-default {
+    border-color: #e2e8f0;
     background: #f1f5f9;
     color: #475569;
 }
 
-.activity-entity-badge {
-    background: #f1f5f9;
+.debt-activity-page .activity-entity-badge {
+    border-color: #e2e8f0;
+    background: #f8fafc;
     color: #64748b;
 }
 
-.activity-record-name {
+.debt-activity-page .activity-record-name {
     margin: 0;
     overflow-wrap: anywhere;
-    color: #334155;
-    font-size: 13px;
-    font-weight: 650;
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.4;
 }
 
-.activity-date {
-    display: flex;
+.debt-activity-page .activity-date {
+    display: inline-flex;
     flex-shrink: 0;
     align-items: center;
-    gap: 5px;
-    color: #94a3b8;
-    font-size: 10px;
-    white-space: nowrap;
-}
-
-/* =========================================
-   ACTIVITY CHANGE DETAILS
-========================================= */
-
-.activity-changes {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-top: 13px;
-    padding: 4px 12px;
+    gap: 7px;
+    padding: 8px 10px;
     border: 1px solid #edf0f5;
     border-radius: 8px;
     background: #f8fafc;
+    color: #78859a;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
-.activity-change {
+.debt-activity-page .activity-date svg {
+    flex-shrink: 0;
+    color: #818cf8;
+}
+
+/* =========================================================
+   FIELD CHANGE DETAILS
+========================================================= */
+
+.debt-activity-page .activity-changes {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 17px;
+    padding: 5px 15px;
+    overflow: hidden;
+    border: 1px solid #e9edf5;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #fafbff, #f8fafc);
+}
+
+.debt-activity-page .activity-change {
     display: grid;
-    grid-template-columns: minmax(110px, 0.8fr) minmax(0, 2fr);
+    grid-template-columns: minmax(125px, 0.75fr) minmax(0, 2fr);
     align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid #e9eef5;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9edf5;
 }
 
-.activity-change:last-child {
+.debt-activity-page .activity-change:last-child {
     border-bottom: none;
 }
 
-.activity-field-label {
+.debt-activity-page .activity-field-label {
     color: #64748b;
     font-size: 11px;
-    font-weight: 600;
-    text-transform: capitalize;
+    font-weight: 750;
+    letter-spacing: 0.2px;
 }
 
-.activity-field-values {
+.debt-activity-page .activity-field-values {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 8px;
     text-align: right;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 650;
 }
 
-.activity-old-value,
-.activity-new-value {
+.debt-activity-page .activity-old-value,
+.debt-activity-page .activity-new-value {
+    display: inline-flex;
+    align-items: center;
     max-width: 45%;
+    min-height: 27px;
+    padding: 5px 10px;
     overflow-wrap: anywhere;
-    padding: 5px 8px;
-    border-radius: 5px;
+    border-radius: 7px;
+    line-height: 1.4;
 }
 
-.activity-old-value {
+.debt-activity-page .activity-old-value {
     border: 1px solid #fecaca;
-    background: #fff1f2;
+    background: linear-gradient(135deg, #fff1f2, #fff7f7);
     color: #dc2626;
     text-decoration: line-through;
+    text-decoration-color: #f87171;
 }
 
-.activity-change-arrow {
+.debt-activity-page .activity-change-arrow {
+    display: inline-flex;
     flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    background: #ffffff;
     color: #94a3b8;
+    font-size: 13px;
+    font-weight: 800;
 }
 
-.activity-new-value {
+.debt-activity-page .activity-new-value {
     border: 1px solid #a7f3d0;
-    background: #ecfdf5;
-    color: #059669;
-    font-weight: 700;
+    background: linear-gradient(135deg, #ecfdf5, #f0fdf8);
+    color: #047857;
+    font-weight: 800;
 }
 
-/* =========================================
+/* =========================================================
    PAGINATION
-========================================= */
+========================================================= */
 
-.activity-pagination {
+.debt-activity-page .activity-pagination {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 13px;
-    padding-top: 15px;
-    border-top: 1px solid #edf0f5;
+    gap: 15px;
+    padding: 17px 18px;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: linear-gradient(120deg, #ffffff, #f9faff);
 }
 
-.activity-pagination-info {
-    color: #64748b;
+.debt-activity-page .activity-pagination-info {
+    color: #8490a5;
     font-size: 11px;
+    font-weight: 600;
 }
 
-.activity-pagination-info strong {
+.debt-activity-page .activity-pagination-info strong {
     color: #334155;
-    font-weight: 700;
+    font-weight: 800;
 }
 
-.activity-pagination-controls {
+.debt-activity-page .activity-pagination-controls {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 6px;
 }
 
-.activity-page-button {
+.debt-activity-page .activity-page-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 32px;
-    height: 32px;
-    padding: 0 9px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
     border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    border-radius: 9px;
     background: #ffffff;
-    color: #475569;
+    color: #64748b;
     cursor: pointer;
     font-family: inherit;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 750;
     transition: all 0.2s ease;
 }
 
-.activity-page-button:hover:not(:disabled) {
-    border-color: #93c5fd;
-    background: #eff6ff;
-    color: #2563eb;
+.debt-activity-page .activity-page-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: #a5b4fc;
+    background: #eef2ff;
+    color: #4338ca;
 }
 
-.activity-page-button.active {
-    border-color: #2563eb;
-    background: #2563eb;
+.debt-activity-page .activity-page-button.active {
+    border-color: #4f46e5;
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
     color: #ffffff;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.22);
 }
 
-.activity-page-button:disabled {
+.debt-activity-page .activity-page-button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
 }
 
-.activity-page-arrow {
-    gap: 4px;
-    padding: 0 10px;
+.debt-activity-page .activity-page-arrow {
+    gap: 6px;
+    padding: 0 12px;
 }
 
-/* =========================================
-   LOADING / EMPTY / ERROR STATES
-========================================= */
+/* =========================================================
+   LOADING / EMPTY / ERROR
+========================================================= */
 
-.activity-empty-state {
+.debt-activity-page .activity-empty-state {
     display: flex;
-    min-height: 190px;
+    min-height: 230px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    padding: 25px;
-    border: 1px dashed #dbe3ef;
-    border-radius: 10px;
-    background: #fafcff;
+    gap: 11px;
+    padding: 30px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 15px;
+    background:
+        radial-gradient(circle at 50% 0%, #eef2ff, transparent 55%),
+        #fafbff;
     color: #94a3b8;
     text-align: center;
 }
 
-.activity-empty-state > svg {
-    color: #94a3b8;
+.debt-activity-page .activity-empty-state > svg {
+    width: 43px;
+    height: 43px;
+    padding: 10px;
+    border: 1px solid #dfe4ff;
+    border-radius: 13px;
+    background: #eef2ff;
+    color: #6366f1;
 }
 
-.activity-empty-state h3 {
+.debt-activity-page .activity-empty-state h3 {
     margin: 0;
     color: #334155;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 800;
 }
 
-.activity-empty-state p {
+.debt-activity-page .activity-empty-state p {
+    max-width: 340px;
     margin: 0;
-    color: #94a3b8;
-    font-size: 11px;
+    color: #8490a5;
+    font-size: 12px;
+    line-height: 1.6;
 }
 
-.activity-loading-spinner {
-    width: 25px;
-    height: 25px;
-    border: 3px solid #dbeafe;
-    border-top-color: #2563eb;
+.debt-activity-page .activity-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e0e7ff;
+    border-top-color: #4f46e5;
     border-radius: 50%;
     animation: activity-spin 0.8s linear infinite;
+}
+
+.debt-activity-page .activity-error {
+    padding: 16px 18px;
+    border: 1px solid #fecaca;
+    border-radius: 11px;
+    background: #fff1f2;
+    color: #be123c;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 @keyframes activity-spin {
@@ -423,85 +562,108 @@
     }
 }
 
-.activity-error {
-    padding: 14px;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    background: #fff1f2;
-    color: #dc2626;
-    font-size: 12px;
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+    .debt-activity-page .activity-heading {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .debt-activity-page .activity-date {
+        align-self: flex-start;
+    }
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 700px) {
-    .activity-item {
-        gap: 10px;
-        padding: 12px;
+@media (max-width: 650px) {
+    .debt-activity-page .activity-summary {
+        flex-wrap: wrap;
+        padding: 15px;
     }
 
-    .activity-icon {
-        width: 32px;
-        height: 32px;
+    .debt-activity-page .activity-summary-range {
+        width: 100%;
+        margin-left: 64px;
     }
 
-    .activity-heading {
-        flex-direction: column;
-        gap: 8px;
+    .debt-activity-page .activity-item {
+        gap: 11px;
+        padding: 14px;
+        border-radius: 12px;
     }
 
-    .activity-date {
-        font-size: 10px;
+    .debt-activity-page .activity-list::before {
+        left: 20px;
     }
 
-    .activity-change {
+    .debt-activity-page .activity-icon {
+        width: 43px;
+        height: 43px;
+        border-radius: 13px;
+    }
+
+    .debt-activity-page .activity-icon svg {
+        width: 17px;
+        height: 17px;
+    }
+
+    .debt-activity-page .activity-record-name {
+        font-size: 13px;
+    }
+
+    .debt-activity-page .activity-change {
         grid-template-columns: 1fr;
-        gap: 7px;
+        gap: 8px;
+        padding: 11px 0;
     }
 
-    .activity-field-values {
+    .debt-activity-page .activity-field-values {
         justify-content: flex-start;
         text-align: left;
     }
 
-    .activity-old-value,
-    .activity-new-value {
+    .debt-activity-page .activity-old-value,
+    .debt-activity-page .activity-new-value {
         max-width: 100%;
     }
 
-    .activity-pagination {
+    .debt-activity-page .activity-pagination {
         align-items: flex-start;
         flex-direction: column;
+        padding: 14px;
     }
 
-    .activity-pagination-controls {
+    .debt-activity-page .activity-pagination-controls {
         width: 100%;
     }
 }
 
 @media (max-width: 420px) {
-    .activity-summary {
-        flex-wrap: wrap;
+    .debt-activity-page .activity-summary-range {
+        margin-left: 0;
     }
 
-    .activity-summary-range {
-        width: 100%;
-        margin-left: 50px;
+    .debt-activity-page .activity-title-row {
+        gap: 6px;
     }
 
-    .activity-pagination-controls {
+    .debt-activity-page .activity-date {
+        white-space: normal;
+    }
+
+    .debt-activity-page .activity-pagination-controls {
         gap: 4px;
     }
 
-    .activity-page-button {
-        min-width: 29px;
-        height: 30px;
+    .debt-activity-page .activity-page-button {
+        min-width: 31px;
+        height: 32px;
         padding: 0 7px;
     }
 
-    .activity-page-arrow {
-        gap: 2px;
+    .debt-activity-page .activity-page-arrow {
+        gap: 3px;
     }
 }
