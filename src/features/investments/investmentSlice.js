@@ -85,10 +85,7 @@ export const fetchInvestmentData = createAsyncThunk(
             };
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to fetch investment data"
-                )
+                getErrorMessage(error, "Failed to fetch investment data")
             );
         }
     }
@@ -105,10 +102,7 @@ export const createInvestment = createAsyncThunk(
             return await investmentService.create(payload);
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to create investment"
-                )
+                getErrorMessage(error, "Failed to create investment")
             );
         }
     }
@@ -125,10 +119,7 @@ export const updateInvestment = createAsyncThunk(
             return await investmentService.update(id, updates);
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to update investment"
-                )
+                getErrorMessage(error, "Failed to update investment")
             );
         }
     }
@@ -143,13 +134,16 @@ export const deleteInvestment = createAsyncThunk(
     async (id, { rejectWithValue }) => {
         try {
             await investmentService.delete(id);
-            return id;
+
+            const refreshedData = await refreshTransactionData();
+
+            return {
+                id,
+                ...refreshedData,
+            };
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to delete investment"
-                )
+                getErrorMessage(error, "Failed to delete investment")
             );
         }
     }
@@ -163,20 +157,48 @@ export const closeInvestment = createAsyncThunk(
     "investments/closeInvestment",
     async (id, { rejectWithValue }) => {
         try {
-            return await investmentService.close(id);
+            const investment = await investmentService.close(id);
+
+            const refreshedData = await refreshTransactionData(id);
+
+            return {
+                investment,
+                ...refreshedData,
+            };
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to close investment"
-                )
+                getErrorMessage(error, "Failed to close investment")
             );
         }
     }
 );
 
 /* =====================================================
-   6. CREATE CONTRIBUTION / WITHDRAWAL
+   6. ACTIVATE CLOSED INVESTMENT
+===================================================== */
+
+export const activateInvestment = createAsyncThunk(
+    "investments/activateInvestment",
+    async (id, { rejectWithValue }) => {
+        try {
+            const investment = await investmentService.activate(id);
+
+            const refreshedData = await refreshTransactionData(id);
+
+            return {
+                investment,
+                ...refreshedData,
+            };
+        } catch (error) {
+            return rejectWithValue(
+                getErrorMessage(error, "Failed to activate investment")
+            );
+        }
+    }
+);
+
+/* =====================================================
+   7. CREATE CONTRIBUTION / WITHDRAWAL
 ===================================================== */
 
 export const createInvestmentTransaction = createAsyncThunk(
@@ -196,17 +218,14 @@ export const createInvestmentTransaction = createAsyncThunk(
             };
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to save investment transaction"
-                )
+                getErrorMessage(error, "Failed to save investment transaction")
             );
         }
     }
 );
 
 /* =====================================================
-   7. UPDATE CONTRIBUTION / WITHDRAWAL
+   8. UPDATE CONTRIBUTION / WITHDRAWAL
 ===================================================== */
 
 export const updateInvestmentTransaction = createAsyncThunk(
@@ -214,10 +233,7 @@ export const updateInvestmentTransaction = createAsyncThunk(
     async ({ id, updates }, { rejectWithValue }) => {
         try {
             const transaction =
-                await investmentService.updateTransaction(
-                    id,
-                    updates
-                );
+                await investmentService.updateTransaction(id, updates);
 
             const refreshedData = await refreshTransactionData(
                 transaction.investment_id
@@ -229,17 +245,14 @@ export const updateInvestmentTransaction = createAsyncThunk(
             };
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to update investment transaction"
-                )
+                getErrorMessage(error, "Failed to update investment transaction")
             );
         }
     }
 );
 
 /* =====================================================
-   8. DELETE CONTRIBUTION / WITHDRAWAL
+   9. DELETE CONTRIBUTION / WITHDRAWAL
 ===================================================== */
 
 export const deleteInvestmentTransaction = createAsyncThunk(
@@ -251,9 +264,7 @@ export const deleteInvestmentTransaction = createAsyncThunk(
             );
 
             if (!transaction) {
-                throw new Error(
-                    "Investment transaction was not found."
-                );
+                throw new Error("Investment transaction was not found.");
             }
 
             await investmentService.deleteTransaction(id);
@@ -268,33 +279,24 @@ export const deleteInvestmentTransaction = createAsyncThunk(
             };
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to delete investment transaction"
-                )
+                getErrorMessage(error, "Failed to delete investment transaction")
             );
         }
     }
 );
 
 /* =====================================================
-   9. SAVE MONTHLY SNAPSHOT
+   10. SAVE MONTHLY SNAPSHOT
 ===================================================== */
 
 export const saveInvestmentSnapshot = createAsyncThunk(
     "investments/saveInvestmentSnapshot",
     async (payload, { rejectWithValue }) => {
         try {
-            const result =
-                await investmentService.saveSnapshot(payload);
-
-            return result;
+            return await investmentService.saveSnapshot(payload);
         } catch (error) {
             return rejectWithValue(
-                getErrorMessage(
-                    error,
-                    "Failed to save monthly investment update"
-                )
+                getErrorMessage(error, "Failed to save monthly investment update")
             );
         }
     }
@@ -324,322 +326,268 @@ const investmentSlice = createSlice({
                FETCH INVESTMENT DATA
             ========================================= */
 
-            .addCase(
-                fetchInvestmentData.pending,
-                (state) => {
-                    state.loading = true;
-                    state.error = null;
-                }
-            )
+            .addCase(fetchInvestmentData.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
 
-            .addCase(
-                fetchInvestmentData.fulfilled,
-                (state, action) => {
-                    state.loading = false;
+            .addCase(fetchInvestmentData.fulfilled, (state, action) => {
+                state.loading = false;
 
-                    state.investments =
-                        action.payload.investments || [];
+                state.investments = action.payload.investments || [];
+                state.transactions = action.payload.transactions || [];
+                state.monthlySnapshots = action.payload.monthlySnapshots || [];
+                state.summary = action.payload.summary || initialState.summary;
+            })
 
-                    state.transactions =
-                        action.payload.transactions || [];
-
-                    state.monthlySnapshots =
-                        action.payload.monthlySnapshots || [];
-
-                    state.summary =
-                        action.payload.summary || initialState.summary;
-                }
-            )
-
-            .addCase(
-                fetchInvestmentData.rejected,
-                (state, action) => {
-                    state.loading = false;
-                    state.error = action.payload;
-                }
-            )
+            .addCase(fetchInvestmentData.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                CREATE INVESTMENT
             ========================================= */
 
-            .addCase(
-                createInvestment.pending,
-                (state) => {
-                    state.saving = true;
-                    state.error = null;
-                }
-            )
+            .addCase(createInvestment.pending, (state) => {
+                state.saving = true;
+                state.error = null;
+            })
 
-            .addCase(
-                createInvestment.fulfilled,
-                (state, action) => {
-                    state.saving = false;
+            .addCase(createInvestment.fulfilled, (state, action) => {
+                state.saving = false;
+                state.investments.unshift(action.payload);
+            })
 
-                    state.investments.unshift(action.payload);
-                }
-            )
-
-            .addCase(
-                createInvestment.rejected,
-                (state, action) => {
-                    state.saving = false;
-                    state.error = action.payload;
-                }
-            )
+            .addCase(createInvestment.rejected, (state, action) => {
+                state.saving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                UPDATE INVESTMENT
             ========================================= */
 
-            .addCase(
-                updateInvestment.pending,
-                (state) => {
-                    state.saving = true;
-                    state.error = null;
+            .addCase(updateInvestment.pending, (state) => {
+                state.saving = true;
+                state.error = null;
+            })
+
+            .addCase(updateInvestment.fulfilled, (state, action) => {
+                state.saving = false;
+
+                const index = state.investments.findIndex(
+                    (item) => item.id === action.payload.id
+                );
+
+                if (index !== -1) {
+                    state.investments[index] = action.payload;
                 }
-            )
+            })
 
-            .addCase(
-                updateInvestment.fulfilled,
-                (state, action) => {
-                    state.saving = false;
-
-                    const index = state.investments.findIndex(
-                        (item) => item.id === action.payload.id
-                    );
-
-                    if (index !== -1) {
-                        state.investments[index] = action.payload;
-                    }
-                }
-            )
-
-            .addCase(
-                updateInvestment.rejected,
-                (state, action) => {
-                    state.saving = false;
-                    state.error = action.payload;
-                }
-            )
+            .addCase(updateInvestment.rejected, (state, action) => {
+                state.saving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                DELETE INVESTMENT
             ========================================= */
 
-            .addCase(
-                deleteInvestment.pending,
-                (state) => {
-                    state.saving = true;
-                    state.error = null;
-                }
-            )
+            .addCase(deleteInvestment.pending, (state) => {
+                state.saving = true;
+                state.error = null;
+            })
 
-            .addCase(
-                deleteInvestment.fulfilled,
-                (state, action) => {
-                    state.saving = false;
+            .addCase(deleteInvestment.fulfilled, (state, action) => {
+                state.saving = false;
 
-                    state.investments = state.investments.filter(
-                        (item) => item.id !== action.payload
-                    );
-                }
-            )
+                const {
+                    id,
+                    transactions,
+                    monthlySnapshots,
+                    summary,
+                } = action.payload;
 
-            .addCase(
-                deleteInvestment.rejected,
-                (state, action) => {
-                    state.saving = false;
-                    state.error = action.payload;
-                }
-            )
+                state.investments = state.investments.filter(
+                    (item) => item.id !== id
+                );
+
+                state.transactions = transactions || [];
+                state.monthlySnapshots = monthlySnapshots || [];
+                state.summary = summary || initialState.summary;
+            })
+
+            .addCase(deleteInvestment.rejected, (state, action) => {
+                state.saving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                CLOSE INVESTMENT
             ========================================= */
 
-            .addCase(
-                closeInvestment.pending,
-                (state) => {
-                    state.saving = true;
-                    state.error = null;
+            .addCase(closeInvestment.pending, (state) => {
+                state.saving = true;
+                state.error = null;
+            })
+
+            .addCase(closeInvestment.fulfilled, (state, action) => {
+                state.saving = false;
+
+                const { investment, transactions, monthlySnapshots, summary } =
+                    action.payload;
+
+                const index = state.investments.findIndex(
+                    (item) => item.id === investment.id
+                );
+
+                if (index !== -1) {
+                    state.investments[index] = investment;
                 }
-            )
 
-            .addCase(
-                closeInvestment.fulfilled,
-                (state, action) => {
-                    state.saving = false;
+                state.transactions = transactions || [];
+                state.monthlySnapshots = monthlySnapshots || [];
+                state.summary = summary || initialState.summary;
+            })
 
-                    const index = state.investments.findIndex(
-                        (item) => item.id === action.payload.id
-                    );
+            .addCase(closeInvestment.rejected, (state, action) => {
+                state.saving = false;
+                state.error = action.payload;
+            })
 
-                    if (index !== -1) {
-                        state.investments[index] = action.payload;
-                    }
+            /* =========================================
+               ACTIVATE INVESTMENT
+            ========================================= */
+
+            .addCase(activateInvestment.pending, (state) => {
+                state.saving = true;
+                state.error = null;
+            })
+
+            .addCase(activateInvestment.fulfilled, (state, action) => {
+                state.saving = false;
+
+                const { investment, transactions, monthlySnapshots, summary } =
+                    action.payload;
+
+                const index = state.investments.findIndex(
+                    (item) => item.id === investment.id
+                );
+
+                if (index !== -1) {
+                    state.investments[index] = investment;
                 }
-            )
 
-            .addCase(
-                closeInvestment.rejected,
-                (state, action) => {
-                    state.saving = false;
-                    state.error = action.payload;
-                }
-            )
+                state.transactions = transactions || [];
+                state.monthlySnapshots = monthlySnapshots || [];
+                state.summary = summary || initialState.summary;
+            })
+
+            .addCase(activateInvestment.rejected, (state, action) => {
+                state.saving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                CREATE TRANSACTION
             ========================================= */
 
-            .addCase(
-                createInvestmentTransaction.pending,
-                (state) => {
-                    state.transactionSaving = true;
-                    state.error = null;
-                }
-            )
+            .addCase(createInvestmentTransaction.pending, (state) => {
+                state.transactionSaving = true;
+                state.error = null;
+            })
 
-            .addCase(
-                createInvestmentTransaction.fulfilled,
-                (state, action) => {
-                    state.transactionSaving = false;
+            .addCase(createInvestmentTransaction.fulfilled, (state, action) => {
+                state.transactionSaving = false;
 
-                    state.transactions =
-                        action.payload.transactions || [];
+                state.transactions = action.payload.transactions || [];
+                state.monthlySnapshots = action.payload.monthlySnapshots || [];
+                state.summary = action.payload.summary || state.summary;
+            })
 
-                    state.monthlySnapshots =
-                        action.payload.monthlySnapshots || [];
-
-                    state.summary =
-                        action.payload.summary || state.summary;
-                }
-            )
-
-            .addCase(
-                createInvestmentTransaction.rejected,
-                (state, action) => {
-                    state.transactionSaving = false;
-                    state.error = action.payload;
-                }
-            )
+            .addCase(createInvestmentTransaction.rejected, (state, action) => {
+                state.transactionSaving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                UPDATE TRANSACTION
             ========================================= */
 
-            .addCase(
-                updateInvestmentTransaction.pending,
-                (state) => {
-                    state.transactionSaving = true;
-                    state.error = null;
-                }
-            )
+            .addCase(updateInvestmentTransaction.pending, (state) => {
+                state.transactionSaving = true;
+                state.error = null;
+            })
 
-            .addCase(
-                updateInvestmentTransaction.fulfilled,
-                (state, action) => {
-                    state.transactionSaving = false;
+            .addCase(updateInvestmentTransaction.fulfilled, (state, action) => {
+                state.transactionSaving = false;
 
-                    state.transactions =
-                        action.payload.transactions || [];
+                state.transactions = action.payload.transactions || [];
+                state.monthlySnapshots = action.payload.monthlySnapshots || [];
+                state.summary = action.payload.summary || state.summary;
+            })
 
-                    state.monthlySnapshots =
-                        action.payload.monthlySnapshots || [];
-
-                    state.summary =
-                        action.payload.summary || state.summary;
-                }
-            )
-
-            .addCase(
-                updateInvestmentTransaction.rejected,
-                (state, action) => {
-                    state.transactionSaving = false;
-                    state.error = action.payload;
-                }
-            )
+            .addCase(updateInvestmentTransaction.rejected, (state, action) => {
+                state.transactionSaving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                DELETE TRANSACTION
             ========================================= */
 
-            .addCase(
-                deleteInvestmentTransaction.pending,
-                (state) => {
-                    state.transactionSaving = true;
-                    state.error = null;
-                }
-            )
+            .addCase(deleteInvestmentTransaction.pending, (state) => {
+                state.transactionSaving = true;
+                state.error = null;
+            })
 
-            .addCase(
-                deleteInvestmentTransaction.fulfilled,
-                (state, action) => {
-                    state.transactionSaving = false;
+            .addCase(deleteInvestmentTransaction.fulfilled, (state, action) => {
+                state.transactionSaving = false;
 
-                    state.transactions =
-                        action.payload.transactions || [];
+                state.transactions = action.payload.transactions || [];
+                state.monthlySnapshots = action.payload.monthlySnapshots || [];
+                state.summary = action.payload.summary || state.summary;
+            })
 
-                    state.monthlySnapshots =
-                        action.payload.monthlySnapshots || [];
-
-                    state.summary =
-                        action.payload.summary || state.summary;
-                }
-            )
-
-            .addCase(
-                deleteInvestmentTransaction.rejected,
-                (state, action) => {
-                    state.transactionSaving = false;
-                    state.error = action.payload;
-                }
-            )
+            .addCase(deleteInvestmentTransaction.rejected, (state, action) => {
+                state.transactionSaving = false;
+                state.error = action.payload;
+            })
 
             /* =========================================
                SAVE MONTHLY SNAPSHOT
             ========================================= */
 
-            .addCase(
-                saveInvestmentSnapshot.pending,
-                (state) => {
-                    state.snapshotSaving = true;
-                    state.error = null;
+            .addCase(saveInvestmentSnapshot.pending, (state) => {
+                state.snapshotSaving = true;
+                state.error = null;
+            })
+
+            .addCase(saveInvestmentSnapshot.fulfilled, (state, action) => {
+                state.snapshotSaving = false;
+
+                const snapshot = action.payload.snapshot;
+
+                if (!snapshot) return;
+
+                const index = state.monthlySnapshots.findIndex(
+                    (item) =>
+                        item.investment_id === snapshot.investment_id &&
+                        item.month === snapshot.month
+                );
+
+                if (index !== -1) {
+                    state.monthlySnapshots[index] = snapshot;
+                } else {
+                    state.monthlySnapshots.unshift(snapshot);
                 }
-            )
+            })
 
-            .addCase(
-                saveInvestmentSnapshot.fulfilled,
-                (state, action) => {
-                    state.snapshotSaving = false;
-
-                    const snapshot = action.payload.snapshot;
-
-                    if (!snapshot) return;
-
-                    const index = state.monthlySnapshots.findIndex(
-                        (item) =>
-                            item.investment_id ===
-                            snapshot.investment_id &&
-                            item.month === snapshot.month
-                    );
-
-                    if (index !== -1) {
-                        state.monthlySnapshots[index] = snapshot;
-                    } else {
-                        state.monthlySnapshots.unshift(snapshot);
-                    }
-                }
-            )
-
-            .addCase(
-                saveInvestmentSnapshot.rejected,
-                (state, action) => {
-                    state.snapshotSaving = false;
-                    state.error = action.payload;
-                }
-            );
+            .addCase(saveInvestmentSnapshot.rejected, (state, action) => {
+                state.snapshotSaving = false;
+                state.error = action.payload;
+            });
     },
 });
 

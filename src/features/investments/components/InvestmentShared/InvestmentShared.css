@@ -319,7 +319,7 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
     min-width: 0;
-    padding: 15px 0;
+    padding: 10px 0;
     border-top: 1px solid #edf1f6;
     border-bottom: 1px solid #edf1f6;
 }
@@ -377,6 +377,11 @@
     min-width: 0;
     padding-top: 14px;
     font-size: 12px;
+}
+
+.investment-card-detail div {
+    display: flex;
+    gap: 10px;
 }
 
 .investment-card-detail strong {

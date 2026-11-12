@@ -52,35 +52,35 @@ function Sidebar({ isOpen, closeSidebar, user }) {
 
   const visibleItems = useMemo(() => {
     if (permissionLoading) return [];
-  
+
     if (isAdmin) return navigationItems;
-  
+
     const permissions = Array.isArray(permissionKeys)
       ? permissionKeys
       : [];
-  
+
     const hasPermission = (key) =>
       permissions.includes("*") || permissions.includes(key);
-  
+
     return navigationItems.reduce((result, item) => {
       if (item.adminOnly) return result;
-  
+
       if (item.children) {
         const allowedChildren = item.children.filter(
           (child) => !child.adminOnly && hasPermission(child.componentKey)
         );
-  
+
         if (allowedChildren.length > 0) {
           result.push({ ...item, children: allowedChildren });
         }
       } else if (hasPermission(item.componentKey)) {
         result.push(item);
       }
-  
+
       return result;
     }, []);
   }, [isAdmin, permissionKeys, permissionLoading]);
-  
+
 
   useEffect(() => {
     const activeParent = visibleItems.find((item) =>
@@ -156,9 +156,8 @@ function Sidebar({ isOpen, closeSidebar, user }) {
                   {item.children ? (
                     <>
                       <button
-                        className={`nav-parent ${
-                          hasActiveChild ? "parent-active" : ""
-                        }`}
+                        className={`nav-parent ${hasActiveChild ? "parent-active" : ""
+                          }`}
                         onClick={() => toggleMenu(item.id)}
                       >
                         <span className="nav-icon">
@@ -170,9 +169,8 @@ function Sidebar({ isOpen, closeSidebar, user }) {
                         </span>
 
                         <ChevronDown
-                          className={`nav-chevron ${
-                            isExpanded ? "rotated" : ""
-                          }`}
+                          className={`nav-chevron ${isExpanded ? "rotated" : ""
+                            }`}
                           size={16}
                         />
                       </button>
@@ -185,8 +183,7 @@ function Sidebar({ isOpen, closeSidebar, user }) {
                               to={child.path}
                               onClick={closeSidebar}
                               className={({ isActive }) =>
-                                `submenu-link ${
-                                  isActive ? "submenu-active" : ""
+                                `submenu-link ${isActive ? "submenu-active" : ""
                                 }`
                               }
                             >
@@ -202,8 +199,7 @@ function Sidebar({ isOpen, closeSidebar, user }) {
                       to={item.path}
                       onClick={closeSidebar}
                       className={({ isActive }) =>
-                        `nav-parent ${
-                          isActive ? "nav-active" : ""
+                        `nav-parent ${isActive ? "nav-active" : ""
                         }`
                       }
                     >
