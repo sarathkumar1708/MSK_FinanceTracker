@@ -79,20 +79,23 @@ a {
    SIDEBAR
 ================================ */
 
+/* =========================================
+   SIDEBAR — PREMIUM SLATE THEME
+========================================= */
+
 .sidebar {
   width: var(--sidebar-width);
   height: 100vh;
-  background: var(--sidebar-bg);
-  color: #cbd5e1;
-
+  background: #182235;
+  color: #dce4f2;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
-
   display: flex;
   flex-direction: column;
-
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
   transition: transform 0.3s ease;
 }
 
@@ -102,14 +105,14 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #2b3b52;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 11px;
-  color: #fff;
+  color: #ffffff;
   font-size: 17px;
   font-weight: 700;
 }
@@ -118,32 +121,36 @@ a {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  background: #4f46e5;
-  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #6478f5;
+  box-shadow: 0 4px 12px rgba(100, 120, 245, 0.25);
 }
 
 .sidebar-section-label {
   padding: 25px 20px 12px;
-  color: #8191a8;
+  color: #8290a7;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 1.3px;
+  letter-spacing: 1.2px;
 }
 
 .sidebar-navigation {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 0 12px 15px;
 }
 
 .sidebar-navigation::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 .sidebar-navigation::-webkit-scrollbar-thumb {
-  background: #41516a;
+  background: #3b4960;
   border-radius: 10px;
 }
 
@@ -153,37 +160,42 @@ a {
 
 .nav-parent {
   width: 100%;
-  min-height: 45px;
+  min-height: 46px;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 0 12px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: 9px;
   background: transparent;
-  color: #cbd5e1;
+  color: #bdc8d9;
   font-size: 13px;
   font-weight: 500;
   text-align: left;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .nav-parent:hover {
-  background: #263850;
-  color: #fff;
+  background: #263650;
+  color: #ffffff;
 }
 
 .nav-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  color: #9eacc2;
 }
 
 .nav-title {
   flex: 1;
+  min-width: 0;
 }
 
 .nav-chevron {
+  color: #8290a7;
   transition: transform 0.2s ease;
 }
 
@@ -192,26 +204,31 @@ a {
 }
 
 .parent-active {
-  color: #fff;
-  background: #263850;
+  color: #ffffff;
+  background: #263650;
+}
+
+.parent-active .nav-icon {
+  color: #9aaaff;
 }
 
 .nav-active {
-  background: #3730a3;
-  color: #fff;
+  color: #ffffff;
+  background: #354c78;
+  border-color: rgba(154, 170, 255, 0.16);
 }
 
-.nav-active:hover {
-  background: #4338ca;
+.nav-active .nav-icon {
+  color: #aab8ff;
 }
 
 .submenu {
-  margin: 4px 0 8px 19px;
-  padding-left: 15px;
-  border-left: 1px solid #3c4d65;
   display: flex;
   flex-direction: column;
   gap: 3px;
+  margin: 5px 0 9px 27px;
+  padding: 5px 0 5px 15px;
+  border-left: 1px solid #3b4960;
 }
 
 .submenu-link {
@@ -221,32 +238,34 @@ a {
   min-height: 37px;
   padding: 7px 10px;
   border-radius: 7px;
+  color: #aebbd0;
   font-size: 12px;
-  color: #9eacc0;
-  transition: all 0.2s ease;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .submenu-link:hover {
-  color: #fff;
-  background: #263850;
+  color: #ffffff;
+  background: #263650;
 }
 
 .submenu-active {
-  color: #fff;
-  background: #3730a3;
+  color: #ffffff;
+  background: #354c78;
   font-weight: 600;
-}
-
-.submenu-active:hover {
-  background: #4338ca;
 }
 
 .submenu-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: currentColor;
+  background: #8290a7;
   flex-shrink: 0;
+}
+
+.submenu-active .submenu-dot {
+  background: #aab8ff;
+  box-shadow: 0 0 7px rgba(170, 184, 255, 0.6);
 }
 
 .sidebar-footer {
@@ -255,18 +274,17 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
-  border-top: 1px solid #2b3b52;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.user-avatar,
-.header-avatar {
+.user-avatar {
   width: 37px;
   height: 37px;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #c7d2fe;
-  color: #3730a3;
+  background: #354c78;
+  color: #ffffff;
   font-weight: 700;
 }
 
@@ -277,12 +295,12 @@ a {
 }
 
 .user-info strong {
-  color: #fff;
+  color: #ffffff;
   font-size: 12px;
 }
 
 .user-info span {
-  color: #94a3b8;
+  color: #98a7bd;
   font-size: 11px;
 }
 
@@ -290,8 +308,9 @@ a {
   display: none;
   border: none;
   background: transparent;
-  color: white;
+  color: #ffffff;
 }
+
 
 /* ==============================
    HEADER

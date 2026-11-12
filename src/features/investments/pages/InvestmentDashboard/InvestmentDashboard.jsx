@@ -30,67 +30,103 @@ export default function InvestmentDashboard({
 }) {
     const currentYear = new Date().getFullYear();
 
-    const [selectedYear, setSelectedYear] = useState(
-        String(currentYear)
-    );
+    const [selectedYear, setSelectedYear] = useState(String(currentYear));
     const [selectedMonth, setSelectedMonth] = useState("all");
     const [selectedInvestment, setSelectedInvestment] = useState("all");
+
+    // Only active investments are included in dashboard calculations.
+    const activeInvestments = useMemo(
+        () => investments.filter(
+            (item) => String(item.status || "").toLowerCase() === "active"
+        ),
+        [investments]
+    );
+
+    const activeInvestmentIds = useMemo(
+        () => new Set(activeInvestments.map((item) => item.id)),
+        [activeInvestments]
+    );
+
+    const activeTransactions = useMemo(
+        () => transactions.filter(
+            (item) => activeInvestmentIds.has(item.investment_id)
+        ),
+        [transactions, activeInvestmentIds]
+    );
+
+    const activeSnapshots = useMemo(
+        () => monthlySnapshots.filter(
+            (item) => activeInvestmentIds.has(item.investment_id)
+        ),
+        [monthlySnapshots, activeInvestmentIds]
+    );
+
+    // Keep the selected investment valid if it is closed or deleted.
+    const validSelectedInvestment =
+        selectedInvestment === "all" ||
+        activeInvestmentIds.has(selectedInvestment);
+
+    const effectiveSelectedInvestment = validSelectedInvestment
+        ? selectedInvestment
+        : "all";
 
     const years = useMemo(() => {
         const values = new Set([currentYear]);
 
-        transactions.forEach((item) => {
+        activeTransactions.forEach((item) => {
             if (item.transaction_date) {
                 values.add(Number(item.transaction_date.slice(0, 4)));
             }
         });
 
-        monthlySnapshots.forEach((item) => {
+        activeSnapshots.forEach((item) => {
             if (item.month) {
                 values.add(Number(item.month.slice(0, 4)));
             }
         });
 
         return [...values].sort((a, b) => b - a);
-    }, [transactions, monthlySnapshots, currentYear]);
+    }, [activeTransactions, activeSnapshots, currentYear]);
 
     // Last date included in the selected reporting period.
     const periodEnd = useMemo(() => {
         if (selectedMonth !== "all") {
             const year = Number(selectedYear);
             const month = Number(selectedMonth);
-            return new Date(year, month, 0).toISOString().slice(0, 10);
+
+            const lastDay = new Date(year, month, 0).getDate();
+
+            return [
+                year,
+                String(month).padStart(2, "0"),
+                String(lastDay).padStart(2, "0"),
+            ].join("-");
         }
 
         return `${selectedYear}-12-31`;
     }, [selectedYear, selectedMonth]);
 
     const periodTransactions = useMemo(() => {
-        return transactions.filter((item) => {
+        return activeTransactions.filter((item) => {
             const date = item.transaction_date || "";
 
-            const matchesYear =
-                date.slice(0, 4) === selectedYear;
+            const matchesYear = date.slice(0, 4) === selectedYear;
 
             const matchesMonth =
                 selectedMonth === "all" ||
                 date.slice(5, 7) === selectedMonth;
 
             const matchesInvestment =
-                selectedInvestment === "all" ||
-                item.investment_id === selectedInvestment;
+                effectiveSelectedInvestment === "all" ||
+                item.investment_id === effectiveSelectedInvestment;
 
-            return (
-                matchesYear &&
-                matchesMonth &&
-                matchesInvestment
-            );
+            return matchesYear && matchesMonth && matchesInvestment;
         });
     }, [
-        transactions,
+        activeTransactions,
         selectedYear,
         selectedMonth,
-        selectedInvestment,
+        effectiveSelectedInvestment,
     ]);
 
     const summary = useMemo(() => {
@@ -110,30 +146,28 @@ export default function InvestmentDashboard({
         };
     }, [periodTransactions]);
 
-    // Calculate the latest known value for each investment
+    // Calculate the latest known value for each active investment
     // as of the selected reporting period.
     const investmentValues = useMemo(() => {
         const selectedInvestments =
-            selectedInvestment === "all"
-                ? investments
-                : investments.filter(
-                    (item) => item.id === selectedInvestment
+            effectiveSelectedInvestment === "all"
+                ? activeInvestments
+                : activeInvestments.filter(
+                    (item) => item.id === effectiveSelectedInvestment
                 );
 
         return selectedInvestments.map((investment) => {
-            const snapshots = monthlySnapshots
+            const snapshots = activeSnapshots
                 .filter(
                     (item) =>
                         item.investment_id === investment.id &&
-                        item.month <= periodEnd.slice(0, 7) + "-01"
+                        item.month <= periodEnd.slice(0, 7)
                 )
-                .sort((a, b) =>
-                    b.month.localeCompare(a.month)
-                );
+                .sort((a, b) => b.month.localeCompare(a.month));
 
             const latestSnapshot = snapshots[0];
 
-            const eligibleTransactions = transactions.filter(
+            const eligibleTransactions = activeTransactions.filter(
                 (item) =>
                     item.investment_id === investment.id &&
                     item.transaction_date <= periodEnd
@@ -167,10 +201,10 @@ export default function InvestmentDashboard({
             };
         });
     }, [
-        investments,
-        monthlySnapshots,
-        transactions,
-        selectedInvestment,
+        activeInvestments,
+        activeSnapshots,
+        activeTransactions,
+        effectiveSelectedInvestment,
         periodEnd,
     ]);
 
@@ -178,7 +212,6 @@ export default function InvestmentDashboard({
         (sum, item) => sum + item.currentValue,
         0
     );
-
 
     const monthlyReport = useMemo(() => {
         const monthNumbers =
@@ -191,7 +224,7 @@ export default function InvestmentDashboard({
         return monthNumbers.map((monthNumber) => {
             const rows = periodTransactions.filter(
                 (item) =>
-                    item.transaction_date.slice(5, 7) === monthNumber
+                    (item.transaction_date || "").slice(5, 7) === monthNumber
             );
 
             const contributions = rows
@@ -248,17 +281,16 @@ export default function InvestmentDashboard({
             ? selectedYear
             : `${MONTHS[Number(selectedMonth) - 1]} ${selectedYear}`;
 
-
     return (
         <div className="investment-dashboard-page">
             <InvestmentPageHeader
                 title="Investment Dashboard"
-                description="Track your investment value, contributions, withdrawals and monthly performance."
+                description="Track your active investment value, contributions, withdrawals and monthly performance."
             />
 
             <InvestmentSection
                 title="Dashboard Filters"
-                description="Choose the reporting period and investment."
+                description="Choose the reporting period and active investment."
             >
                 <div className="investment-dashboard-filters">
                     <div>
@@ -300,13 +332,13 @@ export default function InvestmentDashboard({
                     <div>
                         <label>Investment</label>
                         <select
-                            value={selectedInvestment}
+                            value={effectiveSelectedInvestment}
                             onChange={(event) =>
                                 setSelectedInvestment(event.target.value)
                             }
                         >
-                            <option value="all">All Investments</option>
-                            {investments.map((investment) => (
+                            <option value="all">All Active Investments</option>
+                            {activeInvestments.map((investment) => (
                                 <option
                                     key={investment.id}
                                     value={investment.id}
@@ -326,7 +358,8 @@ export default function InvestmentDashboard({
             ) : (
                 <>
                     <div className="investment-dashboard-period">
-                        Showing investment details for <strong>{periodLabel}</strong>
+                        Showing active investment details for{" "}
+                        <strong>{periodLabel}</strong>
                         <span>Value calculated as of {periodEnd}</span>
                     </div>
 
@@ -337,7 +370,7 @@ export default function InvestmentDashboard({
                             </div>
                             <span>Total Current Value</span>
                             <strong>{formatCurrency(totalCurrentValue)}</strong>
-                            <small>Latest available valuation</small>
+                            <small>Latest available active valuation</small>
                         </div>
 
                         <div className="investment-dashboard-card">
@@ -372,8 +405,12 @@ export default function InvestmentDashboard({
                                 <ArrowLeftRight />
                             </div>
                             <span>Total Profit</span>
-                            <strong>{formatCurrency(totalCurrentValue - summary.contributions)}</strong>
-                            <small>For selected period</small>
+                            <strong>
+                                {formatCurrency(
+                                    totalCurrentValue - summary.contributions
+                                )}
+                            </strong>
+                            <small>Current value minus period contributions</small>
                         </div>
 
                         <div className="investment-dashboard-card">
@@ -390,7 +427,6 @@ export default function InvestmentDashboard({
                         title="Monthly Investment Activity"
                         description="Compare monthly contributions and withdrawals."
                     >
-
                         <div className="investment-dashboard-chart">
                             {monthlyReport.map((item) => (
                                 <div
@@ -411,7 +447,9 @@ export default function InvestmentDashboard({
                                                     }}
                                                 />
                                             </div>
-                                            <span>{formatCurrency(item.contributions)}</span>
+                                            <span>
+                                                {formatCurrency(item.contributions)}
+                                            </span>
                                         </div>
 
                                         <div className="investment-dashboard-bar-line">
@@ -423,23 +461,28 @@ export default function InvestmentDashboard({
                                                     }}
                                                 />
                                             </div>
-                                            <span>{formatCurrency(item.withdrawals)}</span>
+                                            <span>
+                                                {formatCurrency(item.withdrawals)}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-
                         <div className="investment-dashboard-legend">
-                            <span><i className="contribution" /> Contributions</span>
-                            <span><i className="withdrawal" /> Withdrawals</span>
+                            <span>
+                                <i className="contribution" /> Contributions
+                            </span>
+                            <span>
+                                <i className="withdrawal" /> Withdrawals
+                            </span>
                         </div>
                     </InvestmentSection>
 
                     <InvestmentSection
                         title="Investment-wise Summary"
-                        description="Current value and transaction activity for each investment."
+                        description="Current value and transaction activity for each active investment."
                     >
                         <div className="investment-dashboard-table-wrapper">
                             <table className="investment-dashboard-table">
@@ -453,11 +496,15 @@ export default function InvestmentDashboard({
                                         <th>Transactions</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     {investmentActivity.length === 0 ? (
                                         <tr>
-                                            <td colSpan="6" className="investment-dashboard-empty">
-                                                No investments found.
+                                            <td
+                                                colSpan="6"
+                                                className="investment-dashboard-empty"
+                                            >
+                                                No active investments found.
                                             </td>
                                         </tr>
                                     ) : (

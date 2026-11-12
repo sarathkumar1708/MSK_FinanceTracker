@@ -22,10 +22,15 @@ export default function AllInvestments({
     onEdit,
     onDelete,
     onClose,
+    onActivate,
 }) {
     const [showModal, setShowModal] = useState(false);
     const [selectedInvestment, setSelectedInvestment] = useState(null);
     const [statusFilter, setStatusFilter] = useState("active");
+
+    /* =====================================================
+       INVESTMENT CARD DATA
+    ===================================================== */
 
     const investmentCards = useMemo(() => {
         return investments.map((investment) => {
@@ -35,15 +40,28 @@ export default function AllInvestments({
             );
 
             const totalInvested = investmentTransactions
-                .filter((item) => item.transaction_type === "CONTRIBUTION")
-                .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+                .filter(
+                    (item) => item.transaction_type === "CONTRIBUTION"
+                )
+                .reduce(
+                    (sum, item) => sum + Number(item.amount || 0),
+                    0
+                );
 
             const totalWithdrawals = investmentTransactions
-                .filter((item) => item.transaction_type === "WITHDRAWAL")
-                .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+                .filter(
+                    (item) => item.transaction_type === "WITHDRAWAL"
+                )
+                .reduce(
+                    (sum, item) => sum + Number(item.amount || 0),
+                    0
+                );
 
             const investmentSnapshots = monthlySnapshots
-                .filter((snapshot) => snapshot.investment_id === investment.id)
+                .filter(
+                    (snapshot) =>
+                        snapshot.investment_id === investment.id
+                )
                 .sort(
                     (a, b) =>
                         new Date(b.month).getTime() -
@@ -77,11 +95,21 @@ export default function AllInvestments({
         });
     }, [investments, transactions, monthlySnapshots]);
 
-    const filteredCards = investmentCards.filter(({ investment }) =>
-        statusFilter === "all"
-            ? true
-            : investment.status === statusFilter
-    );
+    /* =====================================================
+       FILTER INVESTMENTS
+    ===================================================== */
+
+    const filteredCards = investmentCards.filter(({ investment }) => {
+        const status = String(
+            investment.status || "active"
+        ).toLowerCase();
+
+        return statusFilter === "all" || status === statusFilter;
+    });
+
+    /* =====================================================
+       ADD / EDIT
+    ===================================================== */
 
     const handleAdd = () => {
         setSelectedInvestment(null);
@@ -104,19 +132,29 @@ export default function AllInvestments({
         setSelectedInvestment(null);
     };
 
+    /* =====================================================
+       DELETE
+    ===================================================== */
+
     const handleDelete = async (investment) => {
         const confirmed = window.confirm(
-            `Are you sure you want to delete "${investment.name}"?`
+            `Are you sure you want to permanently delete "${investment.name}"?\n\nAll associated transactions and monthly snapshots will also be deleted. This action cannot be undone.`
         );
 
         if (!confirmed) return;
 
-        await onDelete(investment.id);
+        await onDelete?.(investment.id);
     };
 
+    /* =====================================================
+       CLOSE
+    ===================================================== */
+
     const handleClose = async (investment) => {
+        if (!onClose) return;
+
         const confirmed = window.confirm(
-            `Close "${investment.name}"? Its transaction history will be retained.`
+            `Close "${investment.name}"?\n\nIts transaction history and monthly snapshots will be retained.`
         );
 
         if (!confirmed) return;
@@ -124,15 +162,39 @@ export default function AllInvestments({
         await onClose(investment.id);
     };
 
+    /* =====================================================
+       REACTIVATE
+    ===================================================== */
+
+    const handleActivate = async (investment) => {
+        if (!onActivate) return;
+
+        const confirmed = window.confirm(
+            `Reactivate "${investment.name}"?\n\nThis investment will become active again.`
+        );
+
+        if (!confirmed) return;
+
+        await onActivate(investment.id);
+    };
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
+
     return (
         <div className="all-investments-page">
+
+            {/* PAGE HEADER */}
+
             <InvestmentPageHeader
-                showButton={true}
                 title="All Investments"
                 description="Manage and monitor all your investments."
-                buttonText="Create Investment"
-                onButtonClick={handleAdd}
+                actionLabel="Create Investment"
+                onAction={handleAdd}
             />
+
+            {/* STATUS FILTERS */}
 
             <div className="investment-filter-bar">
                 {[
@@ -153,12 +215,16 @@ export default function AllInvestments({
                 ))}
             </div>
 
+            {/* ERROR */}
+
             {error && (
                 <div className="investment-page-error">
                     <AlertCircle size={18} />
                     <span>{error}</span>
                 </div>
             )}
+
+            {/* INVESTMENT CONTENT */}
 
             {loading ? (
                 <div className="investment-empty-state">
@@ -167,21 +233,32 @@ export default function AllInvestments({
             ) : filteredCards.length === 0 ? (
                 <div className="investment-empty-state">
                     <h3>No investments found</h3>
+
                     <p>
                         {statusFilter === "active"
                             ? "Create your first investment to get started."
-                            : "There are no investments in this section."}
+                            : statusFilter === "closed"
+                                ? "There are no closed investments."
+                                : "There are no investments available."}
                     </p>
 
                     {statusFilter === "active" && (
-                        <button type="button" onClick={handleAdd}>
+                        <button
+                            type="button"
+                            onClick={handleAdd}
+                        >
                             Create Investment
                         </button>
                     )}
                 </div>
             ) : (
                 <InvestmentSection
-                    title={`${statusFilter === "all" ? "All" : statusFilter === "active" ? "Active" : "Closed"} Investments`}
+                    title={`${statusFilter === "all"
+                            ? "All"
+                            : statusFilter === "active"
+                                ? "Active"
+                                : "Closed"
+                        } Investments`}
                     description={`${filteredCards.length} investment(s)`}
                 >
                     <div className="all-investments-grid">
@@ -192,18 +269,25 @@ export default function AllInvestments({
                                 totalInvested={item.totalInvested}
                                 totalWithdrawals={item.totalWithdrawals}
                                 currentValue={item.currentValue}
-                                onEdit={() => handleEdit(item.investment)}
+                                onEdit={() =>
+                                    handleEdit(item.investment)
+                                }
                                 onDelete={() =>
                                     handleDelete(item.investment)
                                 }
                                 onClose={() =>
                                     handleClose(item.investment)
                                 }
+                                onActivate={() =>
+                                    handleActivate(item.investment)
+                                }
                             />
                         ))}
                     </div>
                 </InvestmentSection>
             )}
+
+            {/* FORM MODAL */}
 
             <InvestmentFormModal
                 isOpen={showModal}
@@ -215,6 +299,7 @@ export default function AllInvestments({
                 }}
                 onSubmit={handleSubmit}
             />
+
         </div>
     );
 }

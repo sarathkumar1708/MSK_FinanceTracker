@@ -9,10 +9,10 @@ export default function InvestmentDashboardContainer() {
     const dispatch = useDispatch();
 
     const {
-        investments,
-        transactions,
-        monthlySnapshots,
-        loading,
+        investments = [],
+        transactions = [],
+        monthlySnapshots = [],
+        loading = false,
     } = useSelector((state) => state.investment);
 
     useEffect(() => {

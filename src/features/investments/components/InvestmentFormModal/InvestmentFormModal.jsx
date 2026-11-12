@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+
 import { INVESTMENT_TYPES } from "../InvestmentShared/InvestmentShared";
 import "./InvestmentFormModal.css";
 
@@ -25,6 +27,7 @@ export default function InvestmentFormModal({
     const [form, setForm] = useState(INITIAL_FORM);
     const [error, setError] = useState("");
 
+    // Prepare form data when the modal opens
     useEffect(() => {
         if (!isOpen) return;
 
@@ -33,12 +36,14 @@ export default function InvestmentFormModal({
                 name: investment.name || "",
                 investment_type: investment.investment_type || "Others",
                 provider: investment.provider || "",
-                account_number_last4: investment.account_number_last4 || "",
+                account_number_last4:
+                    investment.account_number_last4 || "",
                 start_date:
                     investment.start_date ||
                     new Date().toISOString().slice(0, 10),
                 target_amount: investment.target_amount ?? "",
-                monthly_contribution: investment.monthly_contribution ?? "",
+                monthly_contribution:
+                    investment.monthly_contribution ?? "",
                 notes: investment.notes || "",
             });
         } else {
@@ -48,10 +53,29 @@ export default function InvestmentFormModal({
         setError("");
     }, [isOpen, investment]);
 
+    // Lock background scrolling while modal is open
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const previousBodyOverflow = document.body.style.overflow;
+        const previousHtmlOverflow =
+            document.documentElement.style.overflow;
+
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = previousBodyOverflow;
+            document.documentElement.style.overflow =
+                previousHtmlOverflow;
+        };
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+
         setForm((previous) => ({
             ...previous,
             [name]: value,
@@ -95,9 +119,12 @@ export default function InvestmentFormModal({
             ...form,
             name: form.name.trim(),
             provider: form.provider.trim() || null,
-            account_number_last4: form.account_number_last4 || null,
+            account_number_last4:
+                form.account_number_last4 || null,
             target_amount:
-                form.target_amount === "" ? null : Number(form.target_amount),
+                form.target_amount === ""
+                    ? null
+                    : Number(form.target_amount),
             monthly_contribution:
                 form.monthly_contribution === ""
                     ? null
@@ -106,17 +133,27 @@ export default function InvestmentFormModal({
         });
     };
 
-    return (
-        <div className="investment-modal-overlay" onMouseDown={onClose}>
+    // Render outside the application layout to avoid parent CSS interference
+    return createPortal(
+        <div
+            className="investment-modal-overlay"
+            onMouseDown={onClose}
+        >
             <div
                 className="investment-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="investment-modal-title"
                 onMouseDown={(event) => event.stopPropagation()}
             >
                 <div className="investment-modal-header">
                     <div>
-                        <h2>
-                            {investment ? "Edit Investment" : "Add Investment"}
+                        <h2 id="investment-modal-title">
+                            {investment
+                                ? "Edit Investment"
+                                : "Add Investment"}
                         </h2>
+
                         <p>Enter your investment details.</p>
                     </div>
 
@@ -124,6 +161,7 @@ export default function InvestmentFormModal({
                         type="button"
                         className="investment-modal-close"
                         onClick={onClose}
+                        aria-label="Close modal"
                     >
                         <X size={20} />
                     </button>
@@ -169,7 +207,9 @@ export default function InvestmentFormModal({
                         </div>
 
                         <div className="investment-form-field">
-                            <label>Account Number (Last 4 Digits)</label>
+                            <label>
+                                Account Number (Last 4 Digits)
+                            </label>
                             <input
                                 name="account_number_last4"
                                 value={form.account_number_last4}
@@ -228,7 +268,9 @@ export default function InvestmentFormModal({
                     </div>
 
                     {error && (
-                        <div className="investment-form-error">{error}</div>
+                        <div className="investment-form-error">
+                            {error}
+                        </div>
                     )}
 
                     <div className="investment-modal-actions">
@@ -255,6 +297,7 @@ export default function InvestmentFormModal({
                     </div>
                 </form>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

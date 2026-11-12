@@ -340,20 +340,38 @@ const investmentService = {
     /* ================================================
        5. DELETE INVESTMENT
     ================================================ */
-
     async delete(id) {
         const userId = await getCurrentUserId();
 
-        // Database foreign keys prevent deletion when
-        // transactions or snapshots still exist.
+        // Confirm that this investment belongs to the logged-in user.
+        await getInvestmentForUser(id, userId);
 
-        const { error } = await supabase
+        // Delete snapshots first because they reference the investment.
+        const { error: snapshotError } = await supabase
+            .from(SNAPSHOTS_TABLE)
+            .delete()
+            .eq("investment_id", id)
+            .eq("user_id", userId);
+
+        throwIfError(snapshotError);
+
+        // Delete all associated contributions and withdrawals.
+        const { error: transactionError } = await supabase
+            .from(TRANSACTIONS_TABLE)
+            .delete()
+            .eq("investment_id", id)
+            .eq("user_id", userId);
+
+        throwIfError(transactionError);
+
+        // Finally, permanently delete the investment.
+        const { error: investmentError } = await supabase
             .from(INVESTMENTS_TABLE)
             .delete()
             .eq("id", id)
             .eq("user_id", userId);
 
-        throwIfError(error);
+        throwIfError(investmentError);
 
         return id;
     },
@@ -369,6 +387,25 @@ const investmentService = {
             .from(INVESTMENTS_TABLE)
             .update({
                 status: "closed",
+                updated_at: new Date().toISOString(),
+            })
+            .eq("id", id)
+            .eq("user_id", userId)
+            .select()
+            .single();
+
+        throwIfError(error);
+
+        return data;
+    },
+
+    async activate(id) {
+        const userId = await getCurrentUserId();
+
+        const { data, error } = await supabase
+            .from(INVESTMENTS_TABLE)
+            .update({
+                status: "active",
                 updated_at: new Date().toISOString(),
             })
             .eq("id", id)
@@ -772,17 +809,45 @@ const investmentService = {
     } = {}) {
         const userId = await getCurrentUserId();
 
-        let transactionQuery = supabase
-            .from(TRANSACTIONS_TABLE)
-            .select("*")
-            .eq("user_id", userId);
+        // Only active investments are included in overall totals.
+        let activeInvestmentsQuery = supabase
+            .from(INVESTMENTS_TABLE)
+            .select("id")
+            .eq("user_id", userId)
+            .eq("status", "active");
 
         if (investmentId) {
-            transactionQuery = transactionQuery.eq(
-                "investment_id",
+            activeInvestmentsQuery = activeInvestmentsQuery.eq(
+                "id",
                 investmentId
             );
         }
+
+        const {
+            data: activeInvestments,
+            error: investmentsError,
+        } = await activeInvestmentsQuery;
+
+        throwIfError(investmentsError);
+
+        const activeInvestmentIds = (activeInvestments || []).map(
+            (item) => item.id
+        );
+
+        if (activeInvestmentIds.length === 0) {
+            return {
+                totalContributions: 0,
+                totalWithdrawals: 0,
+                netInvested: 0,
+                transactionCount: 0,
+            };
+        }
+
+        let transactionQuery = supabase
+            .from(TRANSACTIONS_TABLE)
+            .select("*")
+            .eq("user_id", userId)
+            .in("investment_id", activeInvestmentIds);
 
         if (year) {
             transactionQuery = transactionQuery
@@ -801,8 +866,10 @@ const investmentService = {
                 .lt("transaction_date", end);
         }
 
-        const { data: transactions, error: transactionError } =
-            await transactionQuery;
+        const {
+            data: transactions,
+            error: transactionError,
+        } = await transactionQuery;
 
         throwIfError(transactionError);
 
@@ -810,31 +877,25 @@ const investmentService = {
 
         const totalContributions = rows
             .filter(
-                (item) =>
-                    item.transaction_type === "CONTRIBUTION"
+                (item) => item.transaction_type === "CONTRIBUTION"
             )
             .reduce(
-                (total, item) => total + Number(item.amount),
+                (total, item) => total + Number(item.amount || 0),
                 0
             );
 
         const totalWithdrawals = rows
             .filter(
-                (item) =>
-                    item.transaction_type === "WITHDRAWAL"
+                (item) => item.transaction_type === "WITHDRAWAL"
             )
             .reduce(
-                (total, item) => total + Number(item.amount),
+                (total, item) => total + Number(item.amount || 0),
                 0
             );
 
         return {
-            totalContributions: Number(
-                totalContributions.toFixed(2)
-            ),
-            totalWithdrawals: Number(
-                totalWithdrawals.toFixed(2)
-            ),
+            totalContributions: Number(totalContributions.toFixed(2)),
+            totalWithdrawals: Number(totalWithdrawals.toFixed(2)),
             netInvested: Number(
                 (totalContributions - totalWithdrawals).toFixed(2)
             ),

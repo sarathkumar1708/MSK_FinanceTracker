@@ -8,14 +8,13 @@ import {
     updateInvestment,
     deleteInvestment,
     closeInvestment,
+    activateInvestment,
 } from "../../investmentSlice";
 
 import AllInvestments from "./AllInvestments";
 
 export default function AllInvestmentsContainer() {
     const dispatch = useDispatch();
-
-    console.log("all investment")
 
     const {
         investments = [],
@@ -46,6 +45,10 @@ export default function AllInvestmentsContainer() {
         await dispatch(closeInvestment(id)).unwrap();
     };
 
+    const handleActivate = async (id) => {
+        await dispatch(activateInvestment(id)).unwrap();
+    };
+
     return (
         <AllInvestments
             investments={investments}
@@ -58,6 +61,7 @@ export default function AllInvestmentsContainer() {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onClose={handleClose}
+            onActivate={handleActivate}
         />
     );
 }
