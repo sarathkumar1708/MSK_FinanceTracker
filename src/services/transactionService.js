@@ -22,7 +22,12 @@ const toDatabase = (entry) => ({
     transaction_date:
         entry.date ?? entry.transaction_date,
 
+    // Payment mode
+    payment_mode:
+        entry.paymentMode ?? entry.payment_mode ?? null,
+
     updated_at: new Date().toISOString(),
+
     notes: entry.notes ?? "",
 });
 
@@ -42,16 +47,19 @@ const fromDatabase = (item) => ({
     notes: item.notes ?? "",
 
     date: item.transaction_date,
+
+    // Payment mode
+    paymentMode: item.payment_mode ?? "",
 });
 
 const transactionSelect = `
-  *,
-  categories (
-    name
-  ),
-  subcategories (
-    name
-  )
+    *,
+    categories (
+        name
+    ),
+    subcategories (
+        name
+    )
 `;
 
 export const transactionService = {
@@ -79,7 +87,7 @@ export const transactionService = {
             .select(transactionSelect)
             .eq("user_id", user.id);
 
-        // Apply month filter when dates are provided
+        // Apply month filter when dates are provided.
         if (startDate && endDate) {
             query = query
                 .gte("transaction_date", startDate)

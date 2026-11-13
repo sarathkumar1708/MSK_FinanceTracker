@@ -12,3 +12,12 @@ export const MONTHS = [
     { value: "11", label: "November" },
     { value: "12", label: "December" },
 ];
+
+
+
+export const PAYMENT_MODES = [
+    { value: "Cash", label: "Cash" },
+    { value: "Netbanking", label: "Net Banking" },
+    { value: "Upi", label: "UPI" },
+    { value: "CreditCard", label: "Credit Card" }
+];

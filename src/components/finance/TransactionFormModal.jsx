@@ -4,6 +4,7 @@ import Modal from "../common/Modal";
 import Button from "../common/Button";
 import SelectDropdown from "../common/SelectDropdown";
 import { categoryService } from "../../services/categoryService";
+import { PAYMENT_MODES } from "../../data/data";
 const getToday = () => new Date().toISOString().split("T")[0];
 
 const emptyForm = {
@@ -12,7 +13,8 @@ const emptyForm = {
   amount: "",
   title: "",
   notes: "",
-  date: getToday()
+  date: getToday(),
+  paymentMode: "Cash"
 };
 
 function isValidAmount(value) {
@@ -36,7 +38,11 @@ function buildFormFromTransaction(transaction) {
         : String(transaction.amount),
     title: transaction.title || transaction.description || "",
     notes: transaction.notes || "",
-    date: transaction.date || transaction.transaction_date || getToday()
+    date: transaction.date || transaction.transaction_date || getToday(),
+    paymentMode:
+      transaction.paymentMode ||
+      transaction.payment_mode ||
+      "",
   };
 }
 
@@ -201,12 +207,12 @@ function TransactionFormModal({
         prev.map((category) =>
           category.id === selectedCategory.id
             ? {
-                ...category,
-                subcategories: [
-                  ...(category.subcategories || []),
-                  subcategory
-                ]
-              }
+              ...category,
+              subcategories: [
+                ...(category.subcategories || []),
+                subcategory
+              ]
+            }
             : category
         )
       );
@@ -266,7 +272,8 @@ function TransactionFormModal({
         amount: Number(form.amount),
         title: form.title.trim(),
         notes: form.notes.trim(),
-        date: form.date
+        date: form.date,
+        paymentMode: form.paymentMode,
       });
     } catch (err) {
       console.error("Failed to save transaction:", err);
@@ -442,6 +449,31 @@ function TransactionFormModal({
             onChange={handleAmountChange}
           />
         </div>
+
+
+        <div className="form-field">
+          <label htmlFor="paymentMode">Payment Mode</label>
+
+          <select
+            id="paymentMode"
+            value={form.paymentMode}
+            onChange={(event) =>
+              setForm((prev) => ({
+                ...prev,
+                paymentMode: event.target.value
+              }))
+            }
+          >
+            <option value="">Select payment mode</option>
+
+            {PAYMENT_MODES.map((mode) => (
+              <option key={mode.value} value={mode.value}>
+                {mode.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
 
         <div className="form-field">
           <label htmlFor="title">Transaction Title</label>
