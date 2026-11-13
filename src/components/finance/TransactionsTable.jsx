@@ -56,6 +56,14 @@ function TransactionsTable({
   transactions = [],
   onEdit,
   onDelete,
+  years = [],
+  months = [],
+  selectedYear,
+  selectedMonthNumber,
+  onYearChange,
+  onMonthChange,
+  onCurrentMonth,
+  isCurrentMonth,
 }) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -69,6 +77,7 @@ function TransactionsTable({
 
   const filteredTransactions = useMemo(() => {
     const search = searchTerm.trim().toLowerCase();
+
 
     return transactions.filter((transaction) => {
       // Search filter
@@ -145,12 +154,62 @@ function TransactionsTable({
     filteredTransactions.length
   );
 
+  console.log("Tran : ", transactions)
+
   return (
     <section className="transactions-section">
       <div className="transactions-header">
         <h2 className="transactions-title">{title}</h2>
+        {/* Current Month */}
+        <button
+          type="button"
+          className="current-month-button"
+          onClick={onCurrentMonth}
+          disabled={isCurrentMonth}
+        >
+          Current Month
+        </button>
 
         <div className="transactions-filters">
+
+
+          {/* Year Filter */}
+          <div className="filter-card filter-card-year">
+            <div className="filter-card-label">
+              <span>Year</span>
+            </div>
+
+            <select
+              value={selectedYear}
+              onChange={(event) => onYearChange(event.target.value)}
+            >
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Month Filter */}
+          <div className="filter-card filter-card-month">
+            <div className="filter-card-label">
+              <span>Month</span>
+            </div>
+
+            <select
+              value={selectedMonthNumber}
+              onChange={(event) => onMonthChange(event.target.value)}
+            >
+              {months.map((month) => (
+                <option key={month.value} value={month.value}>
+                  {month.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+
 
           {/* Search */}
           <div className="filter-card filter-card-search">
@@ -169,7 +228,7 @@ function TransactionsTable({
           </div>
 
           {/* Date Range */}
-          <div className="filter-card filter-card-range">
+          {/* <div className="filter-card filter-card-range">
             <div className="filter-card-label">
               <span>Date range</span>
             </div>
@@ -182,7 +241,7 @@ function TransactionsTable({
                 setToDate(nextTo);
               }}
             />
-          </div>
+          </div> */}
 
           {/* Type Filter */}
           <div className="filter-card filter-card-type">
@@ -220,6 +279,7 @@ function TransactionsTable({
             <tr>
               <th>Date</th>
               <th>Type</th>
+              <th>Payment Type</th>
               <th>Category</th>
               <th>SubCategory</th>
               <th>Title</th>
@@ -250,7 +310,7 @@ function TransactionsTable({
                       {transaction.type === "income" ? "Income" : "Expense"}
                     </span>
                   </td>
-
+                  <td>{transaction.paymentMode ? transaction.paymentMode : transaction.payment_mode || "-"}</td>
                   <td>{transaction.category || "—"}</td>
                   <td>{transaction.subcategory || "—"}</td>
                   <td>{transaction.title || "—"}</td>

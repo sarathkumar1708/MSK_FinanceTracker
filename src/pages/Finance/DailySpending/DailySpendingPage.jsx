@@ -110,30 +110,48 @@ function DailySpendingPage() {
   }, [selectedMonth]);
 
   // Calculate totals for the selected month.
-  const { totalIncome, totalExpense, totalBalance } = useMemo(() => {
-    const totals = transactions.reduce(
-      (result, transaction) => {
-        const amount = Number(transaction.amount) || 0;
 
-        if (transaction.type === "income") {
-          result.totalIncome += amount;
-        } else if (transaction.type === "expense") {
-          result.totalExpense += amount;
-        }
-
-        return result;
-      },
-      {
-        totalIncome: 0,
-        totalExpense: 0,
+  const {
+    totalIncome,
+    totalExpense,
+    totalBalance,
+    paymentModeTotals
+  } = useMemo(() => {
+    const totals = {
+      totalIncome: 0,
+      totalExpense: 0,
+      paymentModeTotals: {
+        Cash: 0,
+        Netbanking: 0,
+        Upi: 0,
+        CreditCard: 0
       }
-    );
+    };
+
+    transactions.forEach((transaction) => {
+      const amount = Number(transaction.amount) || 0;
+
+      if (transaction.type === "income") {
+        totals.totalIncome += amount;
+      } else if (transaction.type === "expense") {
+        totals.totalExpense += amount;
+
+        const paymentMode =
+          transaction.paymentMode ||
+          transaction.payment_mode;
+
+        if (paymentMode && paymentMode in totals.paymentModeTotals) {
+          totals.paymentModeTotals[paymentMode] += amount;
+        }
+      }
+    });
 
     return {
       ...totals,
-      totalBalance: totals.totalIncome - totals.totalExpense,
+      totalBalance: totals.totalIncome - totals.totalExpense
     };
   }, [transactions]);
+
 
   const balanceTone =
     totalBalance > 0
@@ -229,7 +247,7 @@ function DailySpendingPage() {
       <div className="content-card daily-spending-card">
 
         {/* Year and Month Selection */}
-        <div className="spending-month-selector">
+        {/* <div className="spending-month-selector">
 
           <div>
             <label htmlFor="spending-year">Year</label>
@@ -280,24 +298,26 @@ function DailySpendingPage() {
             Current Month
           </button>
 
-        </div>
+        </div> */}
 
         {/* Action Buttons and Totals */}
         <div className="action-bar">
-          <div className="action-buttons">
-            <Button
-              variant="danger"
-              onClick={() => openCreateModal("expense")}
-            >
-              Add Expense
-            </Button>
+          <div className="action-bar-left">
+            <div className="action-buttons">
+              <Button
+                variant="danger"
+                onClick={() => openCreateModal("expense")}
+              >
+                Add Expense
+              </Button>
 
-            <Button
-              variant="success"
-              onClick={() => openCreateModal("income")}
-            >
-              Add Income
-            </Button>
+              <Button
+                variant="success"
+                onClick={() => openCreateModal("income")}
+              >
+                Add Income
+              </Button>
+            </div>
           </div>
 
           <div className="transaction-totals">
@@ -318,6 +338,40 @@ function DailySpendingPage() {
           </div>
         </div>
 
+
+        {/* Payment Mode Summary - Above Action Bar */}
+        <div className="paymode-section">
+          <div className="paymode-flow">
+            <div className="paymode-heading">
+              <span>Expense by Payment Mode</span>
+              <small>Selected month</small>
+            </div>
+
+            <div className="paymode-cards">
+              <div className="expense-paymode-cash">
+                <span>Cash</span>
+                <strong>{formatTotal(paymentModeTotals.Cash)}</strong>
+              </div>
+
+              <div className="expense-paymode-netbanking">
+                <span>Net Banking</span>
+                <strong>{formatTotal(paymentModeTotals.Netbanking)}</strong>
+              </div>
+
+              <div className="expense-paymode-upi">
+                <span>UPI</span>
+                <strong>{formatTotal(paymentModeTotals.Upi)}</strong>
+              </div>
+
+              <div className="expense-paymode-creditcard">
+                <span>Credit Card</span>
+                <strong>{formatTotal(paymentModeTotals.CreditCard)}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         {error && (
           <div className="error-message" role="alert">
             {error}
@@ -334,6 +388,20 @@ function DailySpendingPage() {
               transactions={transactions}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              years={years}
+              months={MONTHS}
+              selectedYear={selectedYear}
+              selectedMonthNumber={selectedMonthNumber}
+              onYearChange={(year) =>
+                setSelectedMonth(`${year}-${selectedMonthNumber}`)
+              }
+              onMonthChange={(month) =>
+                setSelectedMonth(`${selectedYear}-${month}`)
+              }
+              onCurrentMonth={() =>
+                setSelectedMonth(getCurrentMonth())
+              }
+              isCurrentMonth={selectedMonth === getCurrentMonth()}
             />
           </Suspense>
         )}

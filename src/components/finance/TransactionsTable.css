@@ -1,107 +1,257 @@
+/* =========================================================
+   TRANSACTION TABLE — MODERN FINANCE DASHBOARD
+========================================================= */
 
-/* =========================================
-   TRANSACTIONS TABLE
-========================================= */
+/* =========================
+   DAILY SPENDING / TOTALS
+========================= */
+
+.daily-spending-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.transaction-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.total-pill {
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 15px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  transition: 0.2s ease;
+}
+
+.total-pill:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.09);
+}
+
+.total-pill span {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.total-pill strong {
+  color: #1e293b;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.total-pill.total-income {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.total-pill.total-income strong {
+  color: #15803d;
+}
+
+.total-pill.total-expense {
+  background: #fff1f2;
+  border-color: #fecaca;
+}
+
+.total-pill.total-expense strong {
+  color: #dc2626;
+}
+
+.total-pill.total-balance.positive {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.total-pill.total-balance.positive strong {
+  color: #059669;
+}
+
+.total-pill.total-balance.negative {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.total-pill.total-balance.negative strong {
+  color: #dc2626;
+}
+
+.total-pill.total-balance.neutral strong {
+  color: #334155;
+}
+
+/* =========================
+   MAIN TRANSACTION SECTION
+========================= */
 
 .transactions-section {
   width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  min-width: 0;
+  gap: 20px;
+  animation: transactionFadeIn 0.4s ease;
 }
 
 .transactions-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .transactions-title {
   margin: 0;
   color: #172554;
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 750;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
 }
 
+/* =========================
+   FILTER SECTION
+========================= */
+
 .transactions-filters {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: stretch;
-  justify-content: flex-end;
   gap: 12px;
-  flex-wrap: wrap;
-  margin-left: auto;
+  width: 100%;
+}
+
+.transactions-filters .filter-card,
+.transactions-filters .current-month-button {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.transactions-filters .filter-card select,
+.transactions-filters .filter-card input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.transactions-filters .current-month-button {
+  white-space: nowrap;
 }
 
 .filter-card {
+  min-width: 145px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 7px;
-  min-width: 125px;
-  padding: 10px 12px;
-  background: #f8fafc;
+  gap: 8px;
+  padding: 12px 14px;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+  transition: 0.2s ease;
+}
+
+.filter-card:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.08);
+  transform: translateY(-1px);
 }
 
 .filter-card:focus-within {
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.09);
-  background: #fff;
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .filter-card-search {
-  width: 240px;
-  flex: 0 1 240px;
+  flex: 1 1 230px;
+  width: 230px;
 }
 
 .filter-card-range {
-  width: 250px;
-  flex: 0 1 250px;
+  flex: 1 1 220px;
+  width: 220px;
 }
 
 .filter-card-type {
-  width: 135px;
-  flex: 0 1 135px;
+  flex: 0 1 150px;
+  width: 150px;
 }
 
 .filter-card-label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   color: #64748b;
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.5px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
   text-transform: uppercase;
 }
 
 .filter-card-label svg {
-  color: #64748b;
+  color: #6366f1;
+  flex-shrink: 0;
 }
 
 .filter-card input,
 .filter-card select {
+  display: block;
   width: 100%;
   min-width: 0;
-  height: 28px;
-  padding: 3px 2px;
-  border: none;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   outline: none;
-  background: transparent;
+  background: #f8fafc;
   color: #1e293b;
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 550;
+  font-weight: 500;
+  line-height: 1.3;
+  box-shadow: none;
+  transition: 0.2s ease;
 }
 
 .filter-card input::placeholder {
   color: #94a3b8;
   font-weight: 400;
+}
+
+.filter-card input:focus,
+.filter-card select:focus {
+  border-color: #818cf8;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .filter-card select {
@@ -110,93 +260,284 @@
 
 .filter-clear-button {
   align-self: center;
-  padding: 10px 15px;
+  min-height: 40px;
+  padding: 0 16px;
   border: 1px solid #fecaca;
-  border-radius: 10px;
-  background: #fff7f7;
+  border-radius: 9px;
+  background: #fff1f2;
   color: #dc2626;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .filter-clear-button:hover {
   background: #fee2e2;
-  border-color: #fca5a5;
+  border-color: #f87171;
+  transform: translateY(-1px);
 }
 
-/* =========================================
+/* =========================
+   DATE RANGE PICKER
+========================= */
+
+.date-range-picker {
+  position: relative;
+}
+
+.date-range-trigger {
+  width: 100%;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #334155;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.date-range-trigger:hover,
+.date-range-trigger.is-open {
+  border-color: #818cf8;
+  background: #fff;
+}
+
+.date-range-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  width: 300px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.15);
+  animation: popoverIn 0.2s ease;
+}
+
+.date-range-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.date-range-popover-header strong {
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.date-range-nav {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+}
+
+.date-range-nav:hover {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.date-range-weekdays,
+.date-range-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.date-range-weekdays {
+  margin-bottom: 6px;
+}
+
+.date-range-weekdays span {
+  padding: 5px 0;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.date-range-empty {
+  min-height: 34px;
+}
+
+.date-range-day {
+  min-height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #334155;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.date-range-day:hover {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.date-range-day.is-today {
+  box-shadow: inset 0 0 0 1px #a5b4fc;
+}
+
+.date-range-day.is-in-range {
+  border-radius: 0;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.date-range-day.is-selected {
+  border-radius: 8px;
+  background: #4f46e5;
+  color: #fff;
+  font-weight: 700;
+}
+
+.date-range-hint {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.date-range-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* =========================
    TABLE CONTAINER
-========================================= */
+========================= */
 
 .table-wrap {
   width: 100%;
+  min-width: 0;
   overflow-x: auto;
   border: 1px solid #e2e8f0;
   border-radius: 14px;
   background: #fff;
-  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.035);
+  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.045);
+  scrollbar-width: thin;
+  scrollbar-color: #a5b4fc #f1f5f9;
 }
+
+.table-wrap::-webkit-scrollbar {
+  height: 7px;
+}
+
+.table-wrap::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.table-wrap::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #a5b4fc;
+}
+
+/* =========================
+   TABLE DESIGN
+========================= */
 
 .data-table {
   width: 100%;
-  min-width: 950px;
+  min-width: 1000px;
+  margin: 0;
+  border: 0;
   border-collapse: separate;
   border-spacing: 0;
+  background: #fff;
+  color: #334155;
   text-align: left;
 }
 
 .data-table thead {
-  background: #f1f5f9;
+  background: #f1f5fb;
 }
 
 .data-table th {
-  padding: 15px 14px;
-  color: #475569;
-  font-size: 11px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 16px 14px;
+  border: 0;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f1f5fb;
+  color: #64748b;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.55px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   white-space: nowrap;
-  border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table th:first-child {
+  border-top-left-radius: 14px;
+}
+
+.data-table th:last-child {
+  border-top-right-radius: 14px;
 }
 
 .data-table td {
-  padding: 14px;
+  padding: 15px 14px;
+  border: 0;
+  border-bottom: 1px solid #edf2f7;
+  background: transparent;
   color: #334155;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-  border-bottom: 1px solid #f1f5f9;
+  line-height: 1.5;
   vertical-align: middle;
 }
 
 .data-table tbody tr {
-  transition: background 0.18s ease;
+  background: #fff;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.data-table tbody tr:nth-child(even) {
+  background: #fbfcff;
 }
 
 .data-table tbody tr:hover {
-  background: #f8fafc;
+  background: #f3f6ff;
+  box-shadow: inset 3px 0 0 #6366f1;
 }
 
 .data-table tbody tr:last-child td {
-  border-bottom: none;
+  border-bottom: 0;
 }
 
 .data-table td:first-child {
   color: #64748b;
-  font-weight: 600;
+  font-weight: 650;
   white-space: nowrap;
 }
 
 .data-table td:nth-child(3) {
-  color: #334155;
-  font-weight: 650;
-}
-
-.data-table td:nth-child(5) {
-  color: #0f172a;
-  font-weight: 650;
+  color: #475569;
+  font-weight: 600;
 }
 
 .text-right {
@@ -207,133 +548,143 @@
   text-align: center;
 }
 
-/* =========================================
+/* =========================
    INCOME / EXPENSE BADGES
-========================================= */
+========================= */
 
 .type-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 76px;
+  min-width: 75px;
   padding: 6px 11px;
+  border: 1px solid transparent;
   border-radius: 30px;
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .type-income {
-  color: #047857;
-  background: #d1fae5;
-  border: 1px solid #a7f3d0;
+  border-color: #bbf7d0;
+  background: #ecfdf3;
+  color: #15803d;
 }
 
 .type-expense {
-  color: #dc2626;
-  background: #fee2e2;
-  border: 1px solid #fecaca;
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #be123c;
 }
 
-/* =========================================
-   AMOUNT
-========================================= */
+/* =========================
+   AMOUNT STYLING
+========================= */
+
+.amount-income,
+.amount-expense {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 
 .amount-income {
   color: #059669 !important;
-  font-weight: 800 !important;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
 }
 
 .amount-expense {
-  color: #dc2626 !important;
-  font-weight: 800 !important;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
+  color: #e11d48 !important;
 }
 
-/* =========================================
-   NOTES
-========================================= */
+/* =========================
+   NOTES CELL
+========================= */
 
 .notes-cell {
-  max-width: 180px;
+  max-width: 210px;
+  overflow: hidden;
   color: #64748b !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* =========================================
-   ACTION BUTTONS
-========================================= */
+/* =========================
+   EDIT / DELETE BUTTONS
+========================= */
 
 .table-actions {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 7px;
 }
 
 .icon-action-button {
+  width: 32px;
+  height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  padding: 0;
   border: 1px solid transparent;
-  border-radius: 9px;
+  border-radius: 8px;
+  background: #fff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .icon-action-button.edit {
-  color: #2563eb;
-  background: #eff6ff;
   border-color: #dbeafe;
+  background: #eff6ff;
+  color: #2563eb;
 }
 
 .icon-action-button.edit:hover {
-  color: #fff;
-  background: #2563eb;
   border-color: #2563eb;
-  transform: translateY(-1px);
+  background: #2563eb;
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 .icon-action-button.delete {
-  color: #dc2626;
-  background: #fef2f2;
   border-color: #fee2e2;
+  background: #fff1f2;
+  color: #e11d48;
 }
 
 .icon-action-button.delete:hover {
+  border-color: #e11d48;
+  background: #e11d48;
   color: #fff;
-  background: #dc2626;
-  border-color: #dc2626;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
-/* =========================================
+/* =========================
    EMPTY STATE
-========================================= */
+========================= */
 
 .table-empty {
   padding: 48px 20px !important;
-  text-align: center;
   color: #94a3b8 !important;
+  text-align: center;
   font-size: 13px !important;
-  font-weight: 550 !important;
+  font-weight: 600 !important;
 }
 
-/* =========================================
+/* =========================
    PAGINATION
-========================================= */
+========================= */
 
 .pagination-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 4px 2px;
   flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 4px;
 }
 
 .pagination-info {
@@ -343,44 +694,46 @@
 
 .pagination-info strong {
   color: #1e293b;
-  font-weight: 750;
+  font-weight: 800;
 }
 
 .pagination-controls {
   display: flex;
   align-items: center;
-  gap: 6px;
   flex-wrap: wrap;
+  gap: 6px;
 }
 
 .pagination-button {
+  min-width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  height: 36px;
   padding: 0 11px;
   border: 1px solid #e2e8f0;
-  border-radius: 9px;
+  border-radius: 8px;
   background: #fff;
   color: #475569;
   font-size: 12px;
-  font-weight: 650;
+  font-weight: 700;
+  line-height: 1;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .pagination-button:hover:not(:disabled) {
-  color: #1d4ed8;
-  border-color: #93c5fd;
-  background: #eff6ff;
+  border-color: #a5b4fc;
+  background: #eef2ff;
+  color: #4338ca;
+  transform: translateY(-1px);
 }
 
 .pagination-button.active {
+  border-color: #4f46e5;
+  background: #4f46e5;
   color: #fff;
-  background: #2563eb;
-  border-color: #2563eb;
-  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 3px 8px rgba(79, 70, 229, 0.2);
 }
 
 .pagination-button:disabled {
@@ -388,11 +741,60 @@
   cursor: not-allowed;
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* =========================
+   FOCUS ACCESSIBILITY
+========================= */
 
-@media (max-width: 1100px) {
+.icon-action-button:focus-visible,
+.pagination-button:focus-visible,
+.filter-clear-button:focus-visible {
+  outline: 3px solid rgba(99, 102, 241, 0.25);
+  outline-offset: 2px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes transactionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.filter-card-year,
+.filter-card-month {
+  min-width: 110px;
+}
+
+.filter-card-year select,
+.filter-card-month select {
+  width: 100%;
+}
+
+.current-month-button {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
   .transactions-header {
     align-items: flex-start;
     flex-direction: column;
@@ -400,8 +802,24 @@
 
   .transactions-filters {
     width: 100%;
-    margin-left: 0;
     justify-content: flex-start;
+  }
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 1100px) {
+  .transactions-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .transactions-filters {
+    justify-content: flex-start;
+    width: 100%;
+    margin-left: 0;
   }
 
   .filter-card-search {
@@ -410,10 +828,18 @@
 }
 
 @media (max-width: 768px) {
+  .transactions-section {
+    gap: 16px;
+  }
+
   .transactions-filters {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
+  }
+
+  .filter-card-search {
+    grid-column: 1 / -1;
   }
 
   .filter-card-search,
@@ -423,16 +849,34 @@
     min-width: 0;
   }
 
-  .filter-card-search {
-    grid-column: 1 / -1;
-  }
-
   .filter-clear-button {
     width: 100%;
+  }
+
+  .data-table {
+    min-width: 950px;
+  }
+
+  .pagination-container {
+    align-items: flex-start;
+  }
+
+  .transaction-totals {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .total-pill {
+    flex: 1;
+    min-width: 130px;
   }
 }
 
 @media (max-width: 480px) {
+  .transactions-title {
+    font-size: 19px;
+  }
+
   .transactions-filters {
     grid-template-columns: 1fr;
   }
@@ -444,5 +888,51 @@
   .pagination-container {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .pagination-controls {
+    width: 100%;
+  }
+
+  .date-range-popover {
+    right: auto;
+    left: 0;
+    width: min(300px, calc(100vw - 48px));
+  }
+
+  .transaction-totals {
+    flex-direction: column;
+  }
+
+  .total-pill {
+    width: 100%;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .transactions-section,
+  .filter-card,
+  .data-table tbody tr,
+  .icon-action-button,
+  .pagination-button,
+  .total-pill {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .transactions-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .transactions-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

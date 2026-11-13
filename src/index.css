@@ -1,5 +1,5 @@
 /* ==============================
-   GLOBAL STYLES
+   GLOBAL STYLES - Index.css
 ================================ */
 
 :root {
@@ -78,10 +78,6 @@ a {
 /* ==============================
    SIDEBAR
 ================================ */
-
-/* =========================================
-   SIDEBAR — PREMIUM SLATE THEME
-========================================= */
 
 .sidebar {
   width: var(--sidebar-width);
@@ -173,7 +169,9 @@ a {
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .nav-parent:hover {
@@ -241,7 +239,9 @@ a {
   color: #aebbd0;
   font-size: 12px;
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .submenu-link:hover {
@@ -311,7 +311,6 @@ a {
   color: #ffffff;
 }
 
-
 /* ==============================
    HEADER
 ================================ */
@@ -322,7 +321,6 @@ a {
   background: #fff;
   border-bottom: 1px solid var(--border-color);
   padding: 0 32px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -538,7 +536,9 @@ a {
 }
 
 /* ==============================
-   DAILY SPENDING
+   DAILY SPENDING SUMMARY / ACTIONS
+   Transaction-table-specific rules
+   are maintained in transactiontable.css.
 ================================ */
 
 .daily-spending-card {
@@ -618,341 +618,6 @@ a {
 
 .total-pill.total-balance.neutral strong {
   color: #334155;
-}
-
-.transactions-section {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.transactions-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.transactions-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.transactions-filters {
-  display: flex;
-  align-items: stretch;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-left: auto;
-}
-
-.filter-card {
-  min-width: 158px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px 12px;
-  border: 1px solid #dbe3f0;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-}
-
-.filter-card-range {
-  min-width: 250px;
-}
-
-.date-range-picker {
-  position: relative;
-}
-
-.date-range-trigger {
-  width: 100%;
-  min-height: 36px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
-  padding: 6px 10px;
-  text-align: left;
-  font-size: 13px;
-}
-
-.date-range-trigger.is-open,
-.date-range-trigger:hover {
-  border-color: #94a3b8;
-}
-
-.date-range-popover {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 30;
-  width: 300px;
-  padding: 14px;
-  border: 1px solid #dbe3f0;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
-}
-
-.date-range-popover-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.date-range-popover-header strong {
-  font-size: 14px;
-  color: #1e293b;
-}
-
-.date-range-nav {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #475569;
-}
-
-.date-range-nav:hover {
-  background: #f8fafc;
-}
-
-.date-range-weekdays,
-.date-range-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-}
-
-.date-range-weekdays {
-  margin-bottom: 6px;
-}
-
-.date-range-weekdays span {
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: #94a3b8;
-  padding: 4px 0;
-}
-
-.date-range-empty {
-  min-height: 34px;
-}
-
-.date-range-day {
-  min-height: 34px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: #334155;
-  font-size: 13px;
-}
-
-.date-range-day:hover {
-  background: #f1f5f9;
-}
-
-.date-range-day.is-today {
-  box-shadow: inset 0 0 0 1px #cbd5e1;
-}
-
-.date-range-day.is-in-range {
-  background: #eef2ff;
-  color: #4338ca;
-  border-radius: 0;
-}
-
-.date-range-day.is-selected {
-  background: #4f46e5;
-  color: #fff;
-  font-weight: 600;
-}
-
-.date-range-hint {
-  margin-top: 10px;
-  color: #64748b;
-  font-size: 12px;
-}
-
-.date-range-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.date-range-apply {
-  min-height: 40px;
-}
-
-.filter-card-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #64748b;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.filter-card input,
-.filter-card select {
-  min-height: 36px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #1e293b;
-  padding: 6px 10px;
-  outline: none;
-}
-
-.filter-card input:focus,
-.filter-card select:focus {
-  border-color: #94a3b8;
-  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.18);
-}
-
-.filter-clear-button {
-  align-self: center;
-  min-height: 40px;
-  padding: 0 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  background: #fff;
-  color: #475569;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.filter-clear-button:hover {
-  background: #f8fafc;
-  color: #1e293b;
-}
-
-.table-wrap {
-  overflow-x: auto;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 860px;
-}
-
-.data-table th,
-.data-table td {
-  padding: 12px 14px;
-  text-align: left;
-  font-size: 13px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.data-table th {
-  background: #f8fafc;
-  color: #64748b;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.data-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tbody tr:hover td {
-  background: #fafbfc;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.table-actions {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: 8px;
-}
-
-.icon-action-button {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: #fff;
-  color: #64748b;
-}
-
-.icon-action-button:hover {
-  background: #f8fafc;
-}
-
-.icon-action-button.edit:hover {
-  color: #4f46e5;
-  border-color: #c7d2fe;
-  background: #eef2ff;
-}
-
-.icon-action-button.delete:hover {
-  color: #dc2626;
-  border-color: #fecaca;
-  background: #fef2f2;
-}
-
-.table-empty {
-  text-align: center;
-  color: #94a3b8;
-  padding: 36px 14px !important;
-}
-
-.type-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.type-expense {
-  background: #fef2f2;
-  color: #dc2626;
-}
-
-.type-income {
-  background: #f0fdf4;
-  color: #16a34a;
-}
-
-.amount-expense {
-  color: #dc2626;
-  font-weight: 600;
-}
-
-.amount-income {
-  color: #16a34a;
-  font-weight: 600;
 }
 
 /* ==============================
@@ -1297,24 +962,6 @@ a {
   .total-pill {
     flex: 1;
     min-width: 0;
-  }
-
-  .transactions-header {
-    align-items: stretch;
-  }
-
-  .transactions-filters {
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .filter-card {
-    flex: 1;
-    min-width: 140px;
-  }
-
-  .filter-clear-button {
-    width: 100%;
   }
 
   .field-with-action,
