@@ -1,0 +1,251 @@
+
+.my-events-page {
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.my-events-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
+}
+
+.my-events-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.my-events-heading-icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 15px;
+    color: #3478f6;
+    background: #edf4ff;
+}
+
+.my-events-heading h1 {
+    margin: 0;
+    color: #17243a;
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.my-events-heading p {
+    margin: 6px 0 0;
+    color: #8290a5;
+    font-size: 13px;
+}
+
+.my-events-create-btn {
+    min-height: 43px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 10px;
+    background: #3478f6;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.my-events-create-btn:hover {
+    background: #2464db;
+    transform: translateY(-1px);
+}
+
+.my-events-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: #ffffff;
+}
+
+.my-events-total {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.my-events-total span {
+    color: #718096;
+    font-size: 13px;
+}
+
+.my-events-total strong {
+    min-width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #edf4ff;
+    color: #2865d7;
+    font-size: 14px;
+}
+
+.my-events-search {
+    width: 260px;
+    height: 39px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid #e1e7f0;
+    border-radius: 9px;
+    color: #94a3b8;
+    background: #ffffff;
+}
+
+.my-events-search:focus-within {
+    border-color: #3478f6;
+    box-shadow: 0 0 0 3px rgba(52, 120, 246, 0.09);
+}
+
+.my-events-search input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    color: #17243a;
+    background: transparent;
+    font-size: 13px;
+}
+
+.my-events-search input::placeholder {
+    color: #a2adbd;
+}
+
+.my-events-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.my-events-status {
+    padding: 50px 20px;
+    text-align: center;
+    color: #8290a5;
+    font-size: 14px;
+}
+
+.my-events-error {
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    background: #fff1f2;
+    color: #b42332;
+    font-size: 13px;
+}
+
+.my-events-empty {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 20px;
+    border: 1px dashed #d6dfeb;
+    border-radius: 16px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.my-events-empty-icon {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #edf4ff;
+    color: #3478f6;
+}
+
+.my-events-empty h3 {
+    margin: 17px 0 7px;
+    color: #26364d;
+    font-size: 17px;
+}
+
+.my-events-empty p {
+    max-width: 390px;
+    margin: 0 0 19px;
+    color: #8290a5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+    .my-events-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .my-events-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .my-events-page {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .my-events-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .my-events-heading h1 {
+        font-size: 21px;
+    }
+
+    .my-events-create-btn {
+        width: 100%;
+    }
+
+    .my-events-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .my-events-search {
+        width: auto;
+    }
+
+    .my-events-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .my-events-page {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .my-events-grid {
+        grid-template-columns: 1fr;
+    }
+}

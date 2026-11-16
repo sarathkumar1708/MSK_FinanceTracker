@@ -1,0 +1,252 @@
+
+.my-event-instances-page {
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.my-event-instances-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
+}
+
+.my-event-instances-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.my-event-instances-back {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 11px;
+    background: #edf1f6;
+    color: #53647c;
+    cursor: pointer;
+}
+
+.my-event-instances-back:hover {
+    background: #e3edff;
+    color: #2865d7;
+}
+
+.my-event-instances-heading h1 {
+    margin: 0;
+    color: #17243a;
+    font-size: 24px;
+    font-weight: 750;
+}
+
+.my-event-instances-heading p {
+    margin: 6px 0 0;
+    color: #8290a5;
+    font-size: 13px;
+}
+
+.my-event-instances-create {
+    min-height: 43px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 10px;
+    background: #3478f6;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.my-event-instances-create:hover {
+    background: #2464db;
+}
+
+.my-event-instances-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px 18px;
+    border: 1px solid #e8edf5;
+    border-radius: 13px;
+    background: #ffffff;
+}
+
+.my-event-instances-total {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.my-event-instances-total span {
+    color: #718096;
+    font-size: 13px;
+}
+
+.my-event-instances-total strong {
+    min-width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f2edff;
+    color: #7541d8;
+    font-size: 14px;
+}
+
+.my-event-instances-search {
+    width: 260px;
+    height: 39px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid #e1e7f0;
+    border-radius: 9px;
+    color: #94a3b8;
+    background: #ffffff;
+}
+
+.my-event-instances-search:focus-within {
+    border-color: #3478f6;
+    box-shadow: 0 0 0 3px rgba(52, 120, 246, 0.09);
+}
+
+.my-event-instances-search input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    color: #17243a;
+    background: transparent;
+    font-size: 13px;
+}
+
+.my-event-instances-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.my-event-instances-status {
+    padding: 50px 20px;
+    text-align: center;
+    color: #8290a5;
+    font-size: 14px;
+}
+
+.my-event-instances-error {
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    background: #fff1f2;
+    color: #b42332;
+    font-size: 13px;
+}
+
+.my-event-instances-empty {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 20px;
+    border: 1px dashed #d6dfeb;
+    border-radius: 16px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.my-event-instances-empty-icon {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #f2edff;
+    color: #8b5cf6;
+}
+
+.my-event-instances-empty h3 {
+    margin: 17px 0 7px;
+    color: #26364d;
+    font-size: 17px;
+}
+
+.my-event-instances-empty p {
+    max-width: 390px;
+    margin: 0 0 19px;
+    color: #8290a5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+    .my-event-instances-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .my-event-instances-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .my-event-instances-page {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .my-event-instances-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .my-event-instances-heading h1 {
+        font-size: 21px;
+    }
+
+    .my-event-instances-create {
+        width: 100%;
+    }
+
+    .my-event-instances-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .my-event-instances-search {
+        width: auto;
+    }
+
+    .my-event-instances-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .my-event-instances-page {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .my-event-instances-grid {
+        grid-template-columns: 1fr;
+    }
+}

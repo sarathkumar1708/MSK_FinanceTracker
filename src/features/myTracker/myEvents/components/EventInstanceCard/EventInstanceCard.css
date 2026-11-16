@@ -1,0 +1,137 @@
+
+.my-event-instance-card {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8edf5;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(25, 45, 80, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.my-event-instance-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 24px rgba(25, 45, 80, 0.1);
+}
+
+.my-event-instance-main {
+    padding: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+.my-event-instance-main:focus-visible {
+    box-shadow: inset 0 0 0 2px #3478f6;
+}
+
+.my-event-instance-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.my-event-instance-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    color: #8b5cf6;
+    background: #f2edff;
+}
+
+.my-event-instance-count {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #f2edff;
+    color: #7541d8;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.my-event-instance-card h3 {
+    margin: 0;
+    color: #17243a;
+    font-size: 16px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.my-event-instance-person {
+    margin: 7px 0 0;
+    color: #52637b;
+    font-size: 13px;
+}
+
+.my-event-instance-date {
+    margin: 7px 0 18px;
+    color: #8290a5;
+    font-size: 12px;
+}
+
+.my-event-instance-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #3478f6;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.my-event-instance-actions {
+    position: absolute;
+    top: 20px;
+    right: 62px;
+    display: flex;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.my-event-instance-card:hover .my-event-instance-actions,
+.my-event-instance-card:focus-within .my-event-instance-actions {
+    opacity: 1;
+}
+
+.my-event-instance-actions button {
+    width: 29px;
+    height: 29px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 8px;
+    background: #f1f5fb;
+    color: #53647c;
+    cursor: pointer;
+}
+
+.my-event-instance-actions button:hover {
+    background: #e3edff;
+    color: #2865d7;
+}
+
+.my-event-instance-actions button.delete:hover {
+    background: #fff0f0;
+    color: #dc3545;
+}
+
+@media (max-width: 600px) {
+    .my-event-instance-main {
+        padding: 16px;
+    }
+
+    .my-event-instance-actions {
+        opacity: 1;
+        top: 16px;
+        right: 54px;
+    }
+}

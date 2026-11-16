@@ -1,0 +1,151 @@
+
+.my-event-instance-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(3px);
+}
+
+.my-event-instance-modal {
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.my-event-instance-modal-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.my-event-instance-modal-header h2 {
+    margin: 0;
+    color: #17243a;
+    font-size: 20px;
+}
+
+.my-event-instance-modal-header p {
+    margin: 6px 0 0;
+    color: #8290a5;
+    font-size: 13px;
+}
+
+.my-event-instance-modal-header button {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 9px;
+    background: #f2f5f9;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.my-event-instance-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 24px;
+}
+
+.my-event-instance-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.my-event-instance-form-group label {
+    color: #34445c;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.my-event-instance-form-group label span {
+    color: #dc3545;
+}
+
+.my-event-instance-form-group input,
+.my-event-instance-form-group textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #dce3ed;
+    border-radius: 9px;
+    outline: none;
+    box-sizing: border-box;
+    color: #17243a;
+    background: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.my-event-instance-form-group input {
+    height: 43px;
+}
+
+.my-event-instance-form-group textarea {
+    resize: vertical;
+}
+
+.my-event-instance-form-group input:focus,
+.my-event-instance-form-group textarea:focus {
+    border-color: #3478f6;
+    box-shadow: 0 0 0 3px rgba(52, 120, 246, 0.1);
+}
+
+.my-event-instance-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid #edf0f5;
+    background: #fafbfd;
+}
+
+.my-event-instance-modal-footer button {
+    min-height: 40px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.my-event-instance-cancel {
+    background: #edf1f6;
+    color: #53647c;
+}
+
+.my-event-instance-save {
+    background: #3478f6;
+    color: #ffffff;
+}
+
+.my-event-instance-modal-footer button:disabled,
+.my-event-instance-modal-header button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .my-event-instance-modal-header,
+    .my-event-instance-modal-body {
+        padding: 18px;
+    }
+
+    .my-event-instance-modal-footer {
+        padding: 14px 18px;
+    }
+}
