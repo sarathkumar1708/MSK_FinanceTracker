@@ -1,0 +1,156 @@
+
+.sv-transaction-section {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+}
+
+.sv-transaction-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.sv-transaction-section-icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 12px;
+}
+
+.received-section .sv-transaction-section-icon {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.paid-section .sv-transaction-section-icon {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.sv-transaction-section-header h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.sv-transaction-section-header p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.sv-transaction-empty {
+    display: flex;
+    min-height: 150px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #94a3b8;
+}
+
+.sv-transaction-empty p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.sv-transaction-table-wrap {
+    overflow-x: auto;
+}
+
+.sv-transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.sv-transaction-table th {
+    padding: 12px 14px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sv-transaction-table td {
+    padding: 14px;
+    border-top: 1px solid #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.sv-transaction-table td strong {
+    display: block;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.sv-transaction-table td small {
+    display: block;
+    max-width: 220px;
+    margin-top: 4px;
+    color: #94a3b8;
+    overflow-wrap: anywhere;
+}
+
+.sv-transaction-table .amount-column {
+    /* text-align: right; */
+    white-space: nowrap;
+    font-weight: 800;
+}
+
+.sv-transaction-table .received-amount {
+    color: #059669;
+}
+
+.sv-transaction-table .paid-amount {
+    color: #4f46e5;
+}
+
+.sv-table-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.sv-table-actions button {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.sv-table-actions button:hover {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.sv-transaction-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.sv-transaction-table {
+    min-width: 760px;
+}
+
+@media (max-width: 600px) {
+    .sv-transaction-table th,
+    .sv-transaction-table td {
+        padding: 10px;
+    }
+}

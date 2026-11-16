@@ -1,0 +1,287 @@
+
+.relation-family-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 21px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 18px;
+    background: var(--card-bg, #ffffff);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.relation-family-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+}
+
+.relation-family-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.relation-family-card-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    color: #2563eb;
+    background: #eaf2ff;
+}
+
+.relation-family-card-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: 7px;
+}
+
+.relation-family-card-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 9px;
+    color: #64748b;
+    background: var(--card-bg, #ffffff);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.relation-family-card-actions button:hover {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.relation-family-card-actions button.delete:hover {
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+.relation-family-card-main {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.relation-family-card-main h3 {
+    margin: 0;
+    color: var(--text-primary, #1f2937);
+    font-size: 19px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.relation-family-card-main > p {
+    margin: 6px 0 18px;
+    color: var(--text-secondary, #64748b);
+    font-size: 12px;
+}
+
+.relation-family-card-counts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.relation-family-card-counts > div {
+    display: grid;
+    grid-template-columns: 20px minmax(0, auto);
+    column-gap: 8px;
+    align-items: center;
+    min-width: 0;
+    padding: 12px;
+    border-radius: 12px;
+    color: #64748b;
+    background: var(--surface-secondary, #f8fafc);
+}
+
+.relation-family-card-counts strong {
+    color: var(--text-primary, #1f2937);
+    font-size: 17px;
+}
+
+.relation-family-card-counts span {
+    grid-column: 2;
+    font-size: 11px;
+}
+
+.relation-family-card-totals {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.relation-family-total {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 9px;
+    padding: 13px;
+    border-radius: 12px;
+}
+
+.relation-family-total.received {
+    background: #ecfdf5;
+}
+
+.relation-family-total.given {
+    background: #fff7ed;
+}
+
+.relation-family-total span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.relation-family-total.received span {
+    color: #047857;
+}
+
+.relation-family-total.given span {
+    color: #c2410c;
+}
+
+.relation-family-total strong {
+    overflow-wrap: anywhere;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.relation-family-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .relation-family-card {
+        padding: 17px;
+    }
+
+    .relation-family-card-main h3 {
+        font-size: 17px;
+    }
+
+    .relation-family-total {
+        padding: 11px;
+    }
+
+    .relation-family-total strong {
+        font-size: 14px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .relation-family-card {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .relation-family-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .relation-family-card-actions {
+        gap: 5px;
+    }
+
+    .relation-family-card-actions button {
+        width: 31px;
+        height: 31px;
+    }
+
+    .relation-family-card-main {
+        margin-top: 13px;
+    }
+
+    .relation-family-card-main h3 {
+        font-size: 16px;
+    }
+
+    .relation-family-card-main > p {
+        margin-bottom: 13px;
+    }
+
+    .relation-family-card-counts {
+        gap: 7px;
+    }
+
+    .relation-family-card-counts > div {
+        grid-template-columns: 17px minmax(0, auto);
+        column-gap: 5px;
+        padding: 9px 7px;
+    }
+
+    .relation-family-card-counts strong {
+        font-size: 15px;
+    }
+
+    .relation-family-card-counts span {
+        font-size: 10px;
+    }
+
+    .relation-family-card-totals {
+        gap: 7px;
+    }
+
+    .relation-family-total {
+        gap: 7px;
+        padding: 9px;
+    }
+
+    .relation-family-total span {
+        font-size: 10px;
+    }
+
+    .relation-family-total strong {
+        font-size: 13px;
+    }
+
+    .relation-family-card-footer {
+        margin-top: 13px;
+        padding-top: 11px;
+        font-size: 11px;
+    }
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+    .relation-family-card {
+        padding: 12px;
+    }
+
+    .relation-family-card-totals {
+        grid-template-columns: 1fr;
+    }
+}

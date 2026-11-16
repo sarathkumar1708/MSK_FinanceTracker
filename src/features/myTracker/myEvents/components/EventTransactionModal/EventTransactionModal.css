@@ -1,0 +1,420 @@
+
+.event-transaction-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background: rgba(15, 23, 42, 0.62);
+}
+
+/* Main modal */
+.event-transaction-modal {
+    width: 100%;
+    max-width: 720px;
+
+    height: calc(100vh - 40px);
+    height: calc(100dvh - 40px);
+    max-height: 900px;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    margin: auto 0;
+
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+/* Fixed header */
+.event-transaction-modal-header {
+    flex: 0 0 auto;
+    min-height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 18px 26px;
+    box-sizing: border-box;
+
+    background: #fff;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.event-transaction-modal-header h2 {
+    margin: 0;
+    color: #172033;
+    font-size: 21px;
+}
+
+.event-transaction-modal-header p {
+    margin: 6px 0 0;
+    color: #778196;
+    font-size: 13px;
+}
+
+.event-transaction-close {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #f1f4f8;
+    color: #475569;
+
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+/* Important: Form must occupy remaining modal height */
+.event-transaction-form {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 0;
+    min-height: 0;
+    width: 100%;
+
+    overflow: hidden;
+    margin: 0;
+}
+
+/* Only this section scrolls */
+.event-transaction-form-body {
+    padding: 24px 26px;
+
+    flex: 1 1 0;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    box-sizing: border-box;
+}
+
+/* Form grid */
+.event-transaction-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.event-transaction-form-body label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    color: #344054;
+    font-size: 13px;
+    font-weight: 650;
+
+    min-width: 0;
+}
+
+.event-transaction-form-body input,
+.event-transaction-form-body textarea {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    border: 1px solid #dce2eb;
+    border-radius: 9px;
+
+    padding: 11px 12px;
+
+    background: #fff;
+    color: #172033;
+
+    font: inherit;
+    font-weight: 400;
+    outline: none;
+}
+
+.event-transaction-form-body input:focus,
+.event-transaction-form-body textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.event-transaction-form-body small {
+    color: #8a94a6;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+/* Location */
+.event-transaction-location-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+}
+
+.event-transaction-location-field label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.event-transaction-location-field input {
+    width: 100%;
+    min-height: 42px;
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid #d7dfeb;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #334155;
+    font-size: 14px;
+    outline: none;
+}
+
+.event-transaction-location-field input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Offering selection */
+.event-offering-selection {
+    width: 100%;
+}
+
+.event-offering-selection h3,
+.event-offering-entry h3 {
+    margin: 0;
+    color: #273449;
+    font-size: 15px;
+}
+
+.event-offering-selection > p {
+    margin: 5px 0 13px;
+    color: #8a94a6;
+    font-size: 12px;
+}
+
+.event-offering-options {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.event-offering-option {
+    min-height: 76px;
+    padding: 12px 8px;
+
+    border: 1px solid #e1e6ef;
+    border-radius: 12px;
+
+    background: #f9fafc;
+    color: #536176;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    cursor: pointer;
+    position: relative;
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.event-offering-option.selected {
+    color: #4f46e5;
+    border-color: #818cf8;
+    background: #eef2ff;
+}
+
+.event-offering-check {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 14px;
+}
+
+/* Individual offering details */
+.event-offering-entry {
+    padding: 17px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+
+    background: #fafbff;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.event-offering-entry-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.event-offering-entry-heading button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    border: 0;
+    background: transparent;
+    color: #dc5555;
+
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.event-transaction-remarks textarea {
+    resize: vertical;
+}
+
+/* Fixed footer */
+.event-transaction-modal-footer {
+    flex: 0 0 auto;
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+
+    padding: 14px 26px;
+    box-sizing: border-box;
+
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    position: relative;
+    z-index: 5;
+}
+
+.event-transaction-modal-footer button {
+    min-height: 40px;
+    padding: 0 17px;
+
+    border: 0;
+    border-radius: 9px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.event-transaction-cancel {
+    background: #f1f3f7;
+    color: #475569;
+}
+
+.event-transaction-save {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+}
+
+.event-transaction-modal-footer button:disabled,
+.event-transaction-close:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .event-transaction-modal-overlay {
+        padding: 10px;
+    }
+
+    .event-transaction-modal {
+        width: 100%;
+        height: calc(100vh - 20px);
+        height: calc(100dvh - 20px);
+        max-height: none;
+        border-radius: 14px;
+    }
+
+    .event-transaction-modal-header {
+        min-height: 68px;
+        padding: 14px 18px;
+    }
+
+    .event-transaction-modal-header h2 {
+        font-size: 18px;
+    }
+
+    .event-transaction-form-body {
+        padding: 18px;
+        gap: 18px;
+    }
+
+    .event-transaction-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-offering-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .event-transaction-modal-footer {
+        min-height: 64px;
+        padding: 12px 18px;
+    }
+}
+
+@media (max-height: 550px) {
+    .event-transaction-modal-header {
+        min-height: 60px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .event-transaction-form-body {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        gap: 14px;
+    }
+
+    .event-transaction-modal-footer {
+        min-height: 58px;
+        padding-top: 9px;
+        padding-bottom: 9px;
+    }
+}

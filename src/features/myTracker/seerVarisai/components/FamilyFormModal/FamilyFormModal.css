@@ -1,0 +1,221 @@
+
+.family-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(4px);
+}
+
+.family-modal {
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    background: var(--card-bg, #ffffff);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
+}
+
+.family-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.family-modal-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    color: #2563eb;
+    background: #eaf2ff;
+}
+
+.family-modal-header h2 {
+    margin: 0;
+    color: var(--text-primary, #1f2937);
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.family-modal-header p {
+    margin: 5px 0 0;
+    color: var(--text-secondary, #64748b);
+    font-size: 12px;
+}
+
+.family-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    margin-left: auto;
+    border: 0;
+    border-radius: 9px;
+    color: #64748b;
+    background: #f1f5f9;
+    cursor: pointer;
+}
+
+.family-modal-close:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.family-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 23px 24px;
+}
+
+.family-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.family-form-field label,
+.family-opening-field label {
+    color: var(--text-primary, #334155);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.family-form-field input,
+.family-amount-input input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 12px 13px;
+    border: 1px solid var(--border-color, #dbe2ea);
+    border-radius: 10px;
+    outline: none;
+    color: var(--text-primary, #1f2937);
+    background: var(--card-bg, #ffffff);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.family-form-field input:focus,
+.family-amount-input:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.family-opening-heading {
+    margin-top: 5px;
+}
+
+.family-opening-heading h3 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--text-primary, #1f2937);
+}
+
+.family-opening-heading p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: var(--text-secondary, #64748b);
+}
+
+.family-opening-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.family-amount-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 12px;
+    border: 1px solid var(--border-color, #dbe2ea);
+    border-radius: 10px;
+    color: #64748b;
+}
+
+.family-amount-input input {
+    border: 0;
+    box-shadow: none;
+}
+
+.family-amount-input input:focus {
+    box-shadow: none;
+}
+
+.family-opening-field.received .family-amount-input {
+    background: #f0fdf4;
+}
+
+.family-opening-field.given .family-amount-input {
+    background: #fff7ed;
+}
+
+.family-form-error {
+    padding: 11px 13px;
+    border-radius: 9px;
+    color: #b91c1c;
+    background: #fef2f2;
+    font-size: 13px;
+}
+
+.family-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 17px 24px 22px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.family-modal-footer button {
+    min-width: 112px;
+    padding: 11px 17px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.family-modal-footer button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.family-cancel-button {
+    border: 1px solid var(--border-color, #dbe2ea);
+    color: var(--text-primary, #334155);
+    background: var(--card-bg, #ffffff);
+}
+
+.family-save-button {
+    border: 0;
+    color: #ffffff;
+    background: linear-gradient(120deg, #2563eb, #1d4ed8);
+}
+
+@media (max-width: 480px) {
+    .family-modal-header,
+    .family-modal-body {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .family-modal-footer {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+}

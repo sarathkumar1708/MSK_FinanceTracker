@@ -41,6 +41,8 @@ import InvestmentDashboardContainer from "../features/investments/pages/Investme
 // Budget
 import BudgetPlannerContainer from "../features/budget/pages/BudgetPlanner/BudgetPlannerContainer";
 import MonthlyBudgetContainer from "../features/budget/pages/MonthlyBudget/MonthlyBudgetContainer";
+import SeervarisaiContainer from "../features/myTracker/seerVarisai/SeervarisaiContainer";
+import MyEventsContainer from "../features/myTracker/myEvents/MyEventsContainer";
 
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
@@ -97,6 +99,10 @@ const customPages = {
     // User Management
     "/user-management/roles": RoleManagement,
     "/user-management/users": UsersManagement,
+
+    // my tracket
+    "/my-tracker/seervarisai": SeervarisaiContainer,
+    "/my-tracker/my-events": MyEventsContainer,
 };
 
 

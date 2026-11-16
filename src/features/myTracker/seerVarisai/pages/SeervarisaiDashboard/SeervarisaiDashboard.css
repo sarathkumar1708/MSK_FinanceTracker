@@ -1,0 +1,318 @@
+
+.seervarisai-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+}
+
+.seervarisai-page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 32px;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #173b70, #2766a8, #3b82b9);
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(30, 74, 125, 0.16);
+}
+
+.seervarisai-eyebrow {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    color: #c6e4ff;
+}
+
+.seervarisai-page-heading h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.seervarisai-page-heading p {
+    margin: 9px 0 0;
+    color: #e0efff;
+    font-size: 14px;
+}
+
+.seervarisai-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 62px;
+    height: 62px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.seervarisai-section-heading h2 {
+    margin: 0;
+    color: var(--text-primary, #1f2937);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.seervarisai-section-heading p {
+    margin: 6px 0 0;
+    color: var(--text-secondary, #6b7280);
+    font-size: 13px;
+}
+
+.seervarisai-family-type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.seervarisai-family-type-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 24px;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 20px;
+    background: var(--card-bg, #ffffff);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.seervarisai-family-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 32px rgba(31, 41, 55, 0.1);
+}
+
+.seervarisai-family-type-card.sarath:hover {
+    border-color: #60a5fa;
+}
+
+.seervarisai-family-type-card.kowsalya:hover {
+    border-color: #f472b6;
+}
+
+.seervarisai-family-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.seervarisai-family-type-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 17px;
+}
+
+.sarath .seervarisai-family-type-icon {
+    color: #2563eb;
+    background: #eaf2ff;
+}
+
+.kowsalya .seervarisai-family-type-icon {
+    color: #db2777;
+    background: #fcecf4;
+}
+
+.seervarisai-family-card-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #64748b;
+    background: #f1f5f9;
+    transition: transform 0.2s ease;
+}
+
+.seervarisai-family-type-card:hover .seervarisai-family-card-arrow {
+    transform: translateX(4px);
+}
+
+.seervarisai-family-card-title {
+    margin-top: 22px;
+}
+
+.seervarisai-family-card-title > span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #64748b);
+}
+
+.seervarisai-family-card-title h3 {
+    margin: 7px 0;
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--text-primary, #1f2937);
+}
+
+.seervarisai-family-card-title p {
+    min-height: 38px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary, #64748b);
+}
+
+.seervarisai-family-card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.seervarisai-family-count {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px;
+    border-radius: 13px;
+    background: var(--surface-secondary, #f8fafc);
+    color: var(--text-secondary, #64748b);
+}
+
+.seervarisai-family-count > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.seervarisai-family-count strong {
+    color: var(--text-primary, #1f2937);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.seervarisai-family-count span {
+    font-size: 11px;
+}
+
+.seervarisai-family-card-finances {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.seervarisai-family-card-finances > div {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 14px;
+    border-radius: 13px;
+    background: #f8fafc;
+}
+
+.seervarisai-family-card-finances span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.seervarisai-family-card-finances strong {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1e293b;
+    overflow-wrap: anywhere;
+}
+
+.seervarisai-family-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.sarath .seervarisai-family-card-footer {
+    color: #2563eb;
+}
+
+.kowsalya .seervarisai-family-card-footer {
+    color: #db2777;
+}
+
+
+.seervarisai-loading,
+.seervarisai-error {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-secondary, #64748b);
+}
+
+.seervarisai-error button,
+.seervarisai-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    background: var(--card-bg, #ffffff);
+    color: var(--text-primary, #1f2937);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.seervarisai-family-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.seervarisai-family-selection h2,
+.seervarisai-family-selection p {
+    margin: 0;
+}
+
+.seervarisai-next-step-placeholder {
+    padding: 30px;
+    border: 1px dashed var(--border-color, #cbd5e1);
+    border-radius: 14px;
+    color: var(--text-secondary, #64748b);
+    background: var(--card-bg, #ffffff);
+}
+
+
+@media (max-width: 900px) {
+    .seervarisai-family-type-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .seervarisai-page-heading {
+        padding: 22px;
+    }
+
+    .seervarisai-page-heading h1 {
+        font-size: 23px;
+    }
+
+    .seervarisai-heading-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .seervarisai-family-type-card {
+        padding: 19px;
+    }
+
+    .seervarisai-family-card-finances {
+        grid-template-columns: 1fr;
+    }
+}

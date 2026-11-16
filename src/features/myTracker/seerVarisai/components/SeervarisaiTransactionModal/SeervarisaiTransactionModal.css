@@ -1,0 +1,203 @@
+
+.sv-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(5px);
+}
+
+.sv-transaction-modal {
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 26px;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25);
+}
+
+.sv-modal-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sv-modal-header h2 {
+    margin: 0;
+    color: #172554;
+    font-size: 22px;
+}
+
+.sv-modal-header p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.sv-modal-close {
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #475569;
+    cursor: pointer;
+}
+
+.sv-form-group {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.sv-form-group > label {
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.sv-form-group input:not([type="radio"]),
+.sv-form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #dbe3ef;
+    border-radius: 10px;
+    outline: none;
+    background: #fff;
+    color: #1e293b;
+    font: inherit;
+}
+
+.sv-form-group input:focus,
+.sv-form-group textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.sv-form-group textarea {
+    resize: vertical;
+}
+
+.sv-direction-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.sv-direction-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #475569;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.sv-direction-options label.active.received {
+    border-color: #10b981;
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.sv-direction-options label.active.paid {
+    border-color: #6366f1;
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+.sv-form-row {
+    display: flex;
+    gap: 14px;
+}
+
+.sv-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.sv-modal-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sv-cancel-btn {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.sv-save-btn {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+}
+
+.sv-modal-actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.sv-offering-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #dbe2ea;
+    border-radius: 9px;
+    background: #fff;
+    color: #1e293b;
+    font: inherit;
+    outline: none;
+}
+
+.sv-offering-select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.sv-form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+@media (max-width: 520px) {
+    .sv-transaction-modal {
+        padding: 20px;
+    }
+
+    .sv-form-row,
+    .sv-direction-options {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+
+    .sv-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .sv-modal-actions button {
+        width: 100%;
+    }
+}

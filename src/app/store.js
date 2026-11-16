@@ -7,6 +7,8 @@ import debtReducer from "../features/debt/debtSlice";
 import goalReducer from "../features/goals/goalSlice";
 import investmentReducer from "../features/investments/investmentSlice";
 import budgetReducer from "../features/budget/budgetSlice";
+import seervarisaiReducer from "../features/myTracker/seerVarisai/seervarisaiSlice";
+import myEventsReducer from "../features/myTracker/myEvents/myEventsSlice";
 
 
 
@@ -19,5 +21,7 @@ export const store = configureStore({
         goals: goalReducer,
         investment: investmentReducer,
         budget: budgetReducer,
+        seervarisai: seervarisaiReducer,
+        myEvents: myEventsReducer,
     },
 });

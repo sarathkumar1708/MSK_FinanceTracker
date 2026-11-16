@@ -1,0 +1,259 @@
+
+.relation-member-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 18px;
+    background: var(--card-bg, #ffffff);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.relation-member-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+}
+
+.relation-member-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.relation-member-avatar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    color: #7c3aed;
+    background: #f3e8ff;
+}
+
+.relation-member-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: 7px;
+}
+
+.relation-member-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 33px;
+    height: 33px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 9px;
+    color: #64748b;
+    background: var(--card-bg, #ffffff);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.relation-member-actions button:hover {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.relation-member-actions button.delete:hover {
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+.relation-member-card-main {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.relation-member-card-main h3 {
+    margin: 0;
+    color: var(--text-primary, #1f2937);
+    font-size: 19px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.relation-member-card-main > p {
+    margin: 5px 0 13px;
+    color: var(--text-secondary, #64748b);
+    font-size: 12px;
+}
+
+.relation-member-transaction-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 100%;
+    padding: 7px 10px;
+    border-radius: 8px;
+    color: #64748b;
+    background: #f8fafc;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.relation-member-totals {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.relation-member-total {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 9px;
+    padding: 13px;
+    border-radius: 12px;
+}
+
+.relation-member-total.received {
+    background: #ecfdf5;
+}
+
+.relation-member-total.given {
+    background: #fff7ed;
+}
+
+.relation-member-total span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.relation-member-total.received span {
+    color: #047857;
+}
+
+.relation-member-total.given span {
+    color: #c2410c;
+}
+
+.relation-member-total strong {
+    overflow-wrap: anywhere;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.relation-member-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+    color: #7c3aed;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .relation-member-card {
+        padding: 17px;
+    }
+
+    .relation-member-card-main h3 {
+        font-size: 17px;
+    }
+
+    .relation-member-total {
+        padding: 11px;
+    }
+
+    .relation-member-total strong {
+        font-size: 14px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .relation-member-card {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .relation-member-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .relation-member-actions {
+        gap: 5px;
+    }
+
+    .relation-member-actions button {
+        width: 31px;
+        height: 31px;
+    }
+
+    .relation-member-card-main {
+        margin-top: 13px;
+    }
+
+    .relation-member-card-main h3 {
+        font-size: 16px;
+    }
+
+    .relation-member-card-main > p {
+        margin-bottom: 10px;
+    }
+
+    .relation-member-transaction-count {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
+    .relation-member-totals {
+        gap: 7px;
+        margin-top: 12px;
+    }
+
+    .relation-member-total {
+        gap: 7px;
+        padding: 9px;
+    }
+
+    .relation-member-total span {
+        font-size: 10px;
+    }
+
+    .relation-member-total strong {
+        font-size: 13px;
+    }
+
+    .relation-member-card-footer {
+        padding-top: 11px;
+        font-size: 11px;
+    }
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+    .relation-member-card {
+        padding: 12px;
+    }
+
+    .relation-member-totals {
+        grid-template-columns: 1fr;
+    }
+}

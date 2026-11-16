@@ -1,0 +1,430 @@
+
+.sv-member-detail-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 8px 0 30px;
+}
+
+.sv-member-detail-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sv-member-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 9px 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #fff;
+    color: #475569;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sv-member-back-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.sv-member-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.sv-member-eyebrow {
+    color: #6366f1;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.sv-member-title-row h1 {
+    margin: 5px 0;
+    color: #172554;
+    font-size: 28px;
+}
+
+.sv-member-title-row p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.sv-add-transaction-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 7px 18px rgba(79, 70, 229, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sv-add-transaction-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(79, 70, 229, 0.27);
+}
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.sv-member-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.sv-member-summary-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+}
+
+.sv-member-summary-card .sv-summary-icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 12px;
+}
+
+.sv-member-summary-card.received .sv-summary-icon {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.sv-member-summary-card.paid .sv-summary-icon {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.sv-member-summary-card.count .sv-summary-icon {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.sv-member-summary-card > span {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.sv-member-summary-card > strong {
+    color: #172554;
+    font-size: 24px;
+    overflow-wrap: anywhere;
+}
+
+.sv-member-summary-card > small {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+/* =========================================
+   OFFERING SUMMARY BREAKDOWN
+========================================= */
+
+.sv-offering-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    width: 100%;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.sv-offering-summary-item {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(148, 163, 184, 0.08);
+}
+
+.sv-offering-summary-item span {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.sv-offering-summary-item strong {
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.sv-offering-summary-item.cash {
+    background: #ecfdf5;
+}
+
+.sv-offering-summary-item.cash strong {
+    color: #047857;
+}
+
+.sv-offering-summary-item.gold {
+    background: #fffbeb;
+}
+
+.sv-offering-summary-item.gold strong {
+    color: #b45309;
+}
+
+.sv-offering-summary-item.dress {
+    background: #f5f3ff;
+}
+
+.sv-offering-summary-item.dress strong {
+    color: #6d28d9;
+}
+
+.sv-offering-summary-item.silver {
+    background: #f1f5f9;
+}
+
+.sv-offering-summary-item.silver strong {
+    color: #475569;
+}
+
+/* =========================================
+   TRANSACTION HISTORY HEADING
+========================================= */
+
+.sv-member-transaction-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.sv-member-transaction-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.sv-member-transaction-heading h2 {
+    margin: 0;
+    color: #172554;
+    font-size: 19px;
+}
+
+.sv-member-transaction-heading p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* =========================================
+   TRANSACTION TABS
+========================================= */
+
+.sv-transaction-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f1f5f9;
+}
+
+.sv-transaction-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.sv-transaction-tab:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.sv-transaction-tab.active {
+    border-color: #e0e7ff;
+    background: #fff;
+    color: #4f46e5;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+.sv-transaction-tab-label {
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.sv-transaction-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 23px;
+    height: 23px;
+    padding: 0 6px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.sv-transaction-tab.active .sv-transaction-tab-count {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.sv-transaction-tab-content {
+    width: 100%;
+    min-width: 0;
+}
+
+/* =========================================
+   OFFERING TYPE BADGES IN TRANSACTION TABLE
+========================================= */
+
+.sv-offering-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.sv-offering-badge.cash {
+    color: #047857;
+    background: #d1fae5;
+}
+
+.sv-offering-badge.gold {
+    color: #a16207;
+    background: #fef3c7;
+}
+
+.sv-offering-badge.dress {
+    color: #6d28d9;
+    background: #ede9fe;
+}
+
+.sv-offering-badge.silver {
+    color: #475569;
+    background: #e2e8f0;
+}
+
+.sv-transaction-remarks {
+    min-width: 130px;
+    max-width: 220px;
+    color: #64748b;
+    font-size: 12px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+    .sv-member-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .sv-member-title-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .sv-add-transaction-btn {
+        width: 100%;
+    }
+
+    .sv-member-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sv-member-title-row h1 {
+        font-size: 23px;
+    }
+
+    .sv-offering-summary {
+        gap: 7px;
+    }
+
+    .sv-offering-summary-item {
+        padding: 8px;
+    }
+
+    .sv-offering-summary-item strong {
+        font-size: 12px;
+    }
+
+    .sv-transaction-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        gap: 5px;
+    }
+
+    .sv-transaction-tab {
+        gap: 5px;
+        min-width: 0;
+        padding: 10px 7px;
+        white-space: normal;
+    }
+
+    .sv-transaction-tab-label {
+        font-size: 11px;
+        text-align: left;
+    }
+
+    .sv-transaction-tab-count {
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        font-size: 10px;
+    }
+}
