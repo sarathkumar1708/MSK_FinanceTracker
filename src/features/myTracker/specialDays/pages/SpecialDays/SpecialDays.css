@@ -1,0 +1,345 @@
+
+/* =========================================
+   SPECIAL DAYS - MAIN PAGE
+========================================= */
+
+.special-days-page {
+    width: 100%;
+    min-width: 0;
+    padding: 24px;
+    color: #1e293b;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.special-days-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 25px 28px;
+    margin-bottom: 24px;
+    background: linear-gradient(115deg, #312e81, #4f46e5 55%, #7c3aed);
+    border-radius: 18px;
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.16);
+}
+
+.special-days-header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.special-days-header-icon {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.17);
+    color: #ffffff;
+}
+
+.special-days-header h1 {
+    margin: 0 0 6px;
+    font-size: 25px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.special-days-header p {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.special-days-header-date {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.special-days-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.special-days-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e8edf5;
+    border-left: 5px solid #6366f1;
+    border-radius: 15px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.045);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.special-days-summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 22px rgba(15, 23, 42, 0.08);
+}
+
+.special-days-summary-card.total {
+    border-left-color: #6366f1;
+}
+
+.special-days-summary-card.today {
+    border-left-color: #e11d48;
+}
+
+.special-days-summary-card.birthday {
+    border-left-color: #0d9488;
+}
+
+.special-days-summary-icon {
+    width: 47px;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.special-days-summary-card.today .special-days-summary-icon {
+    background: #fff1f2;
+    color: #e11d48;
+}
+
+.special-days-summary-card.birthday .special-days-summary-icon {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+.special-days-summary-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.special-days-summary-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.special-days-summary-card strong {
+    display: block;
+    color: #172554;
+    font-size: 23px;
+    font-weight: 750;
+}
+
+/* =========================================
+   TODAY CELEBRATION BANNER
+========================================= */
+
+.special-days-today-banner {
+    padding: 20px 22px;
+    margin-bottom: 27px;
+    border: 1px solid #fecdd3;
+    border-radius: 16px;
+    background: linear-gradient(110deg, #fff1f2, #fff7ed);
+}
+
+.special-days-today-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: #be123c;
+}
+
+.special-days-today-heading > svg {
+    flex-shrink: 0;
+}
+
+.special-days-today-heading h3 {
+    margin: 0 0 3px;
+    color: #881337;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.special-days-today-heading p {
+    margin: 0;
+    color: #9f1239;
+    font-size: 12px;
+}
+
+.special-days-today-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.special-days-today-person {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 14px;
+    border: 1px solid #fecdd3;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #be123c;
+}
+
+.special-days-today-person strong {
+    color: #881337;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.special-days-today-person span {
+    padding-left: 8px;
+    border-left: 1px solid #fecdd3;
+    color: #9f1239;
+    font-size: 11px;
+    text-transform: capitalize;
+}
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.special-days-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+}
+
+.special-days-section-heading h2 {
+    margin: 0 0 5px;
+    color: #172554;
+    font-size: 19px;
+    font-weight: 750;
+}
+
+.special-days-section-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* =========================================
+   MONTH GRID
+========================================= */
+
+.special-days-month-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* =========================================
+   LOADING AND ERROR
+========================================= */
+
+.special-days-loading,
+.special-days-error {
+    padding: 45px 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #ffffff;
+    text-align: center;
+    font-size: 14px;
+}
+
+.special-days-loading {
+    color: #64748b;
+}
+
+.special-days-error {
+    color: #dc2626;
+    background: #fff7f7;
+    border-color: #fecaca;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+    .special-days-month-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 850px) {
+    .special-days-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .special-days-month-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .special-days-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 550px) {
+    .special-days-page {
+        padding: 14px;
+    }
+
+    .special-days-header {
+        padding: 19px;
+    }
+
+    .special-days-header h1 {
+        font-size: 21px;
+    }
+
+    .special-days-header-date {
+        white-space: normal;
+    }
+
+    .special-days-summary {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .special-days-month-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .special-days-today-list {
+        flex-direction: column;
+    }
+
+    .special-days-today-person {
+        flex-wrap: wrap;
+    }
+}

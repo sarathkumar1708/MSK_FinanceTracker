@@ -1,0 +1,357 @@
+
+/* =========================================
+   WEIGHTLOSS JOURNEY CARD
+   PREMIUM COLOURFUL DESIGN
+========================================= */
+
+.weightloss-journey-card {
+    min-width: 0;
+    padding: 20px;
+    background: linear-gradient(145deg, #ffffff, #f9fbff);
+    border: 1px solid #e4ebf3;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(30, 41, 59, 0.045);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.weightloss-journey-card:hover {
+    transform: translateY(-3px);
+    border-color: #99dcd3;
+    box-shadow: 0 12px 28px rgba(15, 118, 110, 0.10);
+}
+
+.weightloss-journey-card:focus-visible {
+    outline: 3px solid rgba(13, 148, 136, 0.25);
+    outline-offset: 3px;
+}
+
+/* TOP SECTION */
+
+.journey-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.journey-card-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: #0f8b7d;
+    background: linear-gradient(145deg, #ccfbf1, #ecfdf5);
+    border: 1px solid #b5eee1;
+    border-radius: 12px;
+}
+
+.journey-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* STATUS */
+
+.journey-status-select {
+    max-width: 112px;
+    min-height: 30px;
+    padding: 0 8px;
+    border: 1px solid;
+    border-radius: 20px;
+    outline: none;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.journey-status-select.pending {
+    color: #1d4ed8;
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.journey-status-select.completed {
+    color: #047857;
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+}
+
+.journey-status-select.dropped {
+    color: #be123c;
+    background: #fff1f2;
+    border-color: #fecdd3;
+}
+
+/* ACTION BUTTONS */
+
+.journey-icon-action {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.journey-icon-action.edit {
+    color: #64748b;
+}
+
+.journey-icon-action.edit:hover {
+    color: #2563eb;
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.journey-icon-action.delete {
+    color: #94a3b8;
+}
+
+.journey-icon-action.delete:hover {
+    color: #e11d48;
+    background: #fff1f2;
+    border-color: #fecdd3;
+}
+
+/* HEADING */
+
+.journey-card-heading {
+    margin-top: 16px;
+}
+
+.journey-card-heading h3 {
+    margin: 0 0 7px;
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 850;
+}
+
+.journey-card-heading p {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    color: #8290a3;
+    font-size: 11px;
+}
+
+/* METRIC CARDS */
+
+.journey-card-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 19px;
+}
+
+.journey-metric {
+    min-width: 0;
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    padding: 12px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    transition: transform 0.2s ease;
+}
+
+.journey-metric:hover {
+    transform: translateY(-2px);
+}
+
+/* INITIAL - BLUE */
+
+.journey-metric.initial-metric {
+    background: linear-gradient(145deg, #eff6ff, #e0edff);
+    border-color: #c7dcff;
+}
+
+.journey-metric.initial-metric span {
+    color: #4774b5;
+}
+
+.journey-metric.initial-metric strong {
+    color: #1d4ed8;
+}
+
+/* TARGET - PURPLE */
+
+.journey-metric.target-metric {
+    background: linear-gradient(145deg, #f5f3ff, #ede9fe);
+    border-color: #ddd3ff;
+}
+
+.journey-metric.target-metric span {
+    color: #8062bb;
+}
+
+.journey-metric.target-metric strong {
+    color: #6d28d9;
+}
+
+/* CURRENT - SUCCESS / TEAL */
+
+.journey-metric.current-metric.current-success {
+    background: linear-gradient(145deg, #ecfdf5, #d9fbee);
+    border-color: #a7f3d0;
+}
+
+.journey-metric.current-metric.current-success span {
+    color: #26856c;
+}
+
+.journey-metric.current-metric.current-success strong {
+    color: #047857;
+}
+
+/* CURRENT - WARNING / RED */
+
+.journey-metric.current-metric.current-warning {
+    background: linear-gradient(145deg, #fff1f2, #ffe1e5);
+    border-color: #fda4af;
+}
+
+.journey-metric.current-metric.current-warning span {
+    color: #c24150;
+}
+
+.journey-metric.current-metric.current-warning strong {
+    color: #dc2626;
+}
+
+/* HEIGHT - AMBER */
+
+.journey-metric.height-metric {
+    background: linear-gradient(145deg, #fffbeb, #fef0c7);
+    border-color: #fde2a1;
+}
+
+.journey-metric.height-metric span {
+    color: #a87924;
+}
+
+.journey-metric.height-metric strong {
+    color: #b45309;
+}
+
+/* METRIC TEXT */
+
+.journey-metric span {
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.journey-metric strong {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+    font-weight: 850;
+}
+
+/* PROGRESS */
+
+.journey-progress-area {
+    margin-top: 19px;
+}
+
+.journey-progress-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.journey-progress-heading strong {
+    color: #0f766e;
+}
+
+.journey-progress-track {
+    height: 8px;
+    overflow: hidden;
+    background: #e8eef3;
+    border-radius: 20px;
+}
+
+.journey-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #34d399, #0d9488);
+    border-radius: inherit;
+    transition: width 0.3s ease;
+}
+
+.journey-progress-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 9px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.journey-progress-caption span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #8290a3;
+}
+
+/* FOOTER */
+
+.journey-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 17px;
+    padding-top: 13px;
+    color: #0f8b7d;
+    border-top: 1px solid #edf1f5;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.journey-card-footer svg {
+    transition: transform 0.2s ease;
+}
+
+.weightloss-journey-card:hover .journey-card-footer svg {
+    transform: translateX(4px);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 480px) {
+    .weightloss-journey-card {
+        padding: 15px;
+    }
+
+    .journey-card-actions {
+        gap: 4px;
+    }
+
+    .journey-status-select {
+        max-width: 95px;
+    }
+
+    .journey-metric {
+        padding: 10px;
+    }
+
+    .journey-metric strong {
+        font-size: 13px;
+    }
+
+    .journey-progress-caption {
+        flex-direction: column;
+    }
+}

@@ -15,6 +15,7 @@ import {
   ChevronDown,
   X,
   LayoutDashboard,
+  HeartPulse,
 } from "lucide-react";
 
 import { navigationItems } from "../../config/navigation";
@@ -33,6 +34,8 @@ const iconMap = {
   Landmark,
   CalendarDays,
   Bookmark,
+  HeartPulse,
+
 };
 
 function Sidebar({ isOpen, closeSidebar, user }) {

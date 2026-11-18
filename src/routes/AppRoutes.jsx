@@ -41,8 +41,21 @@ import InvestmentDashboardContainer from "../features/investments/pages/Investme
 // Budget
 import BudgetPlannerContainer from "../features/budget/pages/BudgetPlanner/BudgetPlannerContainer";
 import MonthlyBudgetContainer from "../features/budget/pages/MonthlyBudget/MonthlyBudgetContainer";
+
+// My Tracker
 import SeervarisaiContainer from "../features/myTracker/seerVarisai/SeervarisaiContainer";
 import MyEventsContainer from "../features/myTracker/myEvents/MyEventsContainer";
+
+// Health - Weightloss
+import WeightlossContainer from "../features/health/pages/Weightloss/WeightlossContainer";
+import WeightTransactionsContainer from "../features/health/pages/WeightTransactions/WeightTransactionsContainer";
+
+// Health - Meals Planner
+import MealsPlannerContainer from "../features/health/pages/MealsPlanner/MealsPlannerContainer";
+import MealWeekContainer from "../features/health/pages/MealWeek/MealWeekContainer";
+import DailyMealPlanContainer from "../features/health/pages/DailyMealPlan/DailyMealPlanContainer";
+import SpecialDaysContainer from "../features/myTracker/specialDays/containers/SpecialDaysContainer";
+import MonthlySpecialDaysContainer from "../features/myTracker/specialDays/containers/MonthlySpecialDaysContainer";
 
 
 function ProtectedPage({ componentKey, adminOnly, children }) {
@@ -78,6 +91,12 @@ const customPages = {
     "/finance/monthly-spending": MonthlySpendingPage,
     "/finance/yearly-spending": YearlySpendingPage,
 
+    // my tracket
+    "/my-tracker/seervarisai": SeervarisaiContainer,
+    "/my-tracker/my-events": MyEventsContainer,
+    "/my-tracker/special-days": SpecialDaysContainer,
+    "/my-tracker/special-days/:month": MonthlySpecialDaysContainer,
+
     // Debt Management
     "/debt/debt-overview": DebtOverview,
     "/debt/outstanding": AllDebtsContainer,
@@ -100,9 +119,9 @@ const customPages = {
     "/user-management/roles": RoleManagement,
     "/user-management/users": UsersManagement,
 
-    // my tracket
-    "/my-tracker/seervarisai": SeervarisaiContainer,
-    "/my-tracker/my-events": MyEventsContainer,
+    // Health
+    "/health/weightloss": WeightlossContainer,
+    "/health/meals-planner": MealsPlannerContainer,
 };
 
 
@@ -170,11 +189,51 @@ function AppRoutes() {
                     }
                 />
 
+                {/* Dynamic Weight Transactions route */}
+                <Route
+                    path="/health/weightloss/:journeyId/transactions"
+                    element={
+                        <ProtectedPage componentKey="health.weightloss">
+                            <WeightTransactionsContainer />
+                        </ProtectedPage>
+                    }
+                />
+
+                {/* Meals Planner - Weekly View */}
+                <Route
+                    path="/health/meals-planner/:journeyId"
+                    element={
+                        <ProtectedPage componentKey="health.meals-planner">
+                            <MealWeekContainer />
+                        </ProtectedPage>
+                    }
+                />
+
+                {/* Meals Planner - Daily View */}
+                <Route
+                    path="/health/meals-planner/:journeyId/:date"
+                    element={
+                        <ProtectedPage componentKey="health.meals-planner">
+                            <DailyMealPlanContainer />
+                        </ProtectedPage>
+                    }
+                />
+
                 {/* Fallback */}
                 <Route
                     path="*"
                     element={
                         <Navigate to="/finance/dashboard" replace />
+                    }
+                />
+
+                {/* Special Days - Monthly View */}
+                <Route
+                    path="/my-tracker/special-days/:month"
+                    element={
+                        <ProtectedPage componentKey="tracker.special-days">
+                            <MonthlySpecialDaysContainer />
+                        </ProtectedPage>
                     }
                 />
 

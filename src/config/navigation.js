@@ -50,6 +50,12 @@ export const navigationItems = [
                 description: "Manage your personal information.",
             },
             {
+                title: "Special Days",
+                path: "/my-tracker/special-days",
+                componentKey: "tracker.special-days",
+                description: "Track birthdays, anniversaries and other yearly celebrations.",
+            },
+            {
                 title: "My Events",
                 path: "/my-tracker/my-events",
                 componentKey: "tracker.my-events",
@@ -171,14 +177,25 @@ export const navigationItems = [
             },
         ],
     },
-    // {
-    //     id: "my-bookmarks",
-    //     title: "My Bookmarks",
-    //     icon: "Bookmark",
-    //     path: "/my-bookmarks",
-    //     componentKey: "bookmarks",
-    //     description: "Save and organize your important links.",
-    // },
+    {
+        id: "health",
+        title: "Health",
+        icon: "HeartPulse",
+        children: [
+            {
+                title: "Weightloss",
+                path: "/health/weightloss",
+                componentKey: "health.weightloss",
+                description: "Track and manage your weightloss journeys.",
+            },
+            {
+                title: "Meals Planner",
+                path: "/health/meals-planner",
+                componentKey: "health.meals-planner",
+                description: "Plan and manage your daily meals.",
+            },
+        ],
+    },
     {
         id: "user-management",
         title: "User Management",

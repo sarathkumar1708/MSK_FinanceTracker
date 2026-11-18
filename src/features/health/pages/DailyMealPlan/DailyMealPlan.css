@@ -1,0 +1,729 @@
+
+/* =========================================
+   DAILY MEAL PLAN
+========================================= */
+
+.daily-meal-page {
+    width: 100%;
+    min-width: 0;
+    padding: 22px;
+    color: #243247;
+}
+
+/* TOP BAR */
+
+.daily-meal-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.daily-meal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    background: transparent;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.daily-meal-back:hover {
+    color: #0d9488;
+}
+
+.daily-meal-date-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* HERO */
+
+.daily-meal-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 30px 34px;
+    margin-bottom: 22px;
+    border-radius: 20px;
+    color: #ffffff;
+    background: linear-gradient(120deg, #0f766e, #0d9488 55%, #14b8a6);
+    box-shadow: 0 12px 30px rgba(13, 148, 136, 0.16);
+}
+
+.daily-meal-eyebrow {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #ccfbf1;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.daily-meal-hero h1 {
+    margin: 0 0 9px;
+    color: #ffffff;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+}
+
+.daily-meal-hero p {
+    margin: 0;
+    color: #e0f2f1;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.daily-meal-hero-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 82px;
+    height: 82px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 24px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* CALORIE SUMMARY */
+
+.daily-calorie-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px 28px;
+    margin-bottom: 18px;
+    border: 1px solid #fed7aa;
+    border-radius: 18px;
+    background: linear-gradient(115deg, #fff7ed, #ffedd5);
+}
+
+.daily-calorie-main {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.daily-calorie-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 17px;
+    color: #ea580c;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.09);
+}
+
+.daily-calorie-main span {
+    color: #9a3412;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.daily-calorie-main h2 {
+    margin: 5px 0 3px;
+    color: #9a3412;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.daily-calorie-main h2 small {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.daily-calorie-main p {
+    margin: 0;
+    color: #c2410c;
+    font-size: 12px;
+}
+
+.daily-calorie-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 105px;
+    padding: 12px 20px;
+    border-left: 1px solid #fdba74;
+}
+
+.daily-calorie-side span {
+    color: #9a3412;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.daily-calorie-side strong {
+    margin-top: 4px;
+    color: #9a3412;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+/* NUTRITION CARDS */
+
+.daily-nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.daily-nutrition-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid #e5eaf0;
+    border-left: 4px solid;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+}
+
+.daily-nutrition-card.protein {
+    border-left-color: #0d9488;
+}
+
+.daily-nutrition-card.carbs {
+    border-left-color: #6366f1;
+}
+
+.daily-nutrition-card.fat {
+    border-left-color: #d97706;
+}
+
+.daily-nutrition-card.items {
+    border-left-color: #db2777;
+}
+
+.daily-nutrition-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+}
+
+.protein .daily-nutrition-icon {
+    color: #0f766e;
+    background: #ccfbf1;
+}
+
+.carbs .daily-nutrition-icon {
+    color: #4f46e5;
+    background: #e0e7ff;
+}
+
+.fat .daily-nutrition-icon {
+    color: #b45309;
+    background: #fef3c7;
+}
+
+.items .daily-nutrition-icon {
+    color: #be185d;
+    background: #fce7f3;
+}
+
+.daily-nutrition-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.daily-nutrition-card strong {
+    color: #1e293b;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.daily-nutrition-card strong small {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* SECTION HEADING */
+
+.daily-meal-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.daily-meal-section-heading h2 {
+    margin: 0 0 5px;
+    color: #1e293b;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.daily-meal-section-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.daily-plan-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 43px;
+    padding: 0 19px;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    background: linear-gradient(120deg, #0f766e, #0d9488);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 13px rgba(13, 148, 136, 0.17);
+}
+
+.daily-plan-button:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+}
+
+.daily-plan-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* MEAL SECTIONS */
+
+.daily-meal-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+}
+
+.daily-meal-section {
+    padding: 20px;
+    border: 1px solid #e5eaf0;
+    border-radius: 17px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.035);
+}
+
+.daily-meal-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 17px;
+}
+
+.daily-meal-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.daily-meal-type-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+}
+
+.daily-meal-section.morning .daily-meal-type-icon {
+    color: #b45309;
+    background: #fef3c7;
+}
+
+.daily-meal-section.afternoon .daily-meal-type-icon {
+    color: #c2410c;
+    background: #ffedd5;
+}
+
+.daily-meal-section.evening .daily-meal-type-icon {
+    color: #7c3aed;
+    background: #ede9fe;
+}
+
+.daily-meal-section.night .daily-meal-type-icon {
+    color: #4338ca;
+    background: #e0e7ff;
+}
+
+.daily-meal-section-title h3 {
+    margin: 0 0 4px;
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.daily-meal-section-title p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.daily-meal-count {
+    padding: 6px 11px;
+    border-radius: 20px;
+    color: #475569;
+    background: #f1f5f9;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* MEAL CARD */
+
+.daily-meal-card {
+    padding: 17px;
+    margin-top: 13px;
+    border: 1px solid #e8edf3;
+    border-radius: 13px;
+    background: #fbfdff;
+}
+
+.daily-meal-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.daily-meal-card-heading h4 {
+    margin: 0 0 6px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.daily-meal-card-heading span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.daily-meal-card-total {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    padding: 7px 12px;
+    border-radius: 9px;
+    color: #c2410c;
+    background: #fff7ed;
+}
+
+.daily-meal-card-total strong {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.daily-meal-card-total small {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* FOOD TABLE */
+
+.daily-food-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.daily-food-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 730px;
+}
+
+.daily-food-table th {
+    padding: 12px 11px;
+    color: #475569;
+    background: #f1f5f9;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.daily-food-table td {
+    padding: 13px 11px;
+    border-bottom: 1px solid #edf1f5;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.daily-food-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.daily-food-name {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    white-space: normal;
+    min-width: 120px;
+}
+
+.daily-food-name strong {
+    color: #243247;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.daily-food-name small {
+    color: #94a3b8;
+    font-size: 11px;
+    max-width: 180px;
+    overflow-wrap: anywhere;
+}
+
+.daily-food-calories {
+    color: #c2410c !important;
+    font-weight: 800 !important;
+}
+
+.daily-food-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.daily-food-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    color: #2563eb;
+    background: #eff6ff;
+    cursor: pointer;
+}
+
+.daily-food-actions button.delete {
+    border-color: #fecaca;
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+.daily-food-actions button:hover {
+    filter: brightness(0.96);
+}
+
+.daily-meal-notes {
+    margin: 13px 0 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #64748b;
+    background: #f8fafc;
+    font-size: 12px;
+}
+
+.daily-meal-notes strong {
+    color: #475569;
+}
+
+/* EMPTY / LOADING / ERROR */
+
+.daily-meal-empty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 17px;
+    border: 1px dashed #dbe3ec;
+    border-radius: 11px;
+    color: #94a3b8;
+    background: #fafcff;
+    font-size: 12px;
+}
+
+.daily-meal-empty-food {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 5px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.daily-meal-loading {
+    padding: 45px 20px;
+    border: 1px solid #e5eaf0;
+    border-radius: 15px;
+    color: #64748b;
+    background: #ffffff;
+    text-align: center;
+    font-size: 14px;
+}
+
+.daily-meal-error-message {
+    padding: 12px 15px;
+    margin-bottom: 16px;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    color: #b91c1c;
+    background: #fef2f2;
+    font-size: 13px;
+}
+
+.daily-meal-error {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.daily-meal-error h2 {
+    color: #1e293b;
+}
+
+.daily-meal-error button {
+    padding: 10px 17px;
+    border: 0;
+    border-radius: 9px;
+    color: #ffffff;
+    background: #0d9488;
+    cursor: pointer;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .daily-nutrition-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .daily-meal-page {
+        padding: 14px;
+    }
+
+    .daily-meal-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .daily-meal-hero {
+        padding: 23px 20px;
+    }
+
+    .daily-meal-hero-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+    }
+
+    .daily-meal-hero-icon svg {
+        width: 28px;
+    }
+
+    .daily-meal-hero p {
+        font-size: 12px;
+    }
+
+    .daily-calorie-summary {
+        align-items: flex-start;
+        padding: 19px 16px;
+    }
+
+    .daily-calorie-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .daily-calorie-main h2 {
+        font-size: 25px;
+    }
+
+    .daily-calorie-side {
+        min-width: auto;
+        padding: 9px 0 9px 12px;
+    }
+
+    .daily-nutrition-grid {
+        gap: 10px;
+    }
+
+    .daily-nutrition-card {
+        gap: 9px;
+        padding: 13px 10px;
+    }
+
+    .daily-nutrition-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .daily-nutrition-card strong {
+        font-size: 17px;
+    }
+
+    .daily-meal-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .daily-plan-button {
+        width: 100%;
+    }
+
+    .daily-meal-section {
+        padding: 14px;
+    }
+
+    .daily-meal-section-title p {
+        max-width: 210px;
+        line-height: 1.5;
+    }
+
+    .daily-meal-card {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 390px) {
+    .daily-nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .daily-calorie-summary {
+        flex-direction: column;
+    }
+
+    .daily-calorie-side {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0 0;
+        border-top: 1px solid #fdba74;
+        border-left: 0;
+        width: 100%;
+    }
+}

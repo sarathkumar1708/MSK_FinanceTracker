@@ -1,0 +1,646 @@
+
+/* =========================================
+   MEALS PLANNER - MAIN PAGE
+========================================= */
+
+.meals-planner-page {
+    width: 100%;
+    min-width: 0;
+    padding: 4px 0 30px;
+    color: #26364b;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.meals-planner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 23px;
+}
+
+.meals-planner-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.meals-planner-heading-icon {
+    width: 51px;
+    height: 51px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(13, 148, 136, 0.20);
+}
+
+.meals-planner-heading h1 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.meals-planner-heading p {
+    margin: 5px 0 0;
+    color: #7b899c;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.meals-create-journey-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    border: 1px solid #0d9488;
+    border-radius: 11px;
+    box-shadow: 0 5px 13px rgba(13, 148, 136, 0.18);
+    font-size: 13px;
+    font-weight: 750;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.meals-create-journey-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(13, 148, 136, 0.25);
+}
+
+/* =========================================
+   WELCOME BANNER
+========================================= */
+
+.meals-planner-welcome {
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 29px 35px;
+    overflow: hidden;
+    background: linear-gradient(115deg, #0f766e 0%, #0d9488 50%, #38a69b 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 9px 25px rgba(15, 118, 110, 0.15);
+}
+
+.meals-welcome-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+
+.meals-welcome-eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #bffaf0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.meals-welcome-content h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(21px, 2.5vw, 29px);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+}
+
+.meals-welcome-content p {
+    max-width: 570px;
+    margin: 10px 0 19px;
+    color: #e0fffa;
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+.meals-welcome-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.meals-welcome-highlights span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 11px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.19);
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.meals-welcome-highlights svg {
+    color: #a7f3d0;
+}
+
+.meals-welcome-illustration {
+    position: relative;
+    width: 195px;
+    height: 165px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+}
+
+.meals-welcome-circle {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 50%;
+}
+
+.circle-one {
+    width: 155px;
+    height: 155px;
+}
+
+.circle-two {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.meals-welcome-food-icon {
+    position: relative;
+    z-index: 1;
+    width: 94px;
+    height: 94px;
+    display: grid;
+    place-items: center;
+    color: #0f766e;
+    background: linear-gradient(145deg, #ffffff, #ccfbf1);
+    border: 5px solid rgba(255, 255, 255, 0.23);
+    border-radius: 28px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.13);
+    transform: rotate(-7deg);
+}
+
+.meals-welcome-leaf {
+    position: absolute;
+    z-index: 2;
+    color: #d1fae5;
+    font-size: 25px;
+}
+
+.leaf-one {
+    top: 9px;
+    right: 19px;
+}
+
+.leaf-two {
+    bottom: 13px;
+    left: 16px;
+}
+
+/* =========================================
+   SUMMARY CARDS
+========================================= */
+
+.meals-journey-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+    margin: 22px 0 28px;
+}
+
+.meals-summary-card {
+    position: relative;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-left: 4px solid transparent;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(30, 41, 59, 0.04);
+}
+
+.meals-summary-card::after {
+    position: absolute;
+    top: -25px;
+    right: -20px;
+    width: 90px;
+    height: 90px;
+    content: "";
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.summary-total {
+    border-left-color: #3b82f6;
+}
+
+.summary-total::after {
+    background: #dbeafe;
+}
+
+.summary-active {
+    border-left-color: #0d9488;
+}
+
+.summary-active::after {
+    background: #ccfbf1;
+}
+
+.summary-completed {
+    border-left-color: #8b5cf6;
+}
+
+.summary-completed::after {
+    background: #ede9fe;
+}
+
+.meals-summary-icon {
+    position: relative;
+    z-index: 1;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+}
+
+.summary-total .meals-summary-icon {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.summary-active .meals-summary-icon {
+    color: #0f9488;
+    background: #ccfbf1;
+}
+
+.summary-completed .meals-summary-icon {
+    color: #7c3aed;
+    background: #f3e8ff;
+}
+
+.meals-summary-card > div:last-child {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.meals-summary-card span {
+    color: #78869a;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.meals-summary-card strong {
+    color: #1e293b;
+    font-size: 25px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* =========================================
+   JOURNEY SECTION
+========================================= */
+
+.meals-journeys-section {
+    padding: 23px;
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(30, 41, 59, 0.035);
+}
+
+.meals-journeys-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.meals-journeys-heading h2 {
+    margin: 0;
+    color: #24364b;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.meals-journeys-heading p {
+    margin: 5px 0 0;
+    color: #8a97a8;
+    font-size: 12px;
+}
+
+.meals-journey-search {
+    width: 245px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 12px;
+    color: #94a3b8;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.meals-journey-search:focus-within {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.09);
+}
+
+.meals-journey-search input {
+    width: 100%;
+    min-width: 0;
+    color: #334155;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 12px;
+}
+
+.meals-journey-search input::placeholder {
+    color: #a0aaba;
+}
+
+/* =========================================
+   FILTER TABS
+========================================= */
+
+.meals-journey-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #edf1f5;
+    margin-bottom: 20px;
+}
+
+.meal-filter-tab {
+    min-height: 35px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px solid #e7edf3;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.meal-filter-tab span {
+    min-width: 19px;
+    height: 19px;
+    display: grid;
+    place-items: center;
+    padding: 0 5px;
+    color: #64748b;
+    background: #e9eef4;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.meal-filter-tab:hover {
+    color: #0f766e;
+    border-color: #99d8d1;
+}
+
+.meal-filter-tab.active {
+    color: #0f766e;
+    background: #e6fffa;
+    border-color: #99e3d8;
+}
+
+.meal-filter-tab.active span {
+    color: #ffffff;
+    background: #0d9488;
+}
+
+/* =========================================
+   JOURNEY GRID
+========================================= */
+
+.meals-journey-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.meals-loading-state {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    color: #8290a3;
+    font-size: 13px;
+}
+
+.meals-loader {
+    width: 35px;
+    height: 35px;
+    border: 3px solid #ccfbf1;
+    border-top-color: #0d9488;
+    border-radius: 50%;
+    animation: mealsSpin 0.8s linear infinite;
+}
+
+@keyframes mealsSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.meals-empty-state {
+    min-height: 245px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 15px;
+    text-align: center;
+}
+
+.meals-empty-icon {
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    color: #0d9488;
+    background: #ccfbf1;
+    border-radius: 20px;
+}
+
+.meals-empty-state h3 {
+    margin: 16px 0 6px;
+    color: #334155;
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.meals-empty-state p {
+    max-width: 390px;
+    margin: 0;
+    color: #8a97a8;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.empty-create-btn {
+    margin-top: 17px;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.meals-page-error {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+    .meals-journey-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .meals-planner-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .meals-planner-welcome {
+        min-height: auto;
+        padding: 25px;
+    }
+
+    .meals-welcome-illustration {
+        width: 130px;
+        height: 130px;
+    }
+
+    .circle-one {
+        width: 120px;
+        height: 120px;
+    }
+
+    .circle-two {
+        width: 95px;
+        height: 95px;
+    }
+
+    .meals-welcome-food-icon {
+        width: 72px;
+        height: 72px;
+    }
+
+    .meals-welcome-food-icon svg {
+        width: 40px;
+    }
+
+    .meals-journeys-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .meals-journey-search {
+        width: 100%;
+    }
+
+    .meals-journeys-section {
+        padding: 17px;
+    }
+}
+
+@media (max-width: 560px) {
+    .meals-planner-heading h1 {
+        font-size: 21px;
+    }
+
+    .meals-planner-heading p {
+        font-size: 12px;
+    }
+
+    .meals-planner-welcome {
+        padding: 22px 19px;
+    }
+
+    .meals-welcome-illustration {
+        display: none;
+    }
+
+    .meals-welcome-content p {
+        font-size: 12px;
+    }
+
+    .meals-welcome-highlights {
+        gap: 7px;
+    }
+
+    .meals-welcome-highlights span {
+        font-size: 10px;
+    }
+
+    .meals-journey-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .meals-summary-card {
+        padding: 14px 16px;
+    }
+
+    .meals-journey-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .meals-create-journey-btn {
+        width: 100%;
+    }
+}

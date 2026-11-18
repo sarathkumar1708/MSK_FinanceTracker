@@ -1,0 +1,258 @@
+
+/* =========================================
+   MONTHLY SPECIAL DAYS PAGE
+========================================= */
+
+.monthly-special-days-page {
+    width: 100%;
+    min-width: 0;
+    padding: 24px;
+    color: #1e293b;
+}
+
+/* HEADER */
+
+.monthly-special-days-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 23px 25px;
+    margin-bottom: 23px;
+    background: linear-gradient(115deg, #312e81, #4f46e5 60%, #7c3aed);
+    border-radius: 17px;
+    box-shadow: 0 7px 22px rgba(79, 70, 229, 0.15);
+}
+
+.monthly-special-days-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.monthly-special-days-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 10px;
+    background: rgba(255,255,255,.12);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.monthly-special-days-back:hover {
+    background: rgba(255,255,255,.23);
+}
+
+.monthly-special-days-title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 49px;
+    height: 49px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: rgba(255,255,255,.16);
+    color: #ffffff;
+}
+
+.monthly-special-days-header h1 {
+    margin: 0 0 5px;
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 750;
+}
+
+.monthly-special-days-header p {
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font-size: 12px;
+}
+
+.monthly-special-days-create-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #4338ca;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.monthly-special-days-create-btn:hover {
+    transform: translateY(-2px);
+    background: #eef2ff;
+    box-shadow: 0 5px 13px rgba(15,23,42,.15);
+}
+
+/* SUMMARY */
+
+.monthly-special-days-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.monthly-special-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #e8edf5;
+    border-left: 4px solid #6366f1;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(15,23,42,.04);
+}
+
+.monthly-special-summary-card.total {
+    border-left-color: #6366f1;
+}
+
+.monthly-special-summary-card.today {
+    border-left-color: #e11d48;
+}
+
+.monthly-special-summary-card.birthdays {
+    border-left-color: #0d9488;
+}
+
+.monthly-special-summary-card.anniversaries {
+    border-left-color: #d97706;
+}
+
+.monthly-special-summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.monthly-special-summary-card.today .monthly-special-summary-icon {
+    background: #fff1f2;
+    color: #e11d48;
+}
+
+.monthly-special-summary-card.birthdays .monthly-special-summary-icon {
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+.monthly-special-summary-card.anniversaries .monthly-special-summary-icon {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.monthly-special-summary-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.monthly-special-summary-card strong {
+    display: block;
+    color: #172554;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+/* TABLE SECTION */
+
+.monthly-special-days-content {
+    padding: 22px;
+    border: 1px solid #e7ecf3;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(15,23,42,.04);
+}
+
+.monthly-special-days-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.monthly-special-days-section-heading h2 {
+    margin: 0 0 5px;
+    color: #172554;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.monthly-special-days-section-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.monthly-special-days-error {
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    background: #fff1f2;
+    color: #b91c1c;
+    font-size: 13px;
+}
+
+.monthly-special-days-loading {
+    padding: 45px 15px;
+    color: #64748b;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1050px) {
+    .monthly-special-days-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .monthly-special-days-page {
+        padding: 14px;
+    }
+
+    .monthly-special-days-header {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 18px;
+    }
+
+    .monthly-special-days-create-btn {
+        width: 100%;
+    }
+
+    .monthly-special-days-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .monthly-special-days-content {
+        padding: 14px;
+    }
+}
