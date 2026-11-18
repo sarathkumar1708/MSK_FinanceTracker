@@ -1,8 +1,4 @@
-
 import { useEffect, useMemo, useState } from "react";
-
-
-
 
 import "./MonthlySpendingPage.css";
 import PageHeader from "../../../components/common/PageHeader";
@@ -31,24 +27,25 @@ function getTransactionAmount(transaction) {
   return (Number(transaction.amount_minor) || 0) / 100;
 }
 
+function getBalanceTone(balance) {
+  if (balance > 0) return "positive";
+  if (balance < 0) return "negative";
+  return "neutral";
+}
+
 function MonthlySpendingPage() {
   const currentYear = new Date().getFullYear();
 
-  const [selectedYear, setSelectedYear] = useState(
-    String(currentYear)
-  );
-
+  const [selectedYear, setSelectedYear] = useState(String(currentYear));
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Available years
   const years = Array.from(
     { length: currentYear - 2000 + 3 },
     (_, index) => currentYear + 2 - index
   );
 
-  // Fetch all transactions for the selected year.
   useEffect(() => {
     let active = true;
 
@@ -90,7 +87,6 @@ function MonthlySpendingPage() {
     };
   }, [selectedYear]);
 
-  // Group transactions into all 12 months.
   const monthlyData = useMemo(() => {
     const monthSummary = MONTHS.map((month) => ({
       month: month.label,
@@ -135,7 +131,6 @@ function MonthlySpendingPage() {
     }));
   }, [transactions, selectedYear]);
 
-  // Calculate yearly totals.
   const yearlyTotals = useMemo(() => {
     return monthlyData.reduce(
       (result, month) => ({
@@ -154,70 +149,102 @@ function MonthlySpendingPage() {
     );
   }, [monthlyData]);
 
-  const getBalanceTone = (balance) => {
-    if (balance > 0) return "positive";
-    if (balance < 0) return "negative";
-    return "neutral";
-  };
-
   return (
     <div className="page-container monthly-spending-page">
       <PageHeader
         title="Monthly Spending"
-        description="View your income, expenses and balance month by month."
+        description="Track your income, expenses and monthly balance throughout the year."
         icon="CalendarDays"
       />
 
       <div className="content-card monthly-spending-card">
-
-        {/* Year Selection */}
+        {/* YEAR TOOLBAR */}
         <div className="monthly-spending-toolbar">
-          <div className="year-selector">
-            <label htmlFor="monthly-spending-year">
-              Select Year
-            </label>
+          <div className="monthly-toolbar-heading">
+            <span className="monthly-toolbar-eyebrow">
+              FINANCIAL OVERVIEW
+            </span>
 
-            <select
-              id="monthly-spending-year"
-              value={selectedYear}
-              onChange={(event) => {
-                setSelectedYear(event.target.value);
-              }}
-            >
-              {years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
+            <h2>Yearly Financial Summary</h2>
+
+            <p>
+              Choose a year to explore your monthly financial activity.
+            </p>
           </div>
 
-          <button
-            type="button"
-            className="year-reset-button"
-            onClick={() => setSelectedYear(String(currentYear))}
-            disabled={selectedYear === String(currentYear)}
-          >
-            Current Year
-          </button>
+          <div className="monthly-year-actions">
+            <div className="year-selector">
+              <label htmlFor="monthly-spending-year">
+                Select Year
+              </label>
+
+              <select
+                id="monthly-spending-year"
+                value={selectedYear}
+                onChange={(event) => setSelectedYear(event.target.value)}
+              >
+                {years.map((year) => (
+                  <option key={year} value={String(year)}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              className="year-reset-button"
+              onClick={() => setSelectedYear(String(currentYear))}
+              disabled={selectedYear === String(currentYear)}
+            >
+              Current Year
+            </button>
+          </div>
         </div>
 
-        {/* Yearly Summary */}
-        <div className="yearly-summary">
+        {/* YEARLY SUMMARY */}
+        <section className="yearly-summary">
           <div className="yearly-summary-header">
-            <h3>{selectedYear} Overview</h3>
-            <span>Yearly Summary</span>
+            <div>
+              <span className="yearly-summary-eyebrow">
+                YOUR FINANCIAL PERFORMANCE
+              </span>
+
+              <h3>{selectedYear} Overview</h3>
+
+              <p>Annual income, expenses and net balance</p>
+            </div>
+
+            <div className="yearly-summary-year">
+              {selectedYear}
+            </div>
           </div>
 
           <div className="yearly-summary-grid">
             <div className="yearly-summary-item income-summary">
-              <span>Total Income</span>
-              <strong>₹{formatTotal(yearlyTotals.totalIncome)}</strong>
+              <div className="yearly-item-top">
+                <span className="yearly-item-icon">↗</span>
+                <span className="yearly-item-label">Total Income</span>
+              </div>
+
+              <strong>
+                ₹{formatTotal(yearlyTotals.totalIncome)}
+              </strong>
+
+              <small>Money received during the year</small>
             </div>
 
             <div className="yearly-summary-item expense-summary">
-              <span>Total Expense</span>
-              <strong>₹{formatTotal(yearlyTotals.totalExpense)}</strong>
+              <div className="yearly-item-top">
+                <span className="yearly-item-icon">↘</span>
+                <span className="yearly-item-label">Total Expense</span>
+              </div>
+
+              <strong>
+                ₹{formatTotal(yearlyTotals.totalExpense)}
+              </strong>
+
+              <small>Money spent during the year</small>
             </div>
 
             <div
@@ -225,44 +252,79 @@ function MonthlySpendingPage() {
                 yearlyTotals.totalBalance
               )}`}
             >
-              <span>Net Balance</span>
-              <strong>₹{formatTotal(yearlyTotals.totalBalance)}</strong>
+              <div className="yearly-item-top">
+                <span className="yearly-item-icon">₹</span>
+                <span className="yearly-item-label">Net Balance</span>
+              </div>
+
+              <strong>
+                ₹{formatTotal(yearlyTotals.totalBalance)}
+              </strong>
+
+              <small>Income minus expenses</small>
             </div>
 
             <div className="yearly-summary-item count-summary">
-              <span>Transactions</span>
+              <div className="yearly-item-top">
+                <span className="yearly-item-icon">#</span>
+                <span className="yearly-item-label">Transactions</span>
+              </div>
+
               <strong>{yearlyTotals.transactionCount}</strong>
+
+              <small>Recorded transactions</small>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Loading and Error */}
+        {/* ERROR */}
         {error && (
-          <div className="error-message" role="alert">
+          <div
+            className="monthly-error-message"
+            role="alert"
+          >
             {error}
           </div>
         )}
 
+        {/* LOADING / MONTHLY BREAKDOWN */}
         {loading ? (
           <div className="monthly-loading">
-            Loading {selectedYear} transactions...
+            <div className="monthly-loading-spinner" />
+            <span>Loading {selectedYear} transactions...</span>
           </div>
         ) : (
           <>
-            {/* Monthly Cards */}
             <div className="monthly-section-header">
-              <h3>Monthly Breakdown</h3>
-              <span>January - December {selectedYear}</span>
+              <div>
+                <span className="monthly-section-eyebrow">
+                  MONTHLY PERFORMANCE
+                </span>
+
+                <h3>Monthly Breakdown</h3>
+
+                <p>
+                  Review your financial activity month by month.
+                </p>
+              </div>
+
+              <span className="monthly-period-label">
+                January – December {selectedYear}
+              </span>
             </div>
 
             <div className="monthly-summary-grid">
-              {monthlyData.map((month) => (
+              {monthlyData.map((month, index) => (
                 <div
-                  className="monthly-summary-card"
+                  className={`monthly-summary-card month-color-${index + 1} ${month.transactionCount === 0 ? "empty-month" : ""
+                    }`}
                   key={month.monthNumber}
                 >
                   <div className="monthly-card-header">
-                    <h3>{month.month}</h3>
+                    <div className="monthly-month-title">
+                      <span className="monthly-month-indicator" />
+                      <h3>{month.month}</h3>
+                    </div>
 
                     <span className="monthly-transaction-count">
                       {month.transactionCount}{" "}
@@ -275,6 +337,7 @@ function MonthlySpendingPage() {
                   <div className="monthly-card-details">
                     <div className="monthly-detail-row">
                       <span>Total Income</span>
+
                       <strong className="income-text">
                         ₹{formatTotal(month.totalIncome)}
                       </strong>
@@ -282,6 +345,7 @@ function MonthlySpendingPage() {
 
                     <div className="monthly-detail-row">
                       <span>Total Expense</span>
+
                       <strong className="expense-text">
                         ₹{formatTotal(month.totalExpense)}
                       </strong>
@@ -289,11 +353,14 @@ function MonthlySpendingPage() {
 
                     <div className="monthly-detail-divider" />
 
-                    <div className="monthly-detail-row monthly-balance-row">
-                      <span>Balance</span>
-                      <strong
-                        className={getBalanceTone(month.totalBalance)}
-                      >
+                    <div
+                      className={`monthly-balance-row ${getBalanceTone(
+                        month.totalBalance
+                      )}`}
+                    >
+                      <span>Monthly Balance</span>
+
+                      <strong>
                         ₹{formatTotal(month.totalBalance)}
                       </strong>
                     </div>
@@ -301,7 +368,7 @@ function MonthlySpendingPage() {
 
                   {month.transactionCount === 0 && (
                     <div className="monthly-empty-label">
-                      No transactions
+                      No transactions recorded
                     </div>
                   )}
                 </div>

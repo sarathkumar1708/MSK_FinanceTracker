@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import { Pencil, Trash2, Receipt } from "lucide-react";
+
 import "./RelationTransactionTable.css";
 
 const formatDate = (date) => {
-    if (!date) return "-";
+    if (!date) return "—";
 
     return new Date(`${date}T00:00:00`).toLocaleDateString("en-IN", {
         day: "2-digit",
@@ -19,41 +20,55 @@ const formatCurrency = (minor = 0) =>
         maximumFractionDigits: 2,
     }).format(Number(minor || 0) / 100);
 
-const formatGold = (grams) => {
-    const totalGrams = Number(grams || 0);
-    const savaran = Math.floor(totalGrams / 8);
-    const remainingGrams = Number((totalGrams % 8).toFixed(3));
+const formatGold = (grams = 0) => {
+    const total = Number(grams || 0);
+    const savaran = Math.floor(total / 8);
+    const remaining = Number((total % 8).toFixed(3));
 
-    if (savaran === 0) return `${remainingGrams} Grams`;
-    if (remainingGrams === 0) return `${savaran} Savaran`;
+    if (!savaran) return `${remaining} Grams`;
+    if (!remaining) return `${savaran} Savaran`;
 
-    return `${savaran} Savaran ${remainingGrams} Grams`;
+    return `${savaran} Savaran ${remaining} Grams`;
 };
 
-const getOfferingDisplay = (item) => {
-    const offeringType = item.offering_type || "CASH";
+export const getTransactionOfferings = (transaction) => {
+    if (Array.isArray(transaction.offerings) && transaction.offerings.length) {
+        return transaction.offerings;
+    }
 
-    switch (offeringType) {
-        case "GOLD":
-            return item.gold_grams != null
-                ? formatGold(item.gold_grams)
-                : "Gold weight not entered";
+    return [{
+        offering_type: transaction.offering_type || "CASH",
+        amount_minor: transaction.amount_minor,
+        gold_grams: transaction.gold_grams,
+        item_count: transaction.item_count,
+    }];
+};
 
-        case "DRESS":
-            return item.item_count != null
-                ? `${item.item_count} item(s)`
-                : "Count not entered";
+const OFFERING_LABELS = {
+    CASH: "Cash",
+    GOLD: "Gold",
+    SILVER: "Silver",
+    DRESS: "Dress",
+    THATTUVARISAI: "Thattuvarisai",
+};
+
+const getOfferingDisplay = (offering) => {
+    switch (offering.offering_type) {
+        case "CASH":
+            return formatCurrency(offering.amount_minor);
 
         case "SILVER":
-            return item.amount_minor != null
-                ? formatCurrency(item.amount_minor)
-                : "Amount not entered";
+            return formatCurrency(offering.amount_minor);
 
-        case "CASH":
+        case "GOLD":
+            return formatGold(offering.gold_grams);
+
+        case "DRESS":
+        case "THATTUVARISAI":
+            return `${Number(offering.item_count || 0)} item(s)`;
+
         default:
-            return item.amount_minor != null
-                ? formatCurrency(item.amount_minor)
-                : "Amount not entered";
+            return "—";
     }
 };
 
@@ -66,41 +81,40 @@ function RelationTransactionTable({
 }) {
     const isReceived = type === "RELATIONS_SPENT";
 
-    const sortedTransactions = useMemo(() => {
-        return [...transactions].sort((a, b) => {
-            const dateComparison = (b.transaction_date || "").localeCompare(
-                a.transaction_date || ""
-            );
+    const sortedTransactions = useMemo(
+        () =>
+            [...transactions].sort((a, b) => {
+                const dateDifference =
+                    new Date(b.transaction_date || 0) -
+                    new Date(a.transaction_date || 0);
 
-            if (dateComparison !== 0) return dateComparison;
+                if (dateDifference !== 0) return dateDifference;
 
-            return (
-                new Date(b.created_at || 0).getTime() -
-                new Date(a.created_at || 0).getTime()
-            );
-        });
-    }, [transactions]);
+                return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+            }),
+        [transactions]
+    );
 
     return (
-        <section
-            className={`sv-transaction-section ${isReceived ? "received-section" : "paid-section"
-                }`}
-        >
-            <div className="sv-transaction-section-header">
-                <div className="sv-transaction-section-icon">
+        <div className="sv-transaction-table-card">
+            <div className="sv-transaction-table-heading">
+                <div className="sv-table-heading-icon">
                     <Receipt size={19} />
                 </div>
 
                 <div>
                     <h3>{title}</h3>
-                    <p>{sortedTransactions.length} transaction(s)</p>
+                    <p>{sortedTransactions.length} transaction(s) found</p>
                 </div>
             </div>
 
             {sortedTransactions.length === 0 ? (
                 <div className="sv-transaction-empty">
-                    <Receipt size={28} />
-                    <p>No transactions recorded yet.</p>
+                    <div className="sv-empty-icon">
+                        <Receipt size={25} />
+                    </div>
+                    <h3>No transactions found</h3>
+                    <p>Transactions matching your selection will appear here.</p>
                 </div>
             ) : (
                 <div className="sv-transaction-table-wrap">
@@ -109,7 +123,7 @@ function RelationTransactionTable({
                             <tr>
                                 <th>Date</th>
                                 <th>Details</th>
-                                <th>Type</th>
+                                <th>Offering Type</th>
                                 <th>Value</th>
                                 <th>Remarks</th>
                                 <th>Actions</th>
@@ -117,58 +131,90 @@ function RelationTransactionTable({
                         </thead>
 
                         <tbody>
-                            {sortedTransactions.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{formatDate(item.transaction_date)}</td>
+                            {sortedTransactions.map((transaction) => {
+                                const offerings = getTransactionOfferings(transaction);
 
-                                    <td>
-                                        <strong>{item.title}</strong>
-                                    </td>
+                                return (
+                                    <tr key={transaction.id}>
+                                        <td className="sv-transaction-date">
+                                            {formatDate(transaction.transaction_date)}
+                                        </td>
 
-                                    <td>
-                                        <span
-                                            className={`sv-offering-badge ${(
-                                                item.offering_type || "CASH"
-                                            ).toLowerCase()}`}
-                                        >
-                                            {item.offering_type || "CASH"}
-                                        </span>
-                                    </td>
+                                        <td className="sv-transaction-details">
+                                            <strong>{transaction.title || "Untitled"}</strong>
+                                        </td>
 
-                                    <td className="sv-transaction-amount">
-                                        {getOfferingDisplay(item)}
-                                    </td>
+                                        <td>
+                                            <div className="sv-transaction-offering-list">
+                                                {offerings.map((offering, index) => {
+                                                    const typeName = offering.offering_type || "CASH";
+                                                    const className = typeName.toLowerCase();
 
-                                    <td className="sv-transaction-remarks">
-                                        {item.remarks || "—"}
-                                    </td>
+                                                    return (
+                                                        <span
+                                                            className={`sv-offering-badge ${className}`}
+                                                            key={`${typeName}-${index}`}
+                                                        >
+                                                            {OFFERING_LABELS[typeName] || typeName}
+                                                        </span>
+                                                    );
+                                                })}
+                                            </div>
+                                        </td>
 
-                                    <td>
-                                        <div className="sv-table-actions">
-                                            <button
-                                                type="button"
-                                                title="Edit"
-                                                onClick={() => onEdit(item)}
-                                            >
-                                                <Pencil size={15} />
-                                            </button>
+                                        <td>
+                                            <div className="sv-transaction-values">
+                                                {offerings.map((offering, index) => {
+                                                    const typeName = offering.offering_type || "CASH";
 
-                                            <button
-                                                type="button"
-                                                title="Delete"
-                                                onClick={() => onDelete(item)}
-                                            >
-                                                <Trash2 size={15} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                                                    return (
+                                                        <div
+                                                            className="sv-transaction-value-line"
+                                                            key={`${typeName}-value-${index}`}
+                                                        >
+                                                            {/* <span>{OFFERING_LABELS[typeName] || typeName}</span> */}
+                                                            <strong>{getOfferingDisplay(offering)}</strong>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div className="sv-transaction-remarks">
+                                                {transaction.remarks || "—"}
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div className="sv-transaction-actions">
+                                                <button
+                                                    type="button"
+                                                    className="sv-transaction-edit"
+                                                    onClick={() => onEdit(transaction)}
+                                                    title="Edit transaction"
+                                                >
+                                                    <Pencil size={15} />
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    className="sv-transaction-delete"
+                                                    onClick={() => onDelete(transaction)}
+                                                    title="Delete transaction"
+                                                >
+                                                    <Trash2 size={15} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
             )}
-        </section>
+        </div>
     );
 }
 

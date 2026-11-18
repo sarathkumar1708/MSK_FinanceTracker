@@ -1,6 +1,4 @@
-
 import React, { useMemo, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -8,7 +6,9 @@ import {
     Plus,
     TrendingUp,
     Wallet,
-    Receipt,
+    Search,
+    Filter,
+    X,
 } from "lucide-react";
 
 import {
@@ -21,7 +21,13 @@ import {
 import "./RelationMemberDetail.css";
 
 import SeervarisaiTransactionModal from "../../components/SeervarisaiTransactionModal/SeervarisaiTransactionModal";
-import RelationTransactionTable from "../../components/RelationTransactionTable/RelationTransactionTable";
+import RelationTransactionTable, {
+    getTransactionOfferings,
+} from "../../components/RelationTransactionTable/RelationTransactionTable";
+
+// ============================================
+// FORMAT HELPERS
+// ============================================
 
 const formatCurrency = (minor = 0) =>
     new Intl.NumberFormat("en-IN", {
@@ -30,47 +36,65 @@ const formatCurrency = (minor = 0) =>
         maximumFractionDigits: 2,
     }).format(Number(minor || 0) / 100);
 
-// const formatGold = (grams = 0) => {
-//     const totalGrams = Number(grams || 0);
-//     const savaran = Math.floor(totalGrams / 8);
-//     const remainingGrams = Number((totalGrams % 8).toFixed(3));
+const formatGold = (grams = 0) => {
+    const totalGrams = Number(grams || 0);
+    const savaran = Math.floor(totalGrams / 8);
+    const remainingGrams = Number((totalGrams % 8).toFixed(3));
 
-//     if (savaran === 0) return `${remainingGrams} g`;
-//     if (remainingGrams === 0) return `${savaran} Savaran`;
+    if (savaran === 0) return `${remainingGrams} Grams`;
+    if (remainingGrams === 0) return `${savaran} Savaran`;
 
-//     return `${savaran} Savaran ${remainingGrams} g`;
-// };
+    return `${savaran} Savaran ${remainingGrams} Grams`;
+};
 
-const getOfferingSummary = (items) => {
+// ============================================
+// OFFERING SUMMARY
+// ============================================
+
+const getOfferingSummary = (transactions) => {
     const summary = {
         cash: 0,
         silver: 0,
         gold: 0,
         dress: 0,
+        thattuvarisai: 0,
     };
 
-    items.forEach((item) => {
-        const offeringType = item.offering_type || "CASH";
+    transactions.forEach((transaction) => {
+        getTransactionOfferings(transaction).forEach((item) => {
+            switch (item.offering_type || "CASH") {
+                case "CASH":
+                    summary.cash += Number(item.amount_minor || 0);
+                    break;
 
-        if (offeringType === "CASH") {
-            summary.cash += Number(item.amount_minor || 0);
-        }
+                case "SILVER":
+                    summary.silver += Number(item.amount_minor || 0);
+                    break;
 
-        if (offeringType === "SILVER") {
-            summary.silver += Number(item.amount_minor || 0);
-        }
+                case "GOLD":
+                    summary.gold += Number(item.gold_grams || 0);
+                    break;
 
-        if (offeringType === "GOLD") {
-            summary.gold += Number(item.gold_grams || 0);
-        }
+                case "DRESS":
+                    summary.dress += Number(item.item_count || 0);
+                    break;
 
-        if (offeringType === "DRESS") {
-            summary.dress += Number(item.item_count || 0);
-        }
+                case "THATTUVARISAI":
+                    summary.thattuvarisai += Number(item.item_count || 0);
+                    break;
+
+                default:
+                    break;
+            }
+        });
     });
 
     return summary;
 };
+
+// ============================================
+// OFFERING BREAKDOWN
+// ============================================
 
 function OfferingBreakdown({ summary }) {
     return (
@@ -82,7 +106,7 @@ function OfferingBreakdown({ summary }) {
 
             <div className="sv-offering-summary-item gold">
                 <span>Gold</span>
-                <strong>{`${summary.gold} gram`}</strong>
+                <strong>{formatGold(summary.gold)}</strong>
             </div>
 
             <div className="sv-offering-summary-item dress">
@@ -94,9 +118,67 @@ function OfferingBreakdown({ summary }) {
                 <span>Silver</span>
                 <strong>{formatCurrency(summary.silver)}</strong>
             </div>
+
+            <div className="sv-offering-summary-item thattuvarisai">
+                <span>Thattuvarisai</span>
+                <strong>{summary.thattuvarisai} item(s)</strong>
+            </div>
         </div>
     );
 }
+
+// ============================================
+// SEARCH HELPERS
+// ============================================
+
+const OFFERING_LABELS = {
+    CASH: "cash",
+    GOLD: "gold",
+    SILVER: "silver",
+    DRESS: "dress",
+    THATTUVARISAI: "thattuvarisai",
+};
+
+const getTransactionSearchText = (transaction) => {
+    const offerings = getTransactionOfferings(transaction);
+
+    const offeringText = offerings.map((item) => {
+        const type = item.offering_type || "CASH";
+
+        return [
+            OFFERING_LABELS[type] || type,
+            item.amount_minor,
+            item.amount_minor !== null && item.amount_minor !== undefined
+                ? Number(item.amount_minor) / 100
+                : "",
+            item.gold_grams,
+            item.item_count,
+        ].join(" ");
+    }).join(" ");
+
+    return [
+        transaction.title,
+        transaction.remarks,
+        transaction.transaction_date,
+        ...offerings.map((item) => item.offering_type),
+        offeringText,
+    ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+};
+
+const matchesOfferingFilter = (transaction, filter) => {
+    if (filter === "ALL") return true;
+
+    return getTransactionOfferings(transaction).some(
+        (item) => item.offering_type === filter
+    );
+};
+
+// ============================================
+// MAIN COMPONENT
+// ============================================
 
 function RelationMemberDetail({
     member,
@@ -109,32 +191,36 @@ function RelationMemberDetail({
     const [showModal, setShowModal] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState(null);
 
-    // Controls which transaction table is currently displayed.
     const [activeTab, setActiveTab] = useState("RELATIONS_SPENT");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [offeringFilter, setOfferingFilter] = useState("ALL");
+
+    // ========================================
+    // MEMBER TRANSACTIONS
+    // ========================================
 
     const memberTransactions = useMemo(
-        () =>
-            transactions.filter(
-                (item) => item.member_id === member.id
-            ),
+        () => transactions.filter((item) => item.member_id === member.id),
         [transactions, member.id]
     );
 
     const receivedTransactions = useMemo(
-        () =>
-            memberTransactions.filter(
-                (item) => item.transaction_type === "RELATIONS_SPENT"
-            ),
+        () => memberTransactions.filter(
+            (item) => item.transaction_type === "RELATIONS_SPENT"
+        ),
         [memberTransactions]
     );
 
     const paidTransactions = useMemo(
-        () =>
-            memberTransactions.filter(
-                (item) => item.transaction_type === "I_SPENT"
-            ),
+        () => memberTransactions.filter(
+            (item) => item.transaction_type === "I_SPENT"
+        ),
         [memberTransactions]
     );
+
+    // ========================================
+    // OFFERING SUMMARIES
+    // ========================================
 
     const receivedSummary = useMemo(
         () => getOfferingSummary(receivedTransactions),
@@ -146,9 +232,47 @@ function RelationMemberDetail({
         [paidTransactions]
     );
 
-    // Main monetary total = Cash + Silver only.
+    // Cash + Silver are monetary totals.
     const receivedTotal = receivedSummary.cash + receivedSummary.silver;
     const paidTotal = paidSummary.cash + paidSummary.silver;
+
+    // ========================================
+    // ACTIVE HISTORY + FILTERS
+    // ========================================
+
+    const activeTransactions =
+        activeTab === "RELATIONS_SPENT"
+            ? receivedTransactions
+            : paidTransactions;
+
+    const filteredTransactions = useMemo(() => {
+        const search = searchTerm.trim().toLowerCase();
+
+        return activeTransactions.filter((transaction) => {
+            const matchesSearch =
+                !search ||
+                getTransactionSearchText(transaction).includes(search);
+
+            const matchesType = matchesOfferingFilter(
+                transaction,
+                offeringFilter
+            );
+
+            return matchesSearch && matchesType;
+        });
+    }, [activeTransactions, searchTerm, offeringFilter]);
+
+    const clearFilters = () => {
+        setSearchTerm("");
+        setOfferingFilter("ALL");
+    };
+
+    const hasActiveFilters =
+        searchTerm.trim() !== "" || offeringFilter !== "ALL";
+
+    // ========================================
+    // MODAL HANDLERS
+    // ========================================
 
     const openCreateModal = () => {
         setEditingTransaction(null);
@@ -165,6 +289,10 @@ function RelationMemberDetail({
         setEditingTransaction(null);
     };
 
+    // ========================================
+    // SAVE TRANSACTION
+    // ========================================
+
     const handleSave = async (transactionData) => {
         try {
             if (editingTransaction) {
@@ -175,16 +303,22 @@ function RelationMemberDetail({
                     })
                 ).unwrap();
             } else {
-                await dispatch(
-                    createTransaction(transactionData)
-                ).unwrap();
+                await dispatch(createTransaction(transactionData)).unwrap();
             }
 
             closeModal();
         } catch (error) {
-            alert(error?.message || error || "Unable to save transaction.");
+            alert(
+                error?.message ||
+                error ||
+                "Unable to save transaction."
+            );
         }
     };
+
+    // ========================================
+    // DELETE TRANSACTION
+    // ========================================
 
     const handleDelete = async (transaction) => {
         const confirmed = window.confirm(
@@ -194,13 +328,19 @@ function RelationMemberDetail({
         if (!confirmed) return;
 
         try {
-            await dispatch(
-                deleteTransaction(transaction.id)
-            ).unwrap();
+            await dispatch(deleteTransaction(transaction.id)).unwrap();
         } catch (error) {
-            alert(error?.message || error || "Unable to delete transaction.");
+            alert(
+                error?.message ||
+                error ||
+                "Unable to delete transaction."
+            );
         }
     };
+
+    // ========================================
+    // RENDER
+    // ========================================
 
     return (
         <div className="sv-member-detail-page">
@@ -215,7 +355,7 @@ function RelationMemberDetail({
                 </button>
 
                 <div className="sv-member-title-row">
-                    <div>
+                    <div className="sv-member-title-info">
                         <span className="sv-member-eyebrow">
                             SEERVARISAI MEMBER
                         </span>
@@ -239,7 +379,8 @@ function RelationMemberDetail({
                 </div>
             </div>
 
-            {/* Summary Cards */}
+            {/* SUMMARY CARDS */}
+
             <div className="sv-member-summary-grid">
                 <div className="sv-member-summary-card received">
                     <div className="sv-summary-icon">
@@ -247,6 +388,7 @@ function RelationMemberDetail({
                     </div>
 
                     <span>Relations Spent to Me</span>
+
                     <strong>{formatCurrency(receivedTotal)}</strong>
 
                     <small>
@@ -262,6 +404,7 @@ function RelationMemberDetail({
                     </div>
 
                     <span>I Spent to Them</span>
+
                     <strong>{formatCurrency(paidTotal)}</strong>
 
                     <small>
@@ -270,20 +413,10 @@ function RelationMemberDetail({
 
                     <OfferingBreakdown summary={paidSummary} />
                 </div>
-
-                {/* <div className="sv-member-summary-card count">
-                    <div className="sv-summary-icon">
-                        <Receipt size={21} />
-                    </div>
-
-                    <span>Total Transactions</span>
-                    <strong>{memberTransactions.length}</strong>
-
-                    <small>Recorded for this member</small>
-                </div> */}
             </div>
 
-            {/* Transaction History */}
+            {/* TRANSACTION HISTORY */}
+
             <div className="sv-member-transaction-section">
                 <div className="sv-member-transaction-heading">
                     <div>
@@ -294,7 +427,8 @@ function RelationMemberDetail({
                     </div>
                 </div>
 
-                {/* Transaction Tabs */}
+                {/* TABS */}
+
                 <div className="sv-transaction-tabs">
                     <button
                         type="button"
@@ -303,9 +437,11 @@ function RelationMemberDetail({
                         onClick={() => setActiveTab("RELATIONS_SPENT")}
                     >
                         <TrendingUp size={17} />
+
                         <span className="sv-transaction-tab-label">
                             Relations Spent to Me
                         </span>
+
                         <span className="sv-transaction-tab-count">
                             {receivedTransactions.length}
                         </span>
@@ -318,36 +454,105 @@ function RelationMemberDetail({
                         onClick={() => setActiveTab("I_SPENT")}
                     >
                         <Wallet size={17} />
+
                         <span className="sv-transaction-tab-label">
                             I Spent to Them
                         </span>
+
                         <span className="sv-transaction-tab-count">
                             {paidTransactions.length}
                         </span>
                     </button>
                 </div>
 
-                {/* Display only the selected table */}
-                <div className="sv-transaction-tab-content">
-                    {activeTab === "RELATIONS_SPENT" ? (
-                        <RelationTransactionTable
-                            title="Relations Spent to Me"
-                            type="RELATIONS_SPENT"
-                            transactions={receivedTransactions}
-                            onEdit={openEditModal}
-                            onDelete={handleDelete}
+                {/* SEARCH AND OFFERING FILTER */}
+
+                <div className="sv-history-filter-panel">
+                    <div className="sv-history-search">
+                        <Search size={17} />
+
+                        <input
+                            type="search"
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                            placeholder="Search title, remarks, date, offering or value..."
+                            aria-label="Search transaction history"
                         />
-                    ) : (
-                        <RelationTransactionTable
-                            title="I Spent to Them"
-                            type="I_SPENT"
-                            transactions={paidTransactions}
-                            onEdit={openEditModal}
-                            onDelete={handleDelete}
-                        />
+
+                        {searchTerm && (
+                            <button
+                                type="button"
+                                onClick={() => setSearchTerm("")}
+                                aria-label="Clear search"
+                            >
+                                <X size={15} />
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="sv-history-type-filter">
+                        <Filter size={16} />
+
+                        <select
+                            value={offeringFilter}
+                            onChange={(event) => setOfferingFilter(event.target.value)}
+                            aria-label="Filter by offering type"
+                        >
+                            <option value="ALL">All Offerings</option>
+                            <option value="CASH">Cash</option>
+                            <option value="GOLD">Gold</option>
+                            <option value="SILVER">Silver</option>
+                            <option value="DRESS">Dress</option>
+                            <option value="THATTUVARISAI">Thattuvarisai</option>
+                        </select>
+                    </div>
+
+                    {hasActiveFilters && (
+                        <button
+                            type="button"
+                            className="sv-history-clear-filter"
+                            onClick={clearFilters}
+                        >
+                            <X size={14} />
+                            Clear
+                        </button>
                     )}
                 </div>
+
+                <div className="sv-history-result-info">
+                    Showing <strong>{filteredTransactions.length}</strong> of{" "}
+                    <strong>{activeTransactions.length}</strong> transactions
+                    {offeringFilter !== "ALL" && (
+                        <span>
+                            {" "}· Filtered by{" "}
+                            <strong>
+                                {offeringFilter === "THATTUVARISAI"
+                                    ? "Thattuvarisai"
+                                    : offeringFilter.charAt(0) +
+                                    offeringFilter.slice(1).toLowerCase()}
+                            </strong>
+                        </span>
+                    )}
+                </div>
+
+                {/* ACTIVE TABLE */}
+
+                <div className="sv-transaction-tab-content">
+                    <RelationTransactionTable
+                        title={
+                            activeTab === "RELATIONS_SPENT"
+                                ? "Relations Spent to Me"
+                                : "I Spent to Them"
+                        }
+                        type={activeTab}
+                        transactions={filteredTransactions}
+                        onEdit={openEditModal}
+                        onDelete={handleDelete}
+                    />
+                </div>
             </div>
+
+            {/* TRANSACTION MODAL */}
 
             <SeervarisaiTransactionModal
                 isOpen={showModal}

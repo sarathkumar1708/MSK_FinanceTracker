@@ -11,20 +11,57 @@
     "Segoe UI",
     sans-serif;
 
-  color: #1e293b;
-  background: #f5f7fb;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
+  /* Brand colours */
+  --primary: #6952e8;
+  --primary-dark: #5841d5;
+  --primary-light: #eeeaff;
+  --primary-soft: #f5f2ff;
+
+  /* Application backgrounds */
+  --app-background: #f4f5ff;
+  --surface-white: #ffffff;
+  --surface-soft: #f8f8ff;
+
+  /* Text */
+  --text-primary: #202653;
+  --text-secondary: #737b9c;
+  --text-muted: #9ba2bd;
+
+  /* Borders and shadows */
+  --border-color: #e8e9fa;
+  --card-shadow: 0 5px 20px rgba(77, 66, 170, 0.07);
+  --card-shadow-hover: 0 12px 30px rgba(77, 66, 170, 0.13);
+
+  /* Financial colours */
+  --income: #10b981;
+  --income-dark: #047857;
+  --income-light: #e0fff3;
+
+  --expense: #ef4765;
+  --expense-dark: #c62848;
+  --expense-light: #ffe8ed;
+
+  --blue: #3186f6;
+  --blue-light: #e8f2ff;
+
+  --purple: #9275f5;
+  --purple-light: #f0eaff;
+
+  --orange: #f59e0b;
+  --orange-light: #fff2df;
+
+  --teal: #0d9488;
+  --teal-light: #dffaf5;
+
+  --sidebar-bg: #ffffff;
   --sidebar-width: 270px;
-  --primary: #4f46e5;
-  --primary-light: #eef2ff;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --sidebar-bg: #17243a;
+
+  color: var(--text-primary);
+  background: var(--app-background);
 }
 
 * {
@@ -978,6 +1015,319 @@ a {
     width: 100%;
   }
 }
+
+
+/* =====================================================
+   FINANCEPRO — SHARED GLOBAL THEME
+   Applies across Expense, Investment, Debt, Budget
+   and Personal Tracker
+===================================================== */
+
+:root {
+  /* Brand */
+  --primary: #6952e8;
+  --primary-dark: #5841d5;
+  --primary-light: #eeeaff;
+  --primary-soft: #f5f2ff;
+
+  /* Backgrounds */
+  --app-background: #f4f5ff;
+  --surface-white: #ffffff;
+  --surface-soft: #f8f8ff;
+
+  /* Text */
+  --text-primary: #101b50;
+  --text-secondary: #7b83a6;
+  --text-muted: #9ba2bd;
+
+  /* Borders and shadows */
+  --border-color: #e8e9fa;
+  --sidebar-bg: #ffffff;
+  --card-shadow: 0 5px 20px rgba(77, 66, 170, 0.06);
+  --card-shadow-hover: 0 12px 30px rgba(77, 66, 170, 0.12);
+
+  /* Financial colours */
+  --income: #16c995;
+  --income-light: #e0fff3;
+  --expense: #f04462;
+  --expense-light: #ffe8ed;
+  --blue: #3186f6;
+  --blue-light: #e8f2ff;
+  --purple: #9275f5;
+  --purple-light: #f0eaff;
+  --orange: #ffaa45;
+  --orange-light: #fff2df;
+
+  --sidebar-width: 270px;
+}
+
+/* Global application background */
+
+html {
+  background: var(--app-background);
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--app-background);
+}
+
+/* Main layout */
+
+.app-layout {
+  background: var(--app-background);
+}
+
+.main-section {
+  background: var(--app-background);
+}
+
+.main-content {
+  background: var(--app-background);
+}
+
+/* Sidebar */
+
+.sidebar {
+  background: #ffffff;
+  color: var(--text-primary);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 3px 0 18px rgba(77, 66, 170, 0.035);
+}
+
+.sidebar-header {
+  border-bottom: 1px solid #f0effb;
+}
+
+.brand {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.brand-icon {
+  color: #ffffff;
+  background: linear-gradient(135deg, #6952e8, #9275f5);
+  box-shadow: 0 5px 13px rgba(105, 82, 232, 0.25);
+}
+
+.sidebar-section-label {
+  color: #a0a5bd;
+}
+
+.sidebar-navigation {
+  scrollbar-color: #d9d2ff transparent;
+}
+
+.sidebar-navigation::-webkit-scrollbar-thumb {
+  background: #d9d2ff;
+}
+
+.nav-parent {
+  width: 100%;
+  color: #596184;
+  border-color: transparent;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.nav-parent:hover {
+  color: var(--primary);
+  background: #f3f0ff;
+}
+
+.nav-icon {
+  color: #858bad;
+}
+
+.nav-chevron {
+  color: #a1a6c0;
+}
+
+.parent-active {
+  color: #ffffff;
+  background: linear-gradient(110deg, #6952e8, #8065ef);
+  box-shadow: 0 5px 12px rgba(105, 82, 232, 0.2);
+}
+
+.parent-active .nav-icon {
+  color: #ffffff;
+}
+
+.nav-active {
+  color: var(--primary);
+  background: #eeeaff;
+  border-color: #e3dcff;
+}
+
+.nav-active .nav-icon {
+  color: var(--primary);
+}
+
+.submenu {
+  border-left-color: #e6e0ff;
+}
+
+.submenu-link {
+  color: #777e9e;
+}
+
+.submenu-link:hover {
+  color: var(--primary);
+  background: #f5f2ff;
+}
+
+.submenu-active {
+  color: var(--primary);
+  background: #eeeaff;
+}
+
+.submenu-dot {
+  background: #b7afd9;
+}
+
+.submenu-active .submenu-dot {
+  background: var(--primary);
+  box-shadow: 0 0 7px rgba(105, 82, 232, 0.35);
+}
+
+.sidebar-footer {
+  border-top-color: var(--border-color);
+}
+
+.user-avatar {
+  color: #ffffff;
+  background: linear-gradient(135deg, #6952e8, #9275f5);
+}
+
+.user-info strong {
+  color: var(--text-primary);
+}
+
+.user-info span {
+  color: var(--text-secondary);
+}
+
+.mobile-close {
+  color: var(--text-secondary);
+}
+
+/* Header */
+
+.app-header {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom-color: var(--border-color);
+  box-shadow: 0 2px 10px rgba(77, 66, 170, 0.025);
+}
+
+.menu-button {
+  color: var(--primary);
+}
+
+.breadcrumbs {
+  color: #a0a5bd;
+}
+
+.breadcrumb-current {
+  color: var(--text-primary);
+}
+
+.header-date {
+  color: var(--text-secondary);
+}
+
+.header-icon-button {
+  color: var(--primary);
+}
+
+/* Page heading */
+
+.page-header h1 {
+  color: var(--text-primary);
+}
+
+.page-header p {
+  color: var(--text-secondary);
+}
+
+.page-title-icon {
+  color: var(--primary);
+  background: linear-gradient(135deg, #eeeaff, #e5e0ff);
+  border-radius: 14px;
+}
+
+/* Shared cards */
+
+.content-card {
+  background: var(--surface-white);
+  border-color: var(--border-color);
+  border-radius: 17px;
+  box-shadow: var(--card-shadow);
+}
+
+/* Shared empty states */
+
+.empty-state-icon {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+}
+
+/* Shared buttons */
+
+.btn {
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background: linear-gradient(110deg, #6952e8, #9275f5);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(105, 82, 232, 0.2);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(110deg, #5841d5, #8065ef);
+  box-shadow: 0 6px 16px rgba(105, 82, 232, 0.28);
+}
+
+/* Selection and focus */
+
+::selection {
+  color: #ffffff;
+  background: #8065ef;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(105, 82, 232, 0.22);
+  outline-offset: 2px;
+}
+
+/* Mobile sidebar */
+
+@media (max-width: 768px) {
+  .sidebar {
+    box-shadow: 8px 0 30px rgba(35, 28, 90, 0.12);
+  }
+
+  .main-content {
+    padding: 20px 16px;
+  }
+
+  .app-header {
+    padding: 0 16px;
+  }
+}
+
 
 @media (max-width: 400px) {
   .breadcrumbs {

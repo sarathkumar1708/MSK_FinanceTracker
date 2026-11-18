@@ -284,7 +284,7 @@ function TransactionsTable({
               <th>SubCategory</th>
               <th>Title</th>
               <th>Notes</th>
-              <th className="text-right">Amount</th>
+              <th >Amount</th>
               <th className="text-center">Actions</th>
             </tr>
           </thead>
@@ -292,7 +292,7 @@ function TransactionsTable({
           <tbody>
             {filteredTransactions.length === 0 ? (
               <tr>
-                <td colSpan={8} className="table-empty">
+                <td colSpan={9} className="table-empty">
                   {transactions.length === 0
                     ? "No transactions saved yet. Add an expense or income to get started."
                     : "No transactions match the selected filters."}

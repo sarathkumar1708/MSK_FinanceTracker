@@ -1,69 +1,101 @@
 
+/* =========================================
+   DEBT CATEGORY CARD - PREMIUM FINANCE UI
+========================================= */
+
 .debt-category-card {
-    --category-accent: #2563eb;
-    --category-soft: #eff6ff;
+    --category-accent: #6952e8;
+    --category-soft: #eeeaff;
+    --category-glow: rgba(105, 82, 232, 0.12);
 
     position: relative;
+    isolation: isolate;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 24px;
+
     width: 100%;
     min-width: 0;
-    min-height: 172px;
+    min-height: 180px;
     padding: 22px;
-    overflow: hidden;
-    isolation: isolate;
 
+    overflow: hidden;
     text-align: left;
-    border: 1px solid #e8edf5;
-    border-radius: 18px;
-    background: linear-gradient(145deg, #ffffff 0%, #f9fbff 100%);
+
+    border: 1px solid #e6e4f7;
+    border-radius: 20px;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            var(--category-soft) 0%,
+            transparent 48%
+        ),
+        linear-gradient(145deg, #ffffff 0%, #faf9ff 100%);
+
     box-shadow:
-        0 2px 5px rgba(15, 23, 42, 0.025),
-        0 8px 24px rgba(15, 23, 42, 0.035);
+        0 5px 18px rgba(53, 45, 120, 0.055),
+        0 1px 3px rgba(53, 45, 120, 0.035);
 
     cursor: pointer;
+
     transition:
         transform 0.25s ease,
         border-color 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
+        box-shadow 0.25s ease;
 }
 
-/* Decorative background accent */
+/* Decorative background */
+
 .debt-category-card::before {
     content: "";
+
     position: absolute;
-    top: -48px;
-    right: -42px;
+    top: -55px;
+    right: -45px;
     z-index: -1;
-    width: 130px;
-    height: 130px;
+
+    width: 155px;
+    height: 155px;
+
     border-radius: 50%;
+
     background: var(--category-soft);
-    opacity: 0.75;
-    transition: transform 0.3s ease;
+    opacity: 0.85;
+
+    transition: transform 0.35s ease;
 }
 
 .debt-category-card::after {
     content: "";
+
     position: absolute;
     top: 0;
     left: 22px;
-    width: 38px;
-    height: 3px;
-    border-radius: 0 0 5px 5px;
-    background: var(--category-accent);
-    opacity: 0.75;
+
+    width: 55px;
+    height: 4px;
+
+    border-radius: 0 0 6px 6px;
+
+    background: linear-gradient(
+        90deg,
+        var(--category-accent),
+        #b4a5ff
+    );
 }
 
+/* Hover */
+
 .debt-category-card:hover {
-    border-color: #cbdaf5;
-    background: #ffffff;
+    border-color: var(--category-accent);
+
     box-shadow:
-        0 5px 12px rgba(15, 23, 42, 0.04),
-        0 16px 35px rgba(37, 99, 235, 0.09);
+        0 8px 20px var(--category-glow),
+        0 16px 34px rgba(53, 45, 120, 0.09);
+
     transform: translateY(-5px);
 }
 
@@ -72,9 +104,11 @@
 }
 
 .debt-category-card:focus-visible {
-    outline: 3px solid rgba(37, 99, 235, 0.25);
+    outline: 3px solid var(--category-glow);
     outline-offset: 3px;
 }
+
+/* Top section */
 
 .debt-category-card-top {
     display: flex;
@@ -83,106 +117,194 @@
     gap: 12px;
 }
 
+/* Icon */
+
 .debt-category-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+
+    width: 54px;
+    height: 54px;
     flex-shrink: 0;
-    border: 1px solid rgba(37, 99, 235, 0.08);
-    border-radius: 15px;
+
+    border: 1px solid var(--category-soft);
+    border-radius: 17px;
+
     color: var(--category-accent);
-    background: var(--category-soft);
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.05);
-    transition: transform 0.25s ease;
+
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        var(--category-soft)
+    );
+
+    box-shadow:
+        0 5px 13px var(--category-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .debt-category-card:hover .debt-category-icon {
-    transform: scale(1.07) rotate(-4deg);
+    transform: scale(1.08) rotate(-4deg);
+    box-shadow: 0 7px 17px var(--category-glow);
 }
 
 .debt-category-icon svg {
-    width: 23px;
-    height: 23px;
-    stroke-width: 2;
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.2;
 }
+
+/* Count */
 
 .debt-category-count {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 34px;
-    height: 34px;
-    padding: 0 10px;
-    border: 1px solid rgba(37, 99, 235, 0.1);
-    border-radius: 11px;
-    color: #1d4ed8;
-    background: #eff6ff;
-    font-size: 13px;
-    font-weight: 800;
+
+    min-width: 39px;
+    height: 36px;
+    padding: 0 12px;
+
+    border: 1px solid var(--category-soft);
+    border-radius: 12px;
+
+    color: var(--category-accent);
+    background: var(--category-soft);
+
+    font-size: 14px;
+    font-weight: 850;
     font-variant-numeric: tabular-nums;
+
+    box-shadow: 0 3px 8px var(--category-glow);
 }
+
+/* Bottom section */
 
 .debt-category-card-bottom {
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 10px;
 }
 
 .debt-category-card-bottom h3 {
     margin: 0;
-    color: #172554;
+
+    color: #202653;
+
     font-size: 16px;
-    font-weight: 750;
+    font-weight: 850;
     line-height: 1.4;
-    letter-spacing: -0.35px;
+    letter-spacing: -0.4px;
+
+    overflow-wrap: anywhere;
 }
+
+/* View debts */
 
 .debt-category-view {
     display: inline-flex;
     align-items: center;
     gap: 5px;
+
     width: fit-content;
-    color: #64748b;
+
+    color: var(--category-accent);
+
     font-size: 12px;
-    font-weight: 650;
-    transition:
-        color 0.2s ease,
-        gap 0.2s ease;
+    font-weight: 750;
+
+    transition: gap 0.2s ease;
 }
 
 .debt-category-view svg {
+    color: var(--category-accent);
     transition: transform 0.2s ease;
 }
 
 .debt-category-card:hover .debt-category-view {
-    gap: 8px;
-    color: #2563eb;
+    gap: 9px;
 }
 
 .debt-category-card:hover .debt-category-view svg {
     transform: translateX(3px);
 }
 
+/* Optional category colour variants */
+
+.debt-category-card:nth-child(6n + 1) {
+    --category-accent: #6952e8;
+    --category-soft: #eeeaff;
+    --category-glow: rgba(105, 82, 232, 0.13);
+}
+
+.debt-category-card:nth-child(6n + 2) {
+    --category-accent: #0d9488;
+    --category-soft: #dcf8f3;
+    --category-glow: rgba(13, 148, 136, 0.13);
+}
+
+.debt-category-card:nth-child(6n + 3) {
+    --category-accent: #2563eb;
+    --category-soft: #e5efff;
+    --category-glow: rgba(37, 99, 235, 0.13);
+}
+
+.debt-category-card:nth-child(6n + 4) {
+    --category-accent: #db8a16;
+    --category-soft: #fff2d9;
+    --category-glow: rgba(219, 138, 22, 0.13);
+}
+
+.debt-category-card:nth-child(6n + 5) {
+    --category-accent: #d94675;
+    --category-soft: #ffe6ef;
+    --category-glow: rgba(217, 70, 117, 0.13);
+}
+
+.debt-category-card:nth-child(6n + 6) {
+    --category-accent: #7c3aed;
+    --category-soft: #f0e7ff;
+    --category-glow: rgba(124, 58, 237, 0.13);
+}
+
 /* Responsive */
+
 @media (max-width: 768px) {
     .debt-category-card {
-        min-height: 155px;
+        min-height: 160px;
         padding: 18px;
-        border-radius: 15px;
+        border-radius: 17px;
     }
 
     .debt-category-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 13px;
+        width: 47px;
+        height: 47px;
+        border-radius: 14px;
     }
 
     .debt-category-card-bottom h3 {
         font-size: 14px;
     }
 }
+
+@media (max-width: 360px) {
+    .debt-category-card {
+        padding: 15px;
+    }
+
+    .debt-category-count {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 8px;
+    }
+}
+
+/* Reduced motion */
 
 @media (prefers-reduced-motion: reduce) {
     .debt-category-card,

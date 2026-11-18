@@ -1,5 +1,12 @@
 
-import { Pencil, Trash2, CalendarDays, Wallet, CheckCircle } from "lucide-react";
+import {
+    Pencil,
+    Trash2,
+    CalendarDays,
+    Wallet,
+    CheckCircle,
+} from "lucide-react";
+
 import { formatCurrency } from "../DebtShared/DebtShared";
 import "./AllDebtCard.css";
 
@@ -18,9 +25,15 @@ const formatDebtType = (type = "") =>
         .replaceAll("_", " ")
         .replace(/\b\w/g, (char) => char.toUpperCase());
 
-const Metric = ({ label, value, color = "", format = "currency" }) => (
+const Metric = ({
+    label,
+    value,
+    color = "",
+    format = "currency",
+}) => (
     <div className="debt-card-metric">
         <span>{label}</span>
+
         <strong className={color}>
             {value == null
                 ? "—"
@@ -44,82 +57,98 @@ export default function AllDebtCard({
 }) {
     const isClosed = debt.status === "closed";
 
-    console.log("Debt : ", debt)
-
     return (
-        <article className="debt-card">
+        <article className={`debt-card ${isClosed ? "debt-card-closed" : ""}`}>
+
+            {/* HEADER */}
             <div className="debt-card-header">
                 <div className="debt-card-title">
                     <div className="debt-card-icon">
-                        <Wallet size={21} />
+                        <Wallet size={21} strokeWidth={2.2} />
                     </div>
 
-                    <div>
-                        <h3>{debt.name}</h3>
-                        <p>{debt.lender || "No lender specified"}</p>
+                    <div className="debt-card-heading">
+                        <h3 title={debt.name}>{debt.name}</h3>
+                        <p title={debt.lender}>
+                            {debt.lender || "No lender specified"}
+                        </p>
                     </div>
                 </div>
 
-                <span className={`debt-card-status ${isClosed ? "closed" : "active"}`}>
-                    {isClosed ? "Closed" : "Pending"}
+                <span
+                    className={`debt-card-status ${isClosed ? "closed" : "active"
+                        }`}
+                >
+                    {isClosed ? "Closed" : "Active"}
                 </span>
             </div>
 
+            {/* DEBT TYPE */}
             <div className="debt-card-type">
                 {formatDebtType(debt.debt_type)}
             </div>
-            {/* 
-            <div className="debt-card-loan-amount">
-                <span>Original Loan Amount</span>
-                <strong>{formatCurrency(debt.original_amount)}</strong>
-            </div> */}
 
+            {/* OUTSTANDING AMOUNTS */}
             <div className="card-outstanding-amount-wrap">
+
                 <div className="debt-card-loan-amount original-amount">
-                    <span>Original Loan Amount</span>
-                    <strong>{formatCurrency(debt.original_amount)}</strong>
+                    <div className="debt-amount-label">
+                        <span className="debt-amount-dot blue-dot" />
+                        Original Loan Amount
+                    </div>
+
+                    <strong>
+                        {formatCurrency(debt.original_amount)}
+                    </strong>
                 </div>
-                <div className="debt-card-loan-amount">
-                    <span>Current Outstanding</span>
-                    <strong>{formatCurrency(currentOutstanding > 0 ? currentOutstanding : debt.original_amount)}</strong>
+
+                <div className="debt-card-loan-amount outstanding-amount">
+                    <div className="debt-amount-label">
+                        <span className="debt-amount-dot red-dot" />
+                        Current Outstanding
+                    </div>
+
+                    <strong>
+                        {formatCurrency(
+                            currentOutstanding > 0
+                                ? currentOutstanding
+                                : debt.original_amount
+                        )}
+                    </strong>
                 </div>
+
             </div>
 
+            {/* FINANCIAL METRICS */}
+            <div className="debt-card-section-heading">
+                Financial Overview
+            </div>
 
             <div className="debt-card-metrics">
-                {/* <Metric
-                    label="Original Loan Amount"
-                    value={debt.original_amount}
-                    color="metric-blue"
-                /> */}
 
                 <Metric
-                    label="Total Principal Paid"
+                    label="Principal Paid"
                     value={totalPrincipalPaid}
                     color="metric-blue"
                 />
 
                 <Metric
-                    label="Total Interest Paid"
+                    label="Interest Paid"
                     value={totalInterestPaid}
                     color="metric-red"
                 />
-
-                {/* <Metric
-                    label="Total EMI Paid"
-                    value={totalEmiPaid}
-                    color="metric-green"
-                /> */}
 
                 <Metric
                     label="Total Repayment"
                     value={totalRepayment}
                     color="metric-purple"
                 />
+
                 <Metric
                     label="Interest Rate"
                     value={debt.interest_rate}
                     format="percent"
+                    color="metric-orange"
                 />
 
                 <Metric
@@ -128,37 +157,45 @@ export default function AllDebtCard({
                     color="metric-green"
                 />
 
-
                 <div className="debt-card-metric">
                     <span>Start Date</span>
                     <strong>{formatDate(debt.start_date)}</strong>
                 </div>
 
                 <div className="debt-card-metric">
-                    <span>Total Tenure's</span>
-                    <strong>{debt.tenure_months ? debt.tenure_months : 0}</strong>
+                    <span>Total Tenure</span>
+                    <strong>
+                        {debt.tenure_months ?? 0} Months
+                    </strong>
                 </div>
 
                 <div className="debt-card-metric">
-                    <span>Remaining Tenure's</span>
-                    <strong>{debt.remaining_tenure_months ? debt.remaining_tenure_months : 0}</strong>
+                    <span>Remaining Tenure</span>
+                    <strong className="metric-purple">
+                        {debt.remaining_tenure_months ?? 0} Months
+                    </strong>
                 </div>
 
             </div>
 
+            {/* FOOTER */}
             <div className="debt-card-footer">
+
                 <div className="debt-card-created">
                     <CalendarDays size={15} />
-                    <span>Created {formatDate(debt.created_at)}</span>
+                    <span>
+                        Created {formatDate(debt.created_at)}
+                    </span>
                 </div>
 
                 <div className="debt-card-actions">
+
                     <button
                         type="button"
                         className="debt-card-edit"
                         onClick={() => onEdit(debt)}
                     >
-                        <Pencil size={15} />
+                        <Pencil size={14} />
                         Edit
                     </button>
 
@@ -167,22 +204,24 @@ export default function AllDebtCard({
                         className="debt-card-delete"
                         onClick={() => onDelete(debt)}
                     >
-                        <Trash2 size={15} />
+                        <Trash2 size={14} />
                         Delete
                     </button>
 
-                    {debt.status !== "closed" && (
+                    {!isClosed && (
                         <button
                             type="button"
                             className="debt-action-btn close-btn"
                             onClick={() => onClose(debt)}
                         >
-                            <CheckCircle size={15} />
+                            <CheckCircle size={14} />
                             Close
                         </button>
                     )}
+
                 </div>
             </div>
+
         </article>
     );
 }

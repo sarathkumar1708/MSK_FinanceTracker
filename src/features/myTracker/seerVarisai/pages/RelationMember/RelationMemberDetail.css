@@ -1,8 +1,12 @@
+/* =========================================
+   MEMBER DETAIL PAGE
+========================================= */
 
 .sv-member-detail-page {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    min-width: 0;
     padding: 8px 0 30px;
 }
 
@@ -24,18 +28,26 @@
     color: #475569;
     font-weight: 700;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .sv-member-back-btn:hover {
     background: #f8fafc;
     border-color: #cbd5e1;
+    transform: translateX(-2px);
 }
+
+/* Member title */
 
 .sv-member-title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 18px;
+}
+
+.sv-member-title-info {
+    min-width: 0;
 }
 
 .sv-member-eyebrow {
@@ -49,13 +61,18 @@
     margin: 5px 0;
     color: #172554;
     font-size: 28px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
 }
 
 .sv-member-title-row p {
     margin: 0;
     color: #64748b;
     font-size: 13px;
+    overflow-wrap: anywhere;
 }
+
+/* Add transaction button */
 
 .sv-add-transaction-btn {
     display: inline-flex;
@@ -69,13 +86,14 @@
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     color: #fff;
     font-weight: 700;
+    white-space: nowrap;
     cursor: pointer;
     box-shadow: 0 7px 18px rgba(79, 70, 229, 0.2);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .sv-add-transaction-btn:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: 0 10px 22px rgba(79, 70, 229, 0.27);
 }
 
@@ -90,15 +108,33 @@
 }
 
 .sv-member-summary-card {
+    position: relative;
     display: flex;
     min-width: 0;
     flex-direction: column;
     align-items: flex-start;
     gap: 9px;
-    padding: 20px;
+    padding: 22px;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
     background: #fff;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sv-member-summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07);
+}
+
+.sv-member-summary-card.received {
+    border-top: 3px solid #10b981;
+    background: linear-gradient(145deg, #ffffff, #f0fdf9);
+}
+
+.sv-member-summary-card.paid {
+    border-top: 3px solid #6366f1;
+    background: linear-gradient(145deg, #ffffff, #f5f3ff);
 }
 
 .sv-member-summary-card .sv-summary-icon {
@@ -119,20 +155,16 @@
     color: #4338ca;
 }
 
-.sv-member-summary-card.count .sv-summary-icon {
-    background: #fef3c7;
-    color: #b45309;
-}
-
 .sv-member-summary-card > span {
     color: #64748b;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 650;
 }
 
 .sv-member-summary-card > strong {
     color: #172554;
-    font-size: 24px;
+    font-size: 25px;
+    font-weight: 850;
     overflow-wrap: anywhere;
 }
 
@@ -147,10 +179,10 @@
 
 .sv-offering-summary {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 9px;
     width: 100%;
-    margin-top: 16px;
+    margin-top: 12px;
     padding-top: 14px;
     border-top: 1px solid rgba(148, 163, 184, 0.2);
 }
@@ -159,29 +191,30 @@
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: 4px;
-    padding: 10px;
+    gap: 5px;
+    padding: 11px;
+    border: 1px solid transparent;
     border-radius: 10px;
-    background: rgba(148, 163, 184, 0.08);
 }
 
 .sv-offering-summary-item span {
     color: #64748b;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 750;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.5px;
 }
 
 .sv-offering-summary-item strong {
     color: #1e293b;
     font-size: 13px;
-    font-weight: 750;
+    font-weight: 800;
     overflow-wrap: anywhere;
 }
 
 .sv-offering-summary-item.cash {
     background: #ecfdf5;
+    border-color: #d1fae5;
 }
 
 .sv-offering-summary-item.cash strong {
@@ -190,6 +223,7 @@
 
 .sv-offering-summary-item.gold {
     background: #fffbeb;
+    border-color: #fef3c7;
 }
 
 .sv-offering-summary-item.gold strong {
@@ -198,6 +232,7 @@
 
 .sv-offering-summary-item.dress {
     background: #f5f3ff;
+    border-color: #ede9fe;
 }
 
 .sv-offering-summary-item.dress strong {
@@ -206,14 +241,24 @@
 
 .sv-offering-summary-item.silver {
     background: #f1f5f9;
+    border-color: #e2e8f0;
 }
 
 .sv-offering-summary-item.silver strong {
     color: #475569;
 }
 
+.sv-offering-summary-item.thattuvarisai {
+    background: #fdf2f8;
+    border-color: #fce7f3;
+}
+
+.sv-offering-summary-item.thattuvarisai strong {
+    color: #be185d;
+}
+
 /* =========================================
-   TRANSACTION HISTORY HEADING
+   TRANSACTION HISTORY
 ========================================= */
 
 .sv-member-transaction-section {
@@ -234,6 +279,7 @@
     margin: 0;
     color: #172554;
     font-size: 19px;
+    font-weight: 800;
 }
 
 .sv-member-transaction-heading p {
@@ -290,7 +336,7 @@
 
 .sv-transaction-tab-label {
     font-size: 13px;
-    font-weight: 650;
+    font-weight: 700;
 }
 
 .sv-transaction-tab-count {
@@ -304,7 +350,7 @@
     background: #e2e8f0;
     color: #475569;
     font-size: 11px;
-    font-weight: 750;
+    font-weight: 800;
 }
 
 .sv-transaction-tab.active .sv-transaction-tab-count {
@@ -318,48 +364,124 @@
 }
 
 /* =========================================
-   OFFERING TYPE BADGES IN TRANSACTION TABLE
+   SEARCH AND FILTER
 ========================================= */
 
-.sv-offering-badge {
+.sv-history-filter-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    background: linear-gradient(120deg, #fafbff, #fff);
+}
+
+.sv-history-search {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 180px;
+    flex: 1;
+    padding: 0 12px;
+    border: 1px solid #dbe3ed;
+    border-radius: 9px;
+    background: #fff;
+    color: #94a3b8;
+}
+
+.sv-history-search:focus-within {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+.sv-history-search input {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #334155;
+    font: inherit;
+    font-size: 12px;
+}
+
+.sv-history-search input::placeholder {
+    color: #a1aab8;
+}
+
+.sv-history-search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.sv-history-search button {
+    display: grid;
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.sv-history-type-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 11px;
+    border: 1px solid #dbe3ed;
+    border-radius: 9px;
+    background: #fff;
+    color: #64748b;
+}
+
+.sv-history-type-filter select {
+    min-width: 125px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #334155;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.sv-history-clear-filter {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 5px 9px;
-    border-radius: 20px;
-    font-size: 10px;
+    gap: 5px;
+    min-height: 40px;
+    padding: 0 11px;
+    border: 1px solid #fee2e2;
+    border-radius: 8px;
+    background: #fff7f7;
+    color: #dc2626;
+    font-size: 11px;
     font-weight: 750;
-    letter-spacing: 0.4px;
-    white-space: nowrap;
+    cursor: pointer;
 }
 
-.sv-offering-badge.cash {
-    color: #047857;
-    background: #d1fae5;
+.sv-history-clear-filter:hover {
+    background: #fee2e2;
 }
 
-.sv-offering-badge.gold {
-    color: #a16207;
-    background: #fef3c7;
+.sv-history-result-info {
+    margin-top: -7px;
+    color: #94a3b8;
+    font-size: 11px;
 }
 
-.sv-offering-badge.dress {
-    color: #6d28d9;
-    background: #ede9fe;
-}
-
-.sv-offering-badge.silver {
+.sv-history-result-info strong {
     color: #475569;
-    background: #e2e8f0;
-}
-
-.sv-transaction-remarks {
-    min-width: 130px;
-    max-width: 220px;
-    color: #64748b;
-    font-size: 12px;
-    white-space: normal;
-    overflow-wrap: anywhere;
+    font-weight: 850;
 }
 
 /* =========================================
@@ -369,6 +491,14 @@
 @media (max-width: 900px) {
     .sv-member-summary-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sv-history-filter-panel {
+        flex-wrap: wrap;
+    }
+
+    .sv-history-search {
+        flex-basis: 100%;
     }
 }
 
@@ -390,12 +520,16 @@
         font-size: 23px;
     }
 
+    .sv-member-summary-card {
+        padding: 18px;
+    }
+
     .sv-offering-summary {
         gap: 7px;
     }
 
     .sv-offering-summary-item {
-        padding: 8px;
+        padding: 9px;
     }
 
     .sv-offering-summary-item strong {
@@ -404,7 +538,7 @@
 
     .sv-transaction-tabs {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         width: 100%;
         gap: 5px;
     }
@@ -426,5 +560,38 @@
         height: 20px;
         padding: 0 5px;
         font-size: 10px;
+    }
+
+    .sv-history-filter-panel {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .sv-history-search {
+        flex: none;
+        width: 100%;
+    }
+
+    .sv-history-type-filter {
+        width: 100%;
+    }
+
+    .sv-history-type-filter select {
+        flex: 1;
+    }
+
+    .sv-history-clear-filter {
+        width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .sv-transaction-tab {
+        flex-wrap: wrap;
+    }
+
+    .sv-transaction-tab-label {
+        width: 100%;
+        text-align: center;
     }
 }
