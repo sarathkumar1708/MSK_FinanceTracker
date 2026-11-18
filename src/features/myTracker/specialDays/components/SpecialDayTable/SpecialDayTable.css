@@ -1,0 +1,296 @@
+
+/* =========================================
+   SPECIAL DAY TABLE
+========================================= */
+
+.special-day-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e5eaf2;
+    border-radius: 12px;
+}
+
+.special-day-table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+}
+
+.special-day-table thead th {
+    padding: 14px 16px;
+    background: #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: left;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.special-day-table tbody td {
+    padding: 15px 16px;
+    border-bottom: 1px solid #edf0f5;
+    color: #334155;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.special-day-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.special-day-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* DATE */
+
+.special-day-date-cell {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.special-day-date-cell > svg {
+    color: #6366f1;
+    flex-shrink: 0;
+}
+
+.special-day-date-cell strong {
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.special-day-today-badge {
+    padding: 4px 7px;
+    border-radius: 20px;
+    background: #ffe4e6;
+    color: #be123c;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+/* TITLE */
+
+.special-day-title-cell {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.special-day-title-cell strong {
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.special-day-title-sparkle {
+    flex-shrink: 0;
+    color: #e11d48;
+}
+
+/* CATEGORY BADGES */
+
+.special-day-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.special-day-category-badge.birthday {
+    background: #fff1f2;
+    border-color: #fecdd3;
+    color: #be123c;
+}
+
+.special-day-category-badge.wedding {
+    background: #fdf2f8;
+    border-color: #fbcfe8;
+    color: #be185d;
+}
+
+.special-day-category-badge.engagement {
+    background: #faf5ff;
+    border-color: #e9d5ff;
+    color: #7e22ce;
+}
+
+.special-day-category-badge.marriage {
+    background: #fce7f3;
+    border-color: #f9a8d4;
+    color: #9d174d;
+}
+
+.special-day-category-badge.baby {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.special-day-category-badge.graduation {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+    color: #4338ca;
+}
+
+.special-day-category-badge.job {
+    background: #ecfeff;
+    border-color: #a5f3fc;
+    color: #0e7490;
+}
+
+.special-day-category-badge.housewarming {
+    background: #fff7ed;
+    border-color: #fed7aa;
+    color: #c2410c;
+}
+
+.special-day-category-badge.religious {
+    background: #fefce8;
+    border-color: #fde68a;
+    color: #a16207;
+}
+
+.special-day-category-badge.festival {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #15803d;
+}
+
+.special-day-category-badge.other {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+/* REMARKS */
+
+.special-day-remarks {
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    color: #64748b;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* TODAY ROW */
+
+.special-day-today-row {
+    background: #fff7f8;
+}
+
+.special-day-today-row:hover {
+    background: #fff1f2 !important;
+}
+
+.special-day-today-row td {
+    border-bottom-color: #ffe4e6 !important;
+}
+
+.special-day-today-row .special-day-date-cell strong,
+.special-day-today-row .special-day-title-cell strong {
+    color: #9f1239;
+    font-weight: 850;
+}
+
+/* ACTIONS */
+
+.special-day-actions-heading {
+    text-align: center !important;
+}
+
+.special-day-row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.special-day-row-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 33px;
+    height: 33px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.special-day-edit-btn {
+    background: #eef2ff;
+    border-color: #c7d2fe !important;
+    color: #4338ca;
+}
+
+.special-day-edit-btn:hover {
+    background: #4338ca;
+    color: #ffffff;
+}
+
+.special-day-delete-btn {
+    background: #fff1f2;
+    border-color: #fecdd3 !important;
+    color: #e11d48;
+}
+
+.special-day-delete-btn:hover {
+    background: #e11d48;
+    color: #ffffff;
+}
+
+/* EMPTY STATE */
+
+.special-day-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 260px;
+    padding: 30px 20px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 13px;
+    background: #f8fafc;
+    text-align: center;
+}
+
+.special-day-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 65px;
+    margin-bottom: 15px;
+    border-radius: 18px;
+    background: #eef2ff;
+    color: #6366f1;
+}
+
+.special-day-empty-state h3 {
+    margin: 0 0 7px;
+    color: #1e293b;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.special-day-empty-state p {
+    max-width: 360px;
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.7;
+}

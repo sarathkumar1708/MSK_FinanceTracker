@@ -1,0 +1,382 @@
+
+/* =========================================
+   JOURNEY FORM MODAL
+   PREMIUM HEALTH TRACKER UI
+========================================= */
+
+.journey-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(5px);
+}
+
+/* Main Modal */
+
+.journey-modal {
+    width: 100%;
+    max-width: 680px;
+    max-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e4edf2;
+    border-radius: 20px;
+    box-shadow: 0 25px 75px rgba(15, 23, 42, 0.25);
+    animation: journeyModalEnter 0.22s ease-out;
+}
+
+@keyframes journeyModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header */
+
+.journey-modal-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px 28px;
+    background: linear-gradient(120deg, #f0fdfa 0%, #eff6ff 100%);
+    border-bottom: 1px solid #e4edf2;
+}
+
+.journey-modal-eyebrow {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #0d9488;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.journey-modal-header h2 {
+    margin: 0;
+    color: #17324d;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+.journey-modal-header p {
+    margin: 7px 0 0;
+    color: #647b91;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.journey-modal-close {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #64748b;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #dce8ed;
+    border-radius: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.journey-modal-close:hover {
+    color: #dc2626;
+    background: #fff1f2;
+    border-color: #fecdd3;
+    transform: rotate(4deg);
+}
+
+/* Form Layout */
+
+.journey-modal form {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.journey-modal-body {
+    padding: 25px 28px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+/* Sections */
+
+.journey-form-section {
+    padding: 20px;
+    background: #fbfdff;
+    border: 1px solid #e8eef5;
+    border-radius: 15px;
+}
+
+.journey-form-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 19px;
+    padding-bottom: 13px;
+    color: #263d56;
+    border-bottom: 1px solid #e9eff5;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.journey-form-section h3::before {
+    content: "";
+    width: 4px;
+    height: 17px;
+    background: linear-gradient(180deg, #14b8a6, #0f766e);
+    border-radius: 5px;
+}
+
+/* Grid */
+
+.journey-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 16px;
+}
+
+.journey-form-field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.journey-form-field.full-width {
+    grid-column: 1 / -1;
+    margin-bottom: 17px;
+}
+
+.journey-form-field label {
+    color: #3a5068;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.journey-form-field input,
+.journey-form-field textarea {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 12px 13px;
+    color: #24364b;
+    background: #ffffff;
+    border: 1px solid #dce5ee;
+    border-radius: 9px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.journey-form-field input {
+    min-height: 43px;
+}
+
+.journey-form-field textarea {
+    min-height: 85px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.journey-form-field input:focus,
+.journey-form-field textarea:focus {
+    background: #ffffff;
+    border-color: #0d9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.10);
+}
+
+.journey-form-field input::placeholder,
+.journey-form-field textarea::placeholder {
+    color: #a0adbd;
+}
+
+.journey-form-field small {
+    color: #dc2626;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Number Input */
+
+.journey-form-field input[type="number"] {
+    font-variant-numeric: tabular-nums;
+}
+
+.journey-form-field input::-webkit-inner-spin-button,
+.journey-form-field input::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
+}
+
+/* Default Status */
+
+.journey-default-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 15px;
+    color: #946200;
+    background: #fffbeb;
+    border: 1px solid #f6e7b5;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    background: #eab308;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.13);
+}
+
+/* Footer */
+
+.journey-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 19px 28px;
+    background: #ffffff;
+    border-top: 1px solid #e9eff5;
+}
+
+.journey-cancel-btn,
+.journey-save-btn {
+    min-height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 20px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.journey-cancel-btn {
+    color: #475569;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+}
+
+.journey-cancel-btn:hover:not(:disabled) {
+    color: #334155;
+    background: #e2e8f0;
+}
+
+.journey-save-btn {
+    color: #ffffff;
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    border: 1px solid #0d9488;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+}
+
+.journey-save-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0f766e, #115e59);
+    box-shadow: 0 6px 15px rgba(13, 148, 136, 0.27);
+    transform: translateY(-1px);
+}
+
+.journey-save-btn:disabled,
+.journey-cancel-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Scrollbar */
+
+.journey-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.journey-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.journey-modal-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.journey-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+    .journey-modal-overlay {
+        padding: 10px;
+    }
+
+    .journey-modal {
+        max-height: calc(100vh - 20px);
+        border-radius: 15px;
+    }
+
+    .journey-modal-header {
+        padding: 19px 18px;
+    }
+
+    .journey-modal-header h2 {
+        font-size: 19px;
+    }
+
+    .journey-modal-body {
+        padding: 18px;
+        gap: 17px;
+    }
+
+    .journey-form-section {
+        padding: 15px;
+    }
+
+    .journey-form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .journey-form-field.full-width {
+        margin-bottom: 15px;
+    }
+
+    .journey-modal-footer {
+        padding: 15px 18px;
+    }
+
+    .journey-cancel-btn,
+    .journey-save-btn {
+        flex: 1;
+        padding: 0 10px;
+    }
+}

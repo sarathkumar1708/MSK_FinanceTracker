@@ -9,7 +9,9 @@ import investmentReducer from "../features/investments/investmentSlice";
 import budgetReducer from "../features/budget/budgetSlice";
 import seervarisaiReducer from "../features/myTracker/seerVarisai/seervarisaiSlice";
 import myEventsReducer from "../features/myTracker/myEvents/myEventsSlice";
-
+import healthReducer from "../features/health/store/healthSlice"
+import mealPlannerReducer from "../features/health/store/mealPlannerSlice";
+import specialDaysReducer from "../features/myTracker/specialDays/store/specialDaysSlice";
 
 
 export const store = configureStore({
@@ -23,5 +25,8 @@ export const store = configureStore({
         budget: budgetReducer,
         seervarisai: seervarisaiReducer,
         myEvents: myEventsReducer,
+        health: healthReducer,
+        mealPlanner: mealPlannerReducer,
+        specialDays: specialDaysReducer,
     },
 });

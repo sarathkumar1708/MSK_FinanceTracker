@@ -1,0 +1,234 @@
+
+.meal-journey-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(5px);
+}
+
+.meal-journey-modal {
+    width: 100%;
+    max-width: 590px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-radius: 20px;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25);
+    animation: mealModalEnter 0.2s ease-out;
+}
+
+@keyframes mealModalEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.meal-journey-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.meal-journey-modal-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.meal-journey-modal-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    border-radius: 14px;
+}
+
+.meal-journey-modal-heading h2 {
+    margin: 0;
+    color: #172b4d;
+    font-size: 19px;
+    font-weight: 750;
+}
+
+.meal-journey-modal-heading p {
+    margin: 5px 0 0;
+    color: #78869a;
+    font-size: 13px;
+}
+
+.meal-journey-close {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    color: #64748b;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.meal-journey-close:hover {
+    color: #dc2626;
+    background: #fee2e2;
+}
+
+.meal-journey-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    padding: 25px 26px;
+}
+
+.meal-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.meal-form-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.meal-form-group label span {
+    color: #e11d48;
+}
+
+.meal-form-group input,
+.meal-form-group select,
+.meal-form-group textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 13px;
+    color: #26364b;
+    background: #fbfcfe;
+    border: 1px solid #dce4ed;
+    border-radius: 10px;
+    outline: none;
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.meal-form-group input:focus,
+.meal-form-group select:focus,
+.meal-form-group textarea:focus {
+    background: #ffffff;
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+.meal-form-group textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+.meal-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.meal-form-error {
+    padding: 11px 13px;
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.meal-journey-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 18px 26px 24px;
+    border-top: 1px solid #edf1f5;
+}
+
+.meal-btn-primary,
+.meal-btn-secondary {
+    min-height: 42px;
+    padding: 0 19px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.meal-btn-primary {
+    color: #ffffff;
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    border: 1px solid #0d9488;
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.18);
+}
+
+.meal-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 16px rgba(13, 148, 136, 0.25);
+}
+
+.meal-btn-secondary {
+    color: #475569;
+    background: #ffffff;
+    border: 1px solid #dce4ed;
+}
+
+.meal-btn-secondary:hover {
+    background: #f1f5f9;
+}
+
+.meal-btn-primary:disabled,
+.meal-btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 520px) {
+    .meal-journey-modal-overlay {
+        padding: 10px;
+    }
+
+    .meal-journey-modal {
+        max-height: calc(100vh - 20px);
+        border-radius: 15px;
+    }
+
+    .meal-journey-modal-header,
+    .meal-journey-modal-body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .meal-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .meal-journey-modal-footer {
+        padding: 16px 18px 20px;
+    }
+}

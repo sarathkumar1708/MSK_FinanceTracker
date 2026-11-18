@@ -1,0 +1,347 @@
+
+/* =========================================
+   MONTH CARD BASE
+========================================= */
+
+.special-month-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    min-height: 245px;
+    padding: 18px;
+    overflow: hidden;
+    border: 1px solid var(--month-border);
+    border-radius: 17px;
+    background: var(--month-bg);
+    text-align: left;
+    cursor: pointer;
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.special-month-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--month-accent);
+    content: "";
+}
+
+.special-month-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--month-accent);
+    box-shadow: 0 12px 25px var(--month-shadow);
+}
+
+.special-month-card:focus-visible {
+    outline: 3px solid var(--month-accent);
+    outline-offset: 3px;
+}
+
+/* =========================================
+   MONTH COLOUR THEMES
+========================================= */
+
+.special-month-blue {
+    --month-bg: #eff6ff;
+    --month-border: #bfdbfe;
+    --month-accent: #2563eb;
+    --month-shadow: rgba(37, 99, 235, 0.13);
+    --month-text: #1e40af;
+}
+
+.special-month-pink {
+    --month-bg: #fdf2f8;
+    --month-border: #fbcfe8;
+    --month-accent: #db2777;
+    --month-shadow: rgba(219, 39, 119, 0.13);
+    --month-text: #9d174d;
+}
+
+.special-month-green {
+    --month-bg: #f0fdf4;
+    --month-border: #bbf7d0;
+    --month-accent: #16a34a;
+    --month-shadow: rgba(22, 163, 74, 0.13);
+    --month-text: #166534;
+}
+
+.special-month-purple {
+    --month-bg: #faf5ff;
+    --month-border: #e9d5ff;
+    --month-accent: #9333ea;
+    --month-shadow: rgba(147, 51, 234, 0.13);
+    --month-text: #6b21a8;
+}
+
+.special-month-orange {
+    --month-bg: #fff7ed;
+    --month-border: #fed7aa;
+    --month-accent: #ea580c;
+    --month-shadow: rgba(234, 88, 12, 0.13);
+    --month-text: #9a3412;
+}
+
+.special-month-teal {
+    --month-bg: #f0fdfa;
+    --month-border: #99f6e4;
+    --month-accent: #0d9488;
+    --month-shadow: rgba(13, 148, 136, 0.13);
+    --month-text: #115e59;
+}
+
+.special-month-indigo {
+    --month-bg: #eef2ff;
+    --month-border: #c7d2fe;
+    --month-accent: #4f46e5;
+    --month-shadow: rgba(79, 70, 229, 0.13);
+    --month-text: #3730a3;
+}
+
+.special-month-rose {
+    --month-bg: #fff1f2;
+    --month-border: #fecdd3;
+    --month-accent: #e11d48;
+    --month-shadow: rgba(225, 29, 72, 0.13);
+    --month-text: #9f1239;
+}
+
+.special-month-cyan {
+    --month-bg: #ecfeff;
+    --month-border: #a5f3fc;
+    --month-accent: #0891b2;
+    --month-shadow: rgba(8, 145, 178, 0.13);
+    --month-text: #155e75;
+}
+
+.special-month-amber {
+    --month-bg: #fffbeb;
+    --month-border: #fde68a;
+    --month-accent: #d97706;
+    --month-shadow: rgba(217, 119, 6, 0.13);
+    --month-text: #92400e;
+}
+
+.special-month-violet {
+    --month-bg: #f5f3ff;
+    --month-border: #ddd6fe;
+    --month-accent: #7c3aed;
+    --month-shadow: rgba(124, 58, 237, 0.13);
+    --month-text: #5b21b6;
+}
+
+.special-month-emerald {
+    --month-bg: #ecfdf5;
+    --month-border: #a7f3d0;
+    --month-accent: #059669;
+    --month-shadow: rgba(5, 150, 105, 0.13);
+    --month-text: #065f46;
+}
+
+/* =========================================
+   CARD TOP
+========================================= */
+
+.special-month-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.special-month-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--month-accent);
+    box-shadow: 0 2px 7px rgba(15, 23, 42, 0.05);
+}
+
+.special-month-count {
+    padding: 6px 10px;
+    border: 1px solid var(--month-border);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.75);
+    color: var(--month-text);
+    font-size: 10px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+/* =========================================
+   MONTH NAME
+========================================= */
+
+.special-month-name {
+    margin-bottom: 14px;
+    color: var(--month-text);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+/* =========================================
+   UPCOMING EVENTS
+========================================= */
+
+.special-month-upcoming {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    flex: 1;
+    min-height: 65px;
+}
+
+.special-month-upcoming-label {
+    margin-bottom: 1px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.special-month-event {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: #475569;
+    font-size: 12px;
+}
+
+.special-month-event svg {
+    flex-shrink: 0;
+    color: var(--month-accent);
+}
+
+.special-month-event > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.special-month-empty {
+    display: flex;
+    align-items: center;
+    min-height: 55px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* =========================================
+   TODAY'S CELEBRATIONS
+========================================= */
+
+.special-month-card.has-today {
+    border: 2px solid #e11d48;
+    background: linear-gradient(145deg, #fff1f2, #ffffff);
+    box-shadow: 0 5px 18px rgba(225, 29, 72, 0.13);
+}
+
+.special-month-card.has-today::before {
+    height: 6px;
+    background: linear-gradient(90deg, #e11d48, #f97316);
+}
+
+.special-month-card.has-today .special-month-name {
+    color: #881337;
+}
+
+.special-month-today {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.special-month-today-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+    color: #be123c;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.special-month-event-today {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 8px 10px;
+    border: 1px solid #fecdd3;
+    border-radius: 9px;
+    background: #ffffff;
+}
+
+.special-month-event-today strong {
+    overflow: hidden;
+    max-width: 100%;
+    color: #881337;
+    font-size: 13px;
+    font-weight: 850;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.special-month-event-today span {
+    color: #9f1239;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* =========================================
+   CARD FOOTER
+========================================= */
+
+.special-month-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 13px;
+    margin-top: auto;
+    border-top: 1px solid var(--month-border);
+    color: var(--month-text);
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.special-month-card-footer svg {
+    transition: transform 0.2s ease;
+}
+
+.special-month-card:hover .special-month-card-footer svg {
+    transform: translateX(4px);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 550px) {
+    .special-month-card {
+        min-height: 220px;
+    }
+
+    .special-month-name {
+        font-size: 20px;
+    }
+}

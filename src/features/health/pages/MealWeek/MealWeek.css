@@ -1,0 +1,531 @@
+
+/* =========================================
+   WEEKLY MEAL PLANNER
+========================================= */
+
+.meal-week-page {
+    width: 100%;
+    min-width: 0;
+    padding: 4px 0 30px;
+    color: #26364b;
+}
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.meal-week-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 21px;
+}
+
+.meal-week-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 13px;
+    color: #0f766e;
+    background: #e6fffa;
+    border: 1px solid #b6eee4;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.meal-week-back-btn:hover {
+    background: #ccfbf1;
+}
+
+.meal-week-journey-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 50%;
+    overflow: hidden;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.meal-week-journey-label svg {
+    flex-shrink: 0;
+    color: #0d9488;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.meal-week-header {
+    margin-bottom: 20px;
+}
+
+.meal-week-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.meal-week-heading-icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(13, 148, 136, 0.18);
+}
+
+.meal-week-heading h1 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.meal-week-heading p {
+    margin: 5px 0 0;
+    color: #8290a3;
+    font-size: 12px;
+}
+
+/* =========================================
+   JOURNEY BANNER
+========================================= */
+
+.meal-week-journey-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 125px;
+    padding: 23px 28px;
+    overflow: hidden;
+    color: #ffffff;
+    background: linear-gradient(110deg, #0f766e, #0d9488 65%, #2aa89b);
+    border-radius: 17px;
+    box-shadow: 0 8px 22px rgba(15, 118, 110, 0.13);
+}
+
+.meal-week-journey-banner::after {
+    position: absolute;
+    top: -75px;
+    right: 55px;
+    width: 190px;
+    height: 190px;
+    content: "";
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+}
+
+.meal-week-eyebrow {
+    color: #baf7e9;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.meal-week-journey-banner h2 {
+    margin: 8px 0 5px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.meal-week-journey-banner p {
+    margin: 0;
+    color: #d4fffa;
+    font-size: 12px;
+}
+
+.meal-week-banner-icon {
+    position: relative;
+    z-index: 1;
+    width: 65px;
+    height: 65px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: #0f766e;
+    background: #d1fae5;
+    border-radius: 20px;
+    transform: rotate(7deg);
+}
+
+/* =========================================
+   WEEK SELECTOR
+========================================= */
+
+.meal-week-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 24px 0 17px;
+    padding: 17px 20px;
+    background: #ffffff;
+    border: 1px solid #e7edf3;
+    border-radius: 14px;
+}
+
+.meal-week-selector-title > span {
+    color: #94a3b8;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.meal-week-selector-title h2 {
+    margin: 5px 0 0;
+    color: #26364b;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.meal-week-navigation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.meal-week-navigation span {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.meal-week-navigation button {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: #0f766e;
+    background: #e6fffa;
+    border: 1px solid #b6eee4;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.meal-week-navigation button:hover:not(:disabled) {
+    color: #ffffff;
+    background: #0d9488;
+}
+
+.meal-week-navigation button:disabled {
+    color: #b8c2ce;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+/* =========================================
+   WEEK SUMMARY
+========================================= */
+
+.meal-week-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+    margin-bottom: 25px;
+}
+
+.meal-week-summary-card {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 14px;
+    background: #ffffff;
+    border: 1px solid #e7edf3;
+    border-left: 4px solid transparent;
+    border-radius: 13px;
+    box-shadow: 0 3px 12px rgba(30, 41, 59, 0.035);
+}
+
+.meal-week-summary-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+}
+
+.meal-week-summary-card > div:last-child {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: baseline;
+    column-gap: 4px;
+}
+
+.meal-week-summary-card span {
+    grid-column: 1 / -1;
+    margin-bottom: 5px;
+    color: #8290a3;
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.meal-week-summary-card strong {
+    color: #26364b;
+    font-size: 19px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.meal-week-summary-card small {
+    color: #94a3b8;
+    font-size: 9px;
+}
+
+.meal-week-summary-card.calories {
+    border-left-color: #f97316;
+}
+
+.meal-week-summary-card.calories .meal-week-summary-icon {
+    color: #ea580c;
+    background: #fff7ed;
+}
+
+.meal-week-summary-card.protein {
+    border-left-color: #3b82f6;
+}
+
+.meal-week-summary-card.protein .meal-week-summary-icon {
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.meal-week-summary-card.carbs {
+    border-left-color: #eab308;
+}
+
+.meal-week-summary-card.carbs .meal-week-summary-icon {
+    color: #a16207;
+    background: #fefce8;
+}
+
+.meal-week-summary-card.fat {
+    border-left-color: #a855f7;
+}
+
+.meal-week-summary-card.fat .meal-week-summary-icon {
+    color: #9333ea;
+    background: #faf5ff;
+}
+
+/* =========================================
+   DAILY SCHEDULE SECTION
+========================================= */
+
+.meal-week-days-section {
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #e7edf3;
+    border-radius: 17px;
+    box-shadow: 0 4px 16px rgba(30, 41, 59, 0.035);
+}
+
+.meal-week-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.meal-week-section-heading h2 {
+    margin: 0;
+    color: #26364b;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.meal-week-section-heading p {
+    margin: 5px 0 0;
+    color: #8290a3;
+    font-size: 11px;
+}
+
+.meal-week-meal-count {
+    padding: 7px 11px;
+    color: #0f766e;
+    background: #e6fffa;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+/* =========================================
+   DAYS GRID
+========================================= */
+
+.meal-week-days-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.meal-week-loading {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    color: #8290a3;
+    font-size: 12px;
+}
+
+.meal-week-loader {
+    width: 33px;
+    height: 33px;
+    border: 3px solid #ccfbf1;
+    border-top-color: #0d9488;
+    border-radius: 50%;
+    animation: mealWeekSpin 0.8s linear infinite;
+}
+
+@keyframes mealWeekSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================
+   ERROR STATE
+========================================= */
+
+.meal-week-error-state {
+    max-width: 500px;
+    margin: 70px auto;
+    padding: 30px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e7edf3;
+    border-radius: 16px;
+}
+
+.meal-week-error-state h2 {
+    color: #26364b;
+    font-size: 19px;
+}
+
+.meal-week-error-state p {
+    color: #8290a3;
+    font-size: 13px;
+}
+
+.meal-week-error-state button {
+    margin-top: 12px;
+    padding: 11px 16px;
+    color: #ffffff;
+    background: #0d9488;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+    .meal-week-days-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .meal-week-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .meal-week-days-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .meal-week-days-section {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    .meal-week-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .meal-week-journey-label {
+        max-width: 100%;
+    }
+
+    .meal-week-heading h1 {
+        font-size: 20px;
+    }
+
+    .meal-week-journey-banner {
+        padding: 20px;
+    }
+
+    .meal-week-journey-banner h2 {
+        font-size: 17px;
+    }
+
+    .meal-week-banner-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .meal-week-selector {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .meal-week-navigation {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .meal-week-summary {
+        gap: 9px;
+    }
+
+    .meal-week-summary-card {
+        padding: 12px 9px;
+        gap: 8px;
+    }
+
+    .meal-week-summary-icon {
+        width: 33px;
+        height: 33px;
+    }
+
+    .meal-week-summary-card strong {
+        font-size: 16px;
+    }
+
+    .meal-week-days-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .meal-week-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
