@@ -4,26 +4,23 @@
 ========================================= */
 
 :root {
-    --debt-primary: #2563eb;
-    --debt-primary-hover: #1d4ed8;
-    --debt-primary-light: #eff6ff;
-  
-    --debt-success: #059669;
-    --debt-danger: #dc2626;
-    --debt-warning: #d97706;
-  
-    --debt-bg: #f5f7fb;
-    --debt-card: #ffffff;
-  
-    --debt-text: #172033;
-    --debt-muted: #718096;
-  
-    --debt-border: #e5eaf2;
-  
-    --debt-radius: 12px;
-    --debt-shadow:
-      0 2px 8px rgba(15, 23, 42, 0.04),
-      0 1px 2px rgba(15, 23, 42, 0.03);
+  --app-bg: #F0F2FE;
+  --card-bg: #FFFFFF;
+
+  --primary: #746BDE;
+  --primary-dark: #5B4BE7;
+
+  --text-primary: #101C50;
+  --text-secondary: #64719A;
+
+  --income: #16C995;
+  --expense: #FF4665;
+  --investment: #258BFA;
+  --balance: #905FFC;
+  --warning: #FFA13A;
+
+  --border-color: #E8EAF8;
+  --card-shadow: 0 4px 18px rgba(73, 79, 160, 0.08);
   }
   
   /* =========================================

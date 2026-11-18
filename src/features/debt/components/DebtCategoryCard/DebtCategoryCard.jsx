@@ -1,3 +1,4 @@
+
 import { ChevronRight } from "lucide-react";
 import "./DebtCategoryCard.css";
 
@@ -15,7 +16,7 @@ export default function DebtCategoryCard({
         >
             <div className="debt-category-card-top">
                 <div className="debt-category-icon">
-                    {Icon && <Icon size={22} />}
+                    {Icon && <Icon size={22} strokeWidth={2.1} />}
                 </div>
 
                 <span className="debt-category-count">

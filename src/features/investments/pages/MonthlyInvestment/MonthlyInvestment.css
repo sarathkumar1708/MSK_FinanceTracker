@@ -242,7 +242,7 @@
     border: 1px solid #e6ebf3;
     border-radius: 16px;
     background: #fff;
-    box-shadow: 0 5px 16px rgba(31,48,89,.045);
+    box-shadow: 0 9px 24px rgba(35,72,168,.17);
     transition: transform .25s ease, box-shadow .25s ease;
 }
 
@@ -303,19 +303,7 @@
 /* Current value card */
 
 .monthly-summary-card:first-child {
-    border-color: #294dbd;
-    background:
-        radial-gradient(circle at 100% 0%,rgba(120,159,255,.3),transparent 43%),
-        linear-gradient(145deg,#172554,#254db8);
     box-shadow: 0 9px 24px rgba(35,72,168,.17);
-}
-
-.monthly-summary-card:first-child span {
-    color: rgba(255,255,255,.72);
-}
-
-.monthly-summary-card:first-child strong {
-    color: #fff;
 }
 
 .monthly-summary-card:first-child::after {
