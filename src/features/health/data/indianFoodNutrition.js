@@ -27,7 +27,7 @@ export const INDIAN_FOOD_NUTRITION = [
     { id: "curd", name: "Plain Curd", category: "Dairy", calories: 61, protein_g: 3.5, carbs_g: 4.7, fat_g: 3.3, servingSizes: { cup: 150, bowl: 150, serving: 150 } },
     { id: "buttermilk", name: "Buttermilk", category: "Dairy", calories: 40, protein_g: 2, carbs_g: 4, fat_g: 1.5, servingSizes: { cup: 240, serving: 240 } },
 
-    // Protein and non-vegetarian
+    // Protein and Chicken
     { id: "boiled-egg", name: "Boiled Egg", category: "Protein", calories: 155, protein_g: 13, carbs_g: 1.1, fat_g: 11, servingSizes: { piece: 50, serving: 50 } },
     { id: "egg-white", name: "Boiled Egg White", category: "Protein", calories: 52, protein_g: 11, carbs_g: 0.7, fat_g: 0.2, servingSizes: { piece: 33, serving: 33 } },
     { id: "chicken-curry", name: "Chicken Curry", category: "Non-Vegetarian", calories: 170, protein_g: 18, carbs_g: 4, fat_g: 9, servingSizes: { cup: 180, bowl: 180, serving: 180 } },
@@ -35,6 +35,47 @@ export const INDIAN_FOOD_NUTRITION = [
     { id: "dal", name: "Cooked Dal", category: "Side Dish", calories: 116, protein_g: 9, carbs_g: 20, fat_g: 0.4, servingSizes: { cup: 180, bowl: 150, serving: 150 } },
     { id: "channa", name: "Cooked Channa", category: "Protein", calories: 164, protein_g: 8.9, carbs_g: 27.4, fat_g: 2.6, servingSizes: { cup: 160, bowl: 150, serving: 150 } },
     { id: "green-gram", name: "Cooked Green Gram", category: "Protein", calories: 105, protein_g: 7, carbs_g: 19, fat_g: 0.4, servingSizes: { cup: 160, bowl: 150, serving: 150 } },
+    { id: "chicken-gravy", name: "Chicken Gravy", category: "Chicken", calories: 220, protein_g: 22, carbs_g: 7, fat_g: 11, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "chicken-kolambu", name: "Chicken Kolambu", category: "Chicken", calories: 200, protein_g: 20, carbs_g: 6, fat_g: 10, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "chicken-thokku", name: "Chicken Thokku", category: "Chicken", calories: 280, protein_g: 25, carbs_g: 8, fat_g: 17, servingSizes: { cup: 150, plate: 200 } },
+    { id: "chicken-65", name: "Chicken 65", category: "Chicken", calories: 350, protein_g: 27, carbs_g: 12, fat_g: 22, servingSizes: { plate: 150, large: 250 } },
+    { id: "chicken-rice", name: "Chicken Rice", category: "Rice", calories: 450, protein_g: 22, carbs_g: 60, fat_g: 14, servingSizes: { cup: 200, plate: 300 } },
+
+    // Fish
+    { id: "fish-kolambu", name: "Fish Kolambu", category: "Fish", calories: 190, protein_g: 22, carbs_g: 5, fat_g: 9, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "fish-fry", name: "Fish Fry", category: "Fish", calories: 260, protein_g: 25, carbs_g: 5, fat_g: 16, servingSizes: { piece: 100, plate: 200 } },
+    { id: "fish-thokku", name: "Fish Thokku", category: "Fish", calories: 250, protein_g: 24, carbs_g: 7, fat_g: 14, servingSizes: { cup: 150, plate: 200 } },
+    { id: "fish-gravy", name: "Fish Gravy", category: "Fish", calories: 180, protein_g: 20, carbs_g: 6, fat_g: 8, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "fish-roast", name: "Fish Roast", category: "Fish", calories: 240, protein_g: 25, carbs_g: 4, fat_g: 14, servingSizes: { piece: 100, plate: 200 } },
+    { id: "fish-curry", name: "Fish Curry", category: "Fish", calories: 190, protein_g: 21, carbs_g: 5, fat_g: 9, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "fish-puttu", name: "Fish Puttu", category: "Fish", calories: 220, protein_g: 25, carbs_g: 4, fat_g: 12, servingSizes: { cup: 150, plate: 200 } },
+    { id: "fish-soup", name: "Fish Soup", category: "Soup", calories: 100, protein_g: 16, carbs_g: 3, fat_g: 3, servingSizes: { cup: 200, bowl: 250 } },
+
+    // Mutton
+    { id: "mutton-kolambu", name: "Mutton Kolambu", category: "Mutton", calories: 280, protein_g: 23, carbs_g: 6, fat_g: 18, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "mutton-gravy", name: "Mutton Gravy", category: "Mutton", calories: 300, protein_g: 24, carbs_g: 7, fat_g: 19, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "mutton-fry", name: "Mutton Fry", category: "Mutton", calories: 350, protein_g: 27, carbs_g: 5, fat_g: 25, servingSizes: { cup: 150, plate: 200 } },
+    { id: "mutton-thokku", name: "Mutton Thokku", category: "Mutton", calories: 340, protein_g: 25, carbs_g: 8, fat_g: 23, servingSizes: { cup: 150, plate: 200 } },
+    { id: "mutton-soup", name: "Mutton Soup", category: "Soup", calories: 130, protein_g: 12, carbs_g: 3, fat_g: 8, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "mutton-sukka", name: "Mutton Sukka", category: "Mutton", calories: 330, protein_g: 26, carbs_g: 6, fat_g: 22, servingSizes: { cup: 150, plate: 200 } },
+    { id: "mutton-chukka", name: "Mutton Chukka", category: "Mutton", calories: 330, protein_g: 26, carbs_g: 6, fat_g: 22, servingSizes: { cup: 150, plate: 200 } },
+    { id: "mutton-biryani", name: "Mutton Biryani", category: "Rice", calories: 550, protein_g: 25, carbs_g: 65, fat_g: 22, servingSizes: { cup: 200, plate: 350 } },
+
+    // Egg variety
+    { id: "egg-rice", name: "Egg Rice", category: "Rice", calories: 400, protein_g: 13, carbs_g: 58, fat_g: 12, servingSizes: { cup: 200, plate: 300 } },
+    { id: "egg-omelette", name: "Egg Omelette", category: "Egg", calories: 140, protein_g: 12, carbs_g: 1, fat_g: 10, servingSizes: { piece: 100, plate: 150 } },
+    { id: "boiled-egg", name: "Boiled Egg", category: "Egg", calories: 78, protein_g: 6.3, carbs_g: 0.6, fat_g: 5.3, servingSizes: { piece: 50, twoEggs: 100 } },
+    { id: "egg-bhurji", name: "Egg Bhurji", category: "Egg", calories: 180, protein_g: 13, carbs_g: 4, fat_g: 13, servingSizes: { cup: 150, plate: 200 } },
+
+    // Soup Items
+    { id: "chicken-soup", name: "Chicken Soup", category: "Soup", calories: 120, protein_g: 15, carbs_g: 5, fat_g: 4, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "veg-soup", name: "Vegetable Soup", category: "Soup", calories: 65, protein_g: 3, carbs_g: 10, fat_g: 2, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "valathandu-soup", name: "Vazhaithandu Soup", category: "Soup", calories: 45, protein_g: 2, carbs_g: 8, fat_g: 1, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "tomato-soup", name: "Tomato Soup", category: "Soup", calories: 60, protein_g: 2, carbs_g: 10, fat_g: 2, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "sweet-corn-soup", name: "Sweet Corn Soup", category: "Soup", calories: 100, protein_g: 3, carbs_g: 18, fat_g: 2, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "mushroom-soup", name: "Mushroom Soup", category: "Soup", calories: 90, protein_g: 4, carbs_g: 10, fat_g: 4, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "mutton-soup", name: "Mutton Soup", category: "Soup", calories: 130, protein_g: 12, carbs_g: 3, fat_g: 8, servingSizes: { cup: 200, bowl: 250 } },
+    { id: "rasam", name: "Rasam", category: "Soup", calories: 40, protein_g: 2, carbs_g: 6, fat_g: 1, servingSizes: { cup: 150, bowl: 200 } },
 
     // Fruits and nuts
     { id: "banana", name: "Banana", category: "Fruit", calories: 89, protein_g: 1.1, carbs_g: 22.8, fat_g: 0.3, servingSizes: { piece: 100, serving: 100 } },
@@ -94,6 +135,14 @@ export const INDIAN_FOOD_NUTRITION = [
     { id: "murukku", name: "Murukku", category: "Snack", calories: 480, protein_g: 8, carbs_g: 55, fat_g: 25, servingSizes: { piece: 20, serving: 40 } },
     { id: "mixture", name: "South Indian Mixture", category: "Snack", calories: 500, protein_g: 10, carbs_g: 50, fat_g: 28, servingSizes: { cup: 30 } },
     { id: "sundal", name: "Chickpea Sundal", category: "Snack", calories: 160, protein_g: 8, carbs_g: 24, fat_g: 4, servingSizes: { cup: 150, bowl: 150 } },
+    { id: "sweet-corn", name: "Sweet Corn (Boiled)", category: "Snacks", calories: 120, protein_g: 4, carbs_g: 25, fat_g: 2, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "maravalli-kilangu", name: "Maravalli Kilangu (Boiled Tapioca)", category: "Snacks", calories: 160, protein_g: 1, carbs_g: 38, fat_g: 0.3, servingSizes: { cup: 150, plate: 200 } },
+    { id: "murukku-small", name: "Murukku (Small)", category: "Snacks", calories: 55, protein_g: 1, carbs_g: 6, fat_g: 3, servingSizes: { piece: 10 } },
+    { id: "murukku-medium", name: "Murukku (Medium)", category: "Snacks", calories: 110, protein_g: 2, carbs_g: 12, fat_g: 6, servingSizes: { piece: 20 } },
+    { id: "murukku-big", name: "Murukku (Big)", category: "Snacks", calories: 165, protein_g: 3, carbs_g: 18, fat_g: 9, servingSizes: { piece: 30 } },
+    { id: "sundal", name: "Sundal", category: "Snacks", calories: 180, protein_g: 10, carbs_g: 27, fat_g: 4, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "channa-masala", name: "Channa Masala", category: "Snacks", calories: 220, protein_g: 11, carbs_g: 30, fat_g: 7, servingSizes: { cup: 150, bowl: 200 } },
+    { id: "adhirasam", name: "Adhirasam", category: "Sweets", calories: 180, protein_g: 2, carbs_g: 28, fat_g: 7, servingSizes: { piece: 50, twoPieces: 100 } },
 
     // Beverages
     { id: "milk-tea", name: "Milk Tea with Sugar", category: "Beverage", calories: 65, protein_g: 1.5, carbs_g: 9, fat_g: 2, servingSizes: { cup: 150, serving: 150 } },
@@ -103,6 +152,8 @@ export const INDIAN_FOOD_NUTRITION = [
     { id: "lassi", name: "Sweet Lassi", category: "Beverage", calories: 100, protein_g: 3.5, carbs_g: 15, fat_g: 3, servingSizes: { cup: 200 } },
     { id: "tender-coconut", name: "Tender Coconut Water", category: "Beverage", calories: 19, protein_g: 0.7, carbs_g: 3.7, fat_g: 0.2, servingSizes: { cup: 200 } },
     { id: "sugarcane-juice", name: "Sugarcane Juice", category: "Beverage", calories: 65, protein_g: 0.2, carbs_g: 16, fat_g: 0.1, servingSizes: { cup: 200 } },
+    { id: "tea-nattu-sarkarai", name: "Tea with Nattu Sarkarai", category: "Beverages", calories: 75, protein_g: 2, carbs_g: 12, fat_g: 2, servingSizes: { cup: 150, glass: 200 } },
+    { id: "tea-karupatti", name: "Tea with Karupatti", category: "Beverages", calories: 80, protein_g: 2, carbs_g: 13, fat_g: 2, servingSizes: { cup: 150, glass: 200 } },
 
     // Bakery
     { id: "white-bread", name: "White Bread", category: "Bakery", calories: 265, protein_g: 9, carbs_g: 49, fat_g: 3.2, servingSizes: { piece: 30, serving: 60 } },
@@ -147,6 +198,25 @@ export const INDIAN_FOOD_NUTRITION = [
     { id: "mutton-curry", name: "Mutton Curry", category: "Non-Vegetarian", calories: 220, protein_g: 17, carbs_g: 4, fat_g: 15, servingSizes: { cup: 180, bowl: 180 } },
     { id: "omelette", name: "Plain Omelette", category: "Protein", calories: 154, protein_g: 11, carbs_g: 1.1, fat_g: 12, servingSizes: { piece: 60, serving: 60 } },
     { id: "maggi", name: "Maggi Noodles", category: "Noodles", calories: 310, protein_g: 7, carbs_g: 44, fat_g: 12, servingSizes: { cup: 150, packet: 70 } },
+
+    // briyani varieties
+    { id: "chicken-biryani", name: "Chicken Biryani", category: "Biryani", calories: 550, protein_g: 28, carbs_g: 65, fat_g: 20, servingSizes: { cup: 200, plate: 350 } },
+    { id: "mutton-biryani", name: "Mutton Biryani", category: "Biryani", calories: 600, protein_g: 27, carbs_g: 65, fat_g: 25, servingSizes: { cup: 200, plate: 350 } },
+    { id: "prawn-biryani", name: "Prawn Biryani", category: "Biryani", calories: 520, protein_g: 25, carbs_g: 68, fat_g: 16, servingSizes: { cup: 200, plate: 350 } },
+    { id: "mushroom-biryani", name: "Mushroom Biryani", category: "Biryani", calories: 450, protein_g: 10, carbs_g: 65, fat_g: 15, servingSizes: { cup: 200, plate: 350 } },
+    { id: "kalan-biryani", name: "Kalan Biryani", category: "Biryani", calories: 450, protein_g: 10, carbs_g: 65, fat_g: 15, servingSizes: { cup: 200, plate: 350 } },
+    { id: "egg-biryani", name: "Egg Biryani", category: "Biryani", calories: 500, protein_g: 18, carbs_g: 68, fat_g: 16, servingSizes: { cup: 200, plate: 350 } },
+    { id: "chicken-65-biryani", name: "Chicken 65 Biryani", category: "Biryani", calories: 650, protein_g: 30, carbs_g: 68, fat_g: 28, servingSizes: { cup: 200, plate: 350 } },
+    { id: "beef-biryani", name: "Beef Biryani", category: "Biryani", calories: 620, protein_g: 27, carbs_g: 65, fat_g: 27, servingSizes: { cup: 200, plate: 350 } },
+    { id: "fish-biryani", name: "Fish Biryani", category: "Biryani", calories: 540, protein_g: 25, carbs_g: 68, fat_g: 17, servingSizes: { cup: 200, plate: 350 } },
+    { id: "veg-biryani", name: "Vegetable Biryani", category: "Biryani", calories: 430, protein_g: 9, carbs_g: 65, fat_g: 14, servingSizes: { cup: 200, plate: 350 } },
+    { id: "paneer-biryani", name: "Paneer Biryani", category: "Biryani", calories: 550, protein_g: 16, carbs_g: 65, fat_g: 22, servingSizes: { cup: 200, plate: 350 } },
+    { id: "soya-biryani", name: "Soya Biryani", category: "Biryani", calories: 480, protein_g: 20, carbs_g: 65, fat_g: 14, servingSizes: { cup: 200, plate: 350 } },
+    { id: "ambur-chicken-biryani", name: "Ambur Chicken Biryani", category: "Biryani", calories: 530, protein_g: 27, carbs_g: 63, fat_g: 18, servingSizes: { cup: 200, plate: 350 } },
+    { id: "thalappakatti-mutton-biryani", name: "Thalappakatti Mutton Biryani", category: "Biryani", calories: 620, protein_g: 28, carbs_g: 65, fat_g: 26, servingSizes: { cup: 200, plate: 350 } },
+    { id: "hyderabadi-chicken-biryani", name: "Hyderabadi Chicken Biryani", category: "Biryani", calories: 600, protein_g: 29, carbs_g: 68, fat_g: 23, servingSizes: { cup: 200, plate: 350 } },
+    { id: "dum-chicken-biryani", name: "Chicken Dum Biryani", category: "Biryani", calories: 580, protein_g: 28, carbs_g: 67, fat_g: 21, servingSizes: { cup: 200, plate: 350 } },
+
 ];
 
 // Nutrition values are approximate per 100 g; actual values vary by recipe and preparation.
