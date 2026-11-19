@@ -146,6 +146,7 @@ export const INDIAN_FOOD_NUTRITION = [
     { id: "grilled-fish", name: "Grilled Fish", category: "Non-Vegetarian", calories: 150, protein_g: 26, carbs_g: 0, fat_g: 5, servingSizes: { piece: 100 } },
     { id: "mutton-curry", name: "Mutton Curry", category: "Non-Vegetarian", calories: 220, protein_g: 17, carbs_g: 4, fat_g: 15, servingSizes: { cup: 180, bowl: 180 } },
     { id: "omelette", name: "Plain Omelette", category: "Protein", calories: 154, protein_g: 11, carbs_g: 1.1, fat_g: 12, servingSizes: { piece: 60, serving: 60 } },
+    { id: "maggi", name: "Maggi Noodles", category: "Noodles", calories: 310, protein_g: 7, carbs_g: 44, fat_g: 12, servingSizes: { cup: 150, packet: 70 } },
 ];
 
 // Nutrition values are approximate per 100 g; actual values vary by recipe and preparation.
