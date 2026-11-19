@@ -106,7 +106,7 @@ function OfferingBreakdown({ summary }) {
 
             <div className="sv-offering-summary-item gold">
                 <span>Gold</span>
-                <strong>{formatGold(summary.gold)}</strong>
+                <strong>{`${summary.gold} grams`}</strong>
             </div>
 
             <div className="sv-offering-summary-item dress">
