@@ -105,10 +105,10 @@ const EventTransactionTable = ({
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Person</th>
                                 <th>Location</th>
-                                <th>Offerings</th>
+                                <th>Person</th>
                                 <th>Remarks</th>
+                                <th>Offerings</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -128,16 +128,17 @@ const EventTransactionTable = ({
                                             : "—"}
                                     </td>
 
-                                    <td className="event-transaction-person">
-                                        {transaction.person_name || "—"}
-                                    </td>
-
                                     <td>
                                         <span className="event-transaction-location">
                                             {transaction.location || "—"}
                                         </span>
                                     </td>
+                                    <td className="event-transaction-person">
+                                        {transaction.person_name || "—"}
+                                    </td>
 
+
+                                    <td>{transaction.remarks || "—"}</td>
                                     <td>
                                         <div className="event-transaction-offering-list">
                                             {(transaction.my_event_offerings || []).map(
@@ -154,7 +155,6 @@ const EventTransactionTable = ({
                                     </td>
 
 
-                                    <td>{transaction.remarks || "—"}</td>
 
                                     <td>
                                         <div className="event-transaction-actions">

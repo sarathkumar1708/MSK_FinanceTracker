@@ -70,6 +70,8 @@ export default function MonthlyBudget({
         };
     }, [incomes, budgetItems]);
 
+    console.log("budgetItems  : ", budgetItems)
+
     /* =========================
        BUDGET MODAL HANDLERS
     ========================= */
@@ -347,6 +349,7 @@ export default function MonthlyBudget({
                                         <th>Category</th>
                                         <th>Category Group</th>
                                         <th>Planned Amount</th>
+                                        <th>Remarks</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -367,6 +370,11 @@ export default function MonthlyBudget({
                                             <td className="monthly-amount-cell">
                                                 {formatCurrency(item.planned_amount)}
                                             </td>
+
+                                            <td >
+                                                {item.notes || "-----"}
+                                            </td>
+
 
                                             <td>
                                                 <div className="monthly-row-actions">
@@ -435,9 +443,10 @@ export default function MonthlyBudget({
                             <table className="monthly-budget-table">
                                 <thead>
                                     <tr>
-                                        <th>Income Source</th>
-                                        <th>Notes</th>
-                                        <th>Amount</th>
+                                        <th>Category</th>
+                                        <th>Category Group</th>
+                                        <th>Planned Amount</th>
+                                        <th>Remarks</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -458,6 +467,9 @@ export default function MonthlyBudget({
 
                                             <td className="monthly-amount-cell">
                                                 {formatCurrency(income.amount)}
+                                            </td>
+                                            <td >
+                                                {income.notes || "-----"}
                                             </td>
 
                                             <td>
